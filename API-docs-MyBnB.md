@@ -90,7 +90,7 @@ information.
 
 * Require Authentication: false
 * Request
-  * Method: GET
+  * Method: POST
   * URL: `/api/login`
   * Headers:
     * Content-Type: application/json
@@ -633,8 +633,8 @@ Returns all the reviews written by the current user.
 
 * Require Authentication: true
 * Request
-  * Method: `/api/user/reviews`
-  * URL: ?
+  * Method: GET
+  * URL: `/api/user/reviews`
   * Body: none
 
 * Successful Response
@@ -823,7 +823,7 @@ Create and return a new image for a review specified by id.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: POST
-  * URL: `/api/reviews/:id`
+  * URL: `/api/reviews/:id/image`
   * Headers:
     * Content-Type: application/json
   * Body:
