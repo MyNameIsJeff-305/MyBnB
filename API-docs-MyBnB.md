@@ -91,7 +91,7 @@ information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: `/api/users/:userId`
+  * URL: `/api/login`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -157,7 +157,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: `/api/users/signup`
+  * URL: `/api/signup`
   * Headers:
     * Content-Type: application/json
   * Body:
