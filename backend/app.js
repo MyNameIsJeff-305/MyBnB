@@ -12,16 +12,14 @@ const { environment } = require('./config');
 const isProduction = environment === 'production';
 
 const app = express();
-
 app.use(morgan('dev'));
-
 app.use(cookieParser());
 app.use(express.json());
 
 
 //Security Middleware
 if (!isProduction) {
-    app.use(cors());
+    app.use(cors()); //enable cors in development exclusively
 }
 
 app.use(
@@ -30,6 +28,7 @@ app.use(
     })
 );
 
+//_csrf token and req.csrfToken
 app.use(
     csurf({
         cookie: {
@@ -39,7 +38,7 @@ app.use(
         }
     }));
 
-app.use(routes);
+app.use(routes); //API routes
 
 //Catch unhandled requests and orward to error handler.
 app.use((_req, _res, next) => {
@@ -52,16 +51,13 @@ app.use((_req, _res, next) => {
 
 //Process Sequelize errors
 app.use((err, _req, _res, next) => {
-    if(err instanceof ValidationError) {
-        let errors = {};
-        for (let error of err.errors) {
-            errors[error.path] = error.message;
-        }
-        err.title = 'Validation error';
-        err.errors = errors;
+    // check if error is a Sequelize error:
+    if (err instanceof ValidationError) {
+      err.errors = err.errors.map((error) => error.message);
+      err.title = 'Validation error';
     }
     next(err);
-});
+  });
 
 //Error Formatter
 app.use((err, _req, res, _next) => {
