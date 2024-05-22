@@ -1,21 +1,16 @@
 'use strict';
-
-/** @type {import('sequelize-cli').Migration} */
-
 const { User } = require('../models');
 const bcrypt = require("bcryptjs");
-
-// const {Sequelize} = require('sequelize')
 
 let options = {};
 options.tableName = 'Users'
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await User.bulkCreate(options, [
+    await User.bulkCreate([
       {
         firstName: "Demo",
         lastName: "Lition",
@@ -37,7 +32,7 @@ module.exports = {
         username: 'FakeUser2',
         hashedPassword: bcrypt.hashSync('password3')
       }
-    ], { validate: true });
+    ]);
   },
 
   async down (queryInterface, Sequelize) {
@@ -48,3 +43,4 @@ module.exports = {
     }, {});
   }
 };
+
