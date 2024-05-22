@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User } = require('../../db/models/');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -30,7 +30,7 @@ const validateLogin = [
 //Log in
 
 router.post('/', validateLogin, async (req, res, next) => {
-    try {
+    // try {
         const { credential, password } = req.body;
     
         const user = await User.unscoped().findOne({
@@ -54,21 +54,19 @@ router.post('/', validateLogin, async (req, res, next) => {
             id: user.id,
             email: user.email,
             username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName
         };
     
         await setTokenCookie(res, safeUser);
-    
-        safeUser.firstName = user.firstName
-        safeUser.lastName = user.lastName
-    
         return res.json({
             user: safeUser
         });
-    } catch (error) {
-        next({
-            message: 'Login error. (POST) backend/routes/api/session.js'
-        })
-    }
+    // } catch (error) {
+    //     next({
+    //         message: 'Login error. (POST) backend/routes/api/session.js'
+    //     })
+    // }
 });
 
 //Log out
