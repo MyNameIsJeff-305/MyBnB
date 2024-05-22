@@ -2,8 +2,10 @@ const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const { restoreUser, requireAuth } = require('../../utils/auth.js');
+const csrf = require('csurf');
 
 router.use(restoreUser);
+
 
 router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
@@ -27,7 +29,6 @@ router.get('/require-auth', requireAuth, (req, res) => {
     })
   }
 })
-
 
 
 module.exports = router;

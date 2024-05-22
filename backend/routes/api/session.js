@@ -14,6 +14,7 @@ const router = express.Router();
 
 //Checking for a valid Login
 const validateLogin = [
+    
     check('credential')
         .exists({ checkFalsy: true })
         .notEmpty()
@@ -27,6 +28,7 @@ const validateLogin = [
 //Route Handlers__________________________________
 
 //Log in
+
 router.post('/', validateLogin, async (req, res, next) => {
     try {
         const { credential, password } = req.body;
