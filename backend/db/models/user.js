@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         models.Spot, {
           foreignKey: 'ownerId'
         }
+      ),
+      User.hasMany(
+        models.Review,
+        {foreignKey: 'userId'}
       )
     }
   }
@@ -25,10 +29,18 @@ module.exports = (sequelize, DataTypes) => {
     firstName: {
       allowNull: false,
       type: DataTypes.STRING,
+      validate: {
+        isNumeric: false,
+        isEmail: false
+      }
     },
     lastName: {
       allowNull: false,
       type: DataTypes.STRING,
+      validate: {
+        isNumeric: false,
+        isEmail: false
+      }
     },
     email: {
       type: DataTypes.STRING,
@@ -45,11 +57,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         len: [4, 30],
-        isNotEmail(value) {
-          if(Validator.isEmail(value)) {
-            throw new Error('Cannot be an email');
-          }
-        }
+        isNotEmail: true,
       }
     },
     hashedPassword: {

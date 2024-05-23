@@ -13,50 +13,72 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Spot.belongsTo(
         models.User, {
-          foreignKey: 'ownerId'
-        }
+        foreignKey: 'ownerId'
+      }
       ),
-      Spot.hasMany(
-        models.SpotImage,
-        {
-          
-          foreignKey: 'spotId'
-        }
-      )
+        Spot.hasMany(
+          models.SpotImage,
+          { foreignKey: 'spotId' }
+        ),
+        Spot.hasMany(
+          models.Review,
+          { foreignKey: 'spotId' }
+        )
     }
   }
   Spot.init({
     name: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [0,20],
+        isEmail: false,
+        isNumeric: false,
+      }
     },
     description: {
       type: DataTypes.STRING(500),
-      allowNull: true
+      allowNull: true,
+      validate: {
+        len: [0, 500]
+      }
     },
     price: {
       type: DataTypes.FLOAT(5, 2),
       allowNull: false,
       validate: {
         min: 0,
-        isFloat: true
+        isFloat: true,
+        isNumeric: true
       }
     },
     address: {
       type: DataTypes.STRING(30),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [0, 30]
+      }
     },
     city: {
       type: DataTypes.STRING(30),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [0, 30]
+      }
     },
     state: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [0, 20]
+      }
     },
     country: {
       type: DataTypes.STRING(30),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [0, 30]
+      }
     },
     lat: {
       type: DataTypes.FLOAT,
