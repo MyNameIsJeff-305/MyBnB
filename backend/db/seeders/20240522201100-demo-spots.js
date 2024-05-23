@@ -10,8 +10,6 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-//BONUS REMINDER: IMPLEMENT ZIP CODES
-
 module.exports = {
   async up (queryInterface, Sequelize) {
    await Spot.bulkCreate([
