@@ -21,16 +21,20 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Users',
-          key: 'id'
-        }
+          key: 'id',
+          // onDelete: 'CASCADE'
+        },
+        onDelete: 'CASCADE'
       },
       spotId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Spots',
-          key: 'id'
-        }
+          key: 'id',
+          // onDelete: 'CASCADE'
+        },
+        onDelete: 'CASCADE'
       },
       review: {
         type: Sequelize.STRING(100),

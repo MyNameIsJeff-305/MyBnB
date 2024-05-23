@@ -15,20 +15,16 @@ module.exports = (sequelize, DataTypes) => {
         models.User, {
         as: 'Owner',
         foreignKey: 'ownerId',
-        onDelete: 'SET NULL'
+        onDelete: 'CASCADE'
       }
-      ),
+      )
         Spot.hasMany(
           models.SpotImage,
-          { foreignKey: 'spotId',
-            onDelete: "CASCADE"
-          },
+          { foreignKey: 'spotId',onDelete: 'CASCADE'},
         ),
         Spot.hasMany(
           models.Review,
-          { foreignKey: 'spotId',
-            onDelete: "CASCADE"
-           }
+          { foreignKey: 'spotId',onDelete: 'CASCADE'}
         )
     }
   }
@@ -105,9 +101,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       references: {
         model: 'Users',
-        key: 'id'
+        key: 'id',
+        // onDelete: 'CASCADE'
       },
-      onDelete: "SET NULL"
+      onDelete: "CASCADE"
     }
   }, {
     sequelize,

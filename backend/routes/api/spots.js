@@ -42,7 +42,7 @@ const properUserValidation = async (req, _res, next) => {
         }
 
         next();
-    } catch (error) {
+    } catch (error) {//add 500 status
         next(error);
     }
 };
