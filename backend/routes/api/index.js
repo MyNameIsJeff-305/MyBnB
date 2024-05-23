@@ -2,6 +2,7 @@ const router = require('express').Router();
 const loginRouter = require('./login.js');
 const usersRouter = require('./users.js');
 const spotsRouter = require('./spots.js');
+const logoutRouter = require('./logout.js')
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.js');
 const csrf = require('csurf');
 const { check } = require('express-validator');
@@ -14,6 +15,7 @@ router.use(restoreUser);
 
 
 router.use('/login', loginRouter);
+router.use('/logout', logoutRouter);
 router.use('/users', usersRouter);
 router.use('/spots', spotsRouter);
 

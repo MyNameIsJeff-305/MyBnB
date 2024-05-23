@@ -28,7 +28,6 @@ const validateLogin = [
 //Route Handlers__________________________________
 
 //Log in
-
 router.post('/', validateLogin, async (req, res, next) => {
     // try {
         const { credential, password } = req.body;
@@ -67,18 +66,6 @@ router.post('/', validateLogin, async (req, res, next) => {
     //         message: 'Login error. (POST) backend/routes/api/session.js'
     //     })
     // }
-});
-
-//Log out
-router.delete('/', (_req, res) => {
-    try {
-        res.clearCookie('token');
-        return res.json({ message: 'success"' })
-    } catch (error) {
-        next({
-            message: 'Logout error. (DELETE) backend/routes/api/session.js'
-        })
-    }
 });
 
 //Restore Session User

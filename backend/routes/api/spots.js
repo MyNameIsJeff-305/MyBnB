@@ -6,7 +6,8 @@ const {SpotImage} = require('../../db/models');
 const {requireAuth} = require('../../utils/auth')
 const {User} = require('../../db/models')
 
-router.get('/', async (req, res, next)=>{
+//Get all Spots
+router.get('/', async (_req, res, next)=>{
     try {
 
         const spots = await Spot.findAll({
@@ -35,5 +36,8 @@ router.get('/', async (req, res, next)=>{
         next(error)
     }
 });
+
+//Get details of a Spot from an id
+// router.get('/:spotId', async(req, res, next))
 
 module.exports = router;

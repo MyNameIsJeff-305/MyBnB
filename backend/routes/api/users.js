@@ -11,6 +11,7 @@ const { Sequelize } = require('sequelize');
 
 // Routes_____________________________________________________
 
+//Get the current User
 router.get('/:userId', requireAuth, async (req, res, next) => {
     try {
         const currentUser = await User.findByPk(parseInt(req.params.userId));
@@ -21,6 +22,8 @@ router.get('/:userId', requireAuth, async (req, res, next) => {
     }
 });
 
+
+//Get all Spots owned by the Current User
 router.get('/me/spots', requireAuth, async (req, res, next) => {
     try {
         const Spots = await Spot.findAll({
