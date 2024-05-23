@@ -6,17 +6,47 @@ const csrf = require('csurf');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const bcrypt = require('bcryptjs');
-const { User } = require('../../db/models');
+const { User, Spot, Review, SpotImage } = require('../../db/models');
+const { Sequelize } = require('sequelize');
 
 // Routes_____________________________________________________
 
-router.get('/:userId',requireAuth, async (req, res, next) => {
+router.get('/:userId', requireAuth, async (req, res, next) => {
     try {
         const currentUser = await User.findByPk(parseInt(req.params.userId));
 
-        res.json(currentUser || {"user": null});
+        res.json(currentUser || { "user": null });
     } catch (error) {
         next(error);
+    }
+});
+
+router.get('/me/spots', requireAuth, async (req, res, next) => {
+    try {
+        const Spots = await Spot.findAll({
+            attributes: {
+                include: [
+                    [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+                    [Sequelize.fn('', Sequelize.col('SpotImages.url')), 'previewImage']
+                ],
+            },
+            where: {
+                ownerId: req.user.id
+            },
+            group: ['Spot.id'],
+            include: [
+                {
+                    model: Review,
+                    attributes: []
+                }, {
+                    model: SpotImage,
+                    attributes: [],
+                }
+            ]
+        });
+        res.json({ Spots })
+    } catch (error) {
+        next(error)
     }
 })
 
