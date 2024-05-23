@@ -38,16 +38,6 @@ module.exports = (sequelize, DataTypes) => {
               throw new Error("Preview must be true or false")
         }
       }
-    },
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
     }
   }, {
     sequelize,

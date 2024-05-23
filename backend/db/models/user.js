@@ -66,16 +66,6 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [60, 60]
       }
-    },
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
     }
   }, {
     sequelize,

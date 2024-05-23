@@ -29,12 +29,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Spot.init({
     name: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING(50),
       allowNull: false,
       validate: {
         len: [0, 20],
-        isEmail: false,
-        isNumeric: false,
       }
     },
     description: {
@@ -104,16 +102,6 @@ module.exports = (sequelize, DataTypes) => {
         model: 'Users',
         key: 'id'
       },
-    },
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     }
   }, {
     sequelize,

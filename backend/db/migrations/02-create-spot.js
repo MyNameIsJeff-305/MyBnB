@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(50),
         allowNull: false
       },
       description: {

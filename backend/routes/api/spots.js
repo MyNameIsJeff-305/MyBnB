@@ -4,6 +4,21 @@ const { SpotImage, Spot, User, Review } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
 const { groupBy } = require('lodash');
 const { Op } = require('sequelize');
+const { check } = require('express-validator');
+
+//Middlewares
+//Validate a Spot
+const validateSpotValues = [
+    check('address').exists({ checkFalsy: true }).withMessage("Street address is required"),
+    check('city').exists({ checkFalsy: true }).withMessage("City is required"),
+    check('state').exists({ checkFalsy: true }).withMessage("State is required"),
+    check('country').exists({ checkFalsy: true }).withMessage("Country is required"),
+    check('lat').exists({ checkFalsy: true }).isFloat().withMessage("Latitude is not valid"),
+    check('lng').exists({ checkFalsy: true }).isFloat().withMessage("Longitude is not valid"),
+    check('name').exists({ checkFalsy: true }).isLength(50).withMessage("Name must be less than 50 characters"),
+    check('description').exists({ checkFalsy: true }).withMessage("Description is required"),
+    check('price').exists({ checkFalsy: true }).withMessage("Price per day is required")
+]
 
 //Get all Spots
 router.get('/', async (_req, res, next) => {
@@ -90,5 +105,29 @@ router.get('/:spotId', async (req, res, next) => {
         next(error);
     }
 });
+
+router.post('/', requireAuth, validateSpotValues, async (req, res, next) => {
+    try {
+        const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+        const newSpot = await Spot.create({
+            ownerId: parseInt(req.user.id),
+            address: address,
+            city: city,
+            state: state,
+            country: country,
+            lat: lat,
+            lng: lng,
+            name: name,
+            description: description,
+            price: price
+        })
+
+        res.json(newSpot);
+
+    } catch (error) {
+        next(error)
+    }
+})
 
 module.exports = router;
