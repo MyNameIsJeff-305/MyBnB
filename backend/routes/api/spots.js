@@ -18,7 +18,34 @@ const validateSpotValues = [
     check('name').exists({ checkFalsy: true }).isLength(50).withMessage("Name must be less than 50 characters"),
     check('description').exists({ checkFalsy: true }).withMessage("Description is required"),
     check('price').exists({ checkFalsy: true }).withMessage("Price per day is required")
-]
+];
+
+const properUserValidation = async (req, _res, next) => {
+    const { id } = req.user; 
+    const { spotId } = req.params;
+    try {
+        const spot = await Spot.findByPk(spotId);
+        
+        if (!spot) {
+            const err = new Error("Spot couldn't be found");
+            err.status = 404;
+            err.title = 'Resource not found';
+            return next(err);
+        }
+        
+        console.log(spot.ownerId, " ", id);
+        if (spot.ownerId !== id) {
+            const err = new Error('Unauthorized');
+            err.status = 403;
+            err.title = 'Forbidden';
+            return next(err);
+        }
+
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
 
 //Get all Spots
 router.get('/', async (_req, res, next) => {
@@ -106,6 +133,7 @@ router.get('/:spotId', async (req, res, next) => {
     }
 });
 
+//Create a Spot
 router.post('/', requireAuth, validateSpotValues, async (req, res, next) => {
     try {
         const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -125,6 +153,23 @@ router.post('/', requireAuth, validateSpotValues, async (req, res, next) => {
 
         res.json(newSpot);
 
+    } catch (error) {
+        next(error)
+    }
+})
+
+//Add an image to a Spot based on the Spot's Id
+router.post('/:spotId/images', requireAuth, properUserValidation, async(req, res, next) => {
+    try {
+        const { url, preview } = req.body;
+    
+        const spotImages = await SpotImage.create({
+            url: url,
+            preview: preview,
+            spotId: req.params.spotId
+        })
+    
+        res.json(spotImages)
     } catch (error) {
         next(error)
     }
