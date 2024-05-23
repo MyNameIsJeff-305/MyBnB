@@ -14,16 +14,21 @@ module.exports = (sequelize, DataTypes) => {
       Spot.belongsTo(
         models.User, {
         as: 'Owner',
-        foreignKey: 'ownerId'
+        foreignKey: 'ownerId',
+        onDelete: 'SET NULL'
       }
       ),
         Spot.hasMany(
           models.SpotImage,
-          { foreignKey: 'spotId' }
+          { foreignKey: 'spotId',
+            onDelete: "CASCADE"
+          },
         ),
         Spot.hasMany(
           models.Review,
-          { foreignKey: 'spotId' }
+          { foreignKey: 'spotId',
+            onDelete: "CASCADE"
+           }
         )
     }
   }
@@ -102,6 +107,7 @@ module.exports = (sequelize, DataTypes) => {
         model: 'Users',
         key: 'id'
       },
+      onDelete: "SET NULL"
     }
   }, {
     sequelize,

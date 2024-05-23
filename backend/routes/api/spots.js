@@ -33,7 +33,7 @@ const properUserValidation = async (req, _res, next) => {
             return next(err);
         }
 
-        console.log(spot.ownerId, " ", id);
+        // console.log(spot.ownerId, " ", id);
         if (spot.ownerId !== id) {
             const err = new Error('Unauthorized');
             err.status = 403;
@@ -201,12 +201,33 @@ router.put('/:spotId', requireAuth, validateSpotValues, properUserValidation, as
             }
         );
 
-        if(!spot)
+        if (!spot)
             return res.status(404).json({
                 "message": "Spot couldn't be found"
-              });
+            });
 
         res.json(spot)
+
+    } catch (error) {
+        next(error)
+    }
+});
+
+//Delete a Spot
+router.delete('/:spotId', requireAuth, properUserValidation, async (req, res, next) => {
+    try {
+        const spot = await Spot.findByPk(parseInt(req.params.spotId))
+
+        if (!spot)
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            });
+
+        await spot.destroy();
+
+        res.json({
+            message: "Successfully deleted"
+          })
 
     } catch (error) {
         next(error)

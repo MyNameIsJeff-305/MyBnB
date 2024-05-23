@@ -13,11 +13,15 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Review.belongsTo(
         models.Spot,
-        {foreignKey: 'spotId'}
+        {foreignKey: 'spotId',
+          onDelete: "CASCADE"
+        }
       ),
       Review.belongsTo(
         models.User,
-        {foreignKey: 'userId'}
+        {foreignKey: 'userId',
+        onDelete: "CASCADE"
+        }
       )
     }
   }
@@ -28,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
         references: {
           model: 'Users',
           key: 'id'
-        }
+        },
+        onDelete: "CASCADE"
     },
     spotId: {
       type: DataTypes.INTEGER,
@@ -36,7 +41,8 @@ module.exports = (sequelize, DataTypes) => {
         references: {
           model: 'Spots',
           key: 'id'
-        }
+        },
+        onDelete: "CASCADE"
     },
     review: {
       type: DataTypes.STRING(100),
