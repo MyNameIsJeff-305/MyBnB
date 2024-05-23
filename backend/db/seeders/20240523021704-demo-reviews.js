@@ -20,6 +20,12 @@ module.exports = {
       },
       {
         userId: 1,
+        spotId: 1,
+        review: "Too far away from Home",
+        stars: 3
+      },
+      {
+        userId: 1,
         spotId: 3,
         review: "I got dizzy due the highs, didn't love at all",
         stars: 3

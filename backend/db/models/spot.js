@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Spot.belongsTo(
         models.User, {
+        as: 'Owner',
         foreignKey: 'ownerId'
       }
       ),
@@ -31,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(20),
       allowNull: false,
       validate: {
-        len: [0,20],
+        len: [0, 20],
         isEmail: false,
         isNumeric: false,
       }
