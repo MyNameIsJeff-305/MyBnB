@@ -18,7 +18,7 @@ router.use('/users', usersRouter);
 router.use('/spots', spotsRouter);
 
 
-router.get('/api/csrf/restore', (req,res)=>{
+router.get('/api/csrf/restore', (_req,_res)=>{
     if (process.env.NODE_ENV !== 'production') {
         router.get('/api/csrf/restore', (req, res) => {
           res.cookie('XSRF-TOKEN', req.csrfToken());
@@ -38,33 +38,45 @@ router.get('/require-auth', requireAuth, (req, res) => {
 });
 
 router.post('/signup', validateSignup, async (req, res, next) => {
+  // try block
   try {
-      const { firstName, lastName, email, password, username } = req.body; //Deconstructing req.body
+    // deconstruct req.body
+    const defaultPassword = 'password'
+    const { email, password, username, firstName, lastName } = req.body;
+    // // create a hashed password for user
+    let hashedPassword;
+    if (password)
+      hashedPassword = bcrypt.hashSync(password);
+    else
+    hashedPassword = bcrypt.hashSync(defaultPassword)
+  // // create user record in Users table
+  const newUser = await User.create({
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    username: username,
+    hashedPassword: hashedPassword
+  });
+  console.log(newUser);
+  // create safeUser object for setTokenCookie function
+    const safeUser = {
+      id: newUser.id,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
+      email: newUser.email,
+      username: newUser.username
+    };
+    // set token cookie
+    await setTokenCookie(res, safeUser);
 
-
-      const hashedPassword = bcrypt.hashSync(password); //Hashed password for User
-
-      const user = await User.create({ firstName, lastName, email, username, hashedPassword }); //Creating User Record in Users Table
-
-      // console.log(user.firstName);
-      const safeUser = { //This will be for the setTokenCookie functions
-          id: user.id,
-          email: user.email,
-          username: user.username,
-          //Adding First Name and Last Name to the Safe User
-          firstName: user.firstName,
-          lastName: user.lastName
-      };
-
-      await setTokenCookie(res, safeUser); //Set Token Cookie
-
-
-      return res.json({
-          user: safeUser
-      });
+    return res.json({
+      newUser: safeUser
+    });
+    // forward any errors not already sent
   } catch (error) {
-      next(error)
-  }
+
+    next(error);
+  };
 });
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const { check } = require('express-validator');
+const { Spot } = require('../db/models')
 
 const handleValidationErrors = (req, _res, next) => {
     const validationErrors = validationResult(req);
@@ -32,8 +33,8 @@ const validateSpotValues = [
 ];
 
 const validateReviews = [
-    check('review').exists({checkFalsy: true}).withMessage("Review Text is required"),
-    check('stars').isLength({min: 1, max: 5}).withMessage("Stars must be an integer from 1 to 5")
+    check('review').exists({ checkFalsy: true }).withMessage("Review Text is required"),
+    check('stars').isLength({ min: 1, max: 5 }).withMessage("Stars must be an integer from 1 to 5")
 ];
 
 const properUserValidation = async (req, _res, next) => {
@@ -79,7 +80,10 @@ const validateSignup = [
     check('email')
         .exists({ checkFalsy: true })
         .isEmail()
-        .withMessage('Please provide a valid email.'),
+        .withMessage('Invalid email'),
+    check('username')
+        .exists()
+        .withMessage("Username is required"),
     check('username')
         .exists({ checkFalsy: true })
         .isLength({ min: 4 })
@@ -87,13 +91,13 @@ const validateSignup = [
     check('username')
         .not()
         .isEmail()
-        .withMessage('Username cannot be an email.'),
+        .withMessage('Username cannot be an email'),
     check('password')
         .exists({ checkFalsy: true })
         .isLength({ min: 6 })
         .withMessage('Password must be 6 characters or more.'),
     handleValidationErrors
-  ];
+];
 
 module.exports = {
     handleValidationErrors,

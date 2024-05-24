@@ -18,27 +18,24 @@ router.get('/:userId', requireAuth, async (req, res, next) => {
 //Get all Spots owned by the Current User
 router.get('/me/spots', requireAuth, async (req, res, next) => {
     try {
-        const Spots = await Spot.findAll({
+        const spots = await Spot.findAll({
             attributes: {
                 include: [
                     [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
                     [Sequelize.fn('', Sequelize.col('SpotImages.url')), 'previewImage']
                 ],
             },
-            where: {
-                ownerId: parseInt(req.user.id)
-            },
-            include: [
-                {
-                    model: Review,
-                    attributes: []
-                }, {
-                    model: SpotImage,
-                    attributes: [],
-                }
-            ]
-        });
-        res.json({ Spots })
+            where: { ownerId: req.user.id },
+            include: [{
+                model: Review,
+                attributes: []
+            }, {
+                model: SpotImage,
+                
+                attributes: ['url'],
+            }]
+        })
+        res.json({ spots })
     } catch (error) {
         next(error)
     }

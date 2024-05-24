@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       SpotImage.belongsTo(
         models.Spot,
         {
-          as: 'previewImage',
+          // as: 'previewImage',
           foreignKey: 'spotId',
           onDelete: "CASCADE"
         },
@@ -34,9 +34,9 @@ module.exports = (sequelize, DataTypes) => {
     spotId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        isUrl: true,
-        
+      references: {
+        model: 'Spots',
+        key: 'id'
       }
     },
     preview: {
