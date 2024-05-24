@@ -1,15 +1,8 @@
 const router = require('express').Router();
-const sessionRouter = require('./login.js');
-const usersRouter = require('./users.js');
-const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.js');
-const csrf = require('csurf');
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
-const bcrypt = require('bcryptjs');
+const { requireAuth } = require('../../utils/auth.js');
 const { User, Spot, Review, SpotImage, ReviewImage } = require('../../db/models');
 const { Sequelize } = require('sequelize');
-
-// Routes_____________________________________________________
+const { validateLogin } = require('../../utils/validation.js');
 
 //Get the current User
 router.get('/:userId', requireAuth, async (req, res, next) => {
@@ -22,7 +15,6 @@ router.get('/:userId', requireAuth, async (req, res, next) => {
     }
 });
 
-
 //Get all Spots owned by the Current User
 router.get('/me/spots', requireAuth, async (req, res, next) => {
     try {
@@ -34,9 +26,8 @@ router.get('/me/spots', requireAuth, async (req, res, next) => {
                 ],
             },
             where: {
-                ownerId: req.user.id
+                ownerId: parseInt(req.user.id)
             },
-            group: ['Spot.id'],
             include: [
                 {
                     model: Review,

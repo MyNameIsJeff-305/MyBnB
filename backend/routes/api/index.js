@@ -4,9 +4,7 @@ const usersRouter = require('./users.js');
 const spotsRouter = require('./spots.js');
 const logoutRouter = require('./logout.js')
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.js');
-const csrf = require('csurf');
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { validateSignup } = require('../../utils/validation');
 const bcrypt = require('bcryptjs');
 const { User } = require('../../db/models');
 
@@ -19,25 +17,6 @@ router.use('/logout', logoutRouter);
 router.use('/users', usersRouter);
 router.use('/spots', spotsRouter);
 
-const validateSignup = [
-  check('email')
-      .exists({ checkFalsy: true })
-      .isEmail()
-      .withMessage('Please provide a valid email.'),
-  check('username')
-      .exists({ checkFalsy: true })
-      .isLength({ min: 4 })
-      .withMessage('Please provide a username with at least 4 characters.'),
-  check('username')
-      .not()
-      .isEmail()
-      .withMessage('Username cannot be an email.'),
-  check('password')
-      .exists({ checkFalsy: true })
-      .isLength({ min: 6 })
-      .withMessage('Password must be 6 characters or more.'),
-  handleValidationErrors
-]
 
 router.get('/api/csrf/restore', (req,res)=>{
     if (process.env.NODE_ENV !== 'production') {
@@ -89,5 +68,3 @@ router.post('/signup', validateSignup, async (req, res, next) => {
 });
 
 module.exports = router;
-
-//Phase 3 Done
