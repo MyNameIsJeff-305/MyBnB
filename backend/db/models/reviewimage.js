@@ -15,18 +15,18 @@ module.exports = (sequelize, DataTypes) => {
   }
   ReviewImage.init({
     url: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(200),
       allowNull: false,
       unique: true,
       validate: {
         isUrl: true,
-        len: [12, 100] //12 is the less possible amount of characters that a URL may have
+        len: [12, 200] //12 is the less possible amount of characters that a URL may have
       }
 
     },
     reviewId: {
-      type: DataTypes.INTEGER
-
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     sequelize,

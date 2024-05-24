@@ -21,18 +21,22 @@ module.exports = (sequelize, DataTypes) => {
   }
   SpotImage.init({
     url: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(200),
       allowNull: false,
       unique: true,
       allowNull: false,
       validate: {
         isUrl: true,
-        len: [12, 100] //12 is the less possible amount of characters that a URL may have
+        len: [12, 200] //12 is the less possible amount of characters that a URL may have
       }
     },
     spotId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        isUrl: true,
+        
+      }
     },
     preview: {
       type: DataTypes.BOOLEAN,
