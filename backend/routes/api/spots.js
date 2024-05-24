@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Sequelize, where } = require('sequelize');
-const { SpotImage, Spot, User, Review } = require('../../db/models');
+const { SpotImage, Spot, User, Review, ReviewImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
 const { groupBy, add } = require('lodash');
 const { Op } = require('sequelize');
@@ -227,8 +227,38 @@ router.delete('/:spotId', requireAuth, properUserValidation, async (req, res, ne
 
         res.json({
             message: "Successfully deleted"
-          })
+        })
 
+    } catch (error) {
+        next(error)
+    }
+});
+
+//Get all Reviews by a Spot's Id
+router.get('/:spotId/reviews', async (req, res, next) => {
+    try {
+        const Reviews = await Review.findAll({
+            where: {
+                spotId: req.params.spotId
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastName']
+                },
+                {
+                    model: ReviewImage,
+                    attributes: ['id', 'url']
+                }
+            ]
+        });
+
+        if(!Reviews)
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+              })
+
+        res.json({ Reviews })
     } catch (error) {
         next(error)
     }
