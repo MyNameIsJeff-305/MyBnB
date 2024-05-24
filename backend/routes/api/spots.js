@@ -12,7 +12,7 @@ router.get('/', async (_req, res, next) => {
         const spots = await Spot.findAll({
             attributes: {
                 include: [
-                    [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+                    [(Sequelize.fn('AVG', Sequelize.col('Reviews.stars'))), 'avgRating'],
                     [Sequelize.fn('', Sequelize.col('SpotImages.url')), 'previewImage']
                 ],
             },
@@ -127,7 +127,15 @@ router.post('/:spotId/images', requireAuth, properUserValidation, async (req, re
             spotId: req.params.spotId
         })
 
-        res.json(spotImages)
+        const safeSpotImage = await SpotImage.findAll({
+            where: {
+                id: spotImages.id
+            },
+            attributes: ['id', 'url', 'preview']
+        });
+
+
+        res.json(safeSpotImage)
     } catch (error) {
         next(error)
     }
@@ -235,17 +243,18 @@ router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, n
                     message: "Spot couldn't be found"
                 });
 
-        const duplicatedReview = Review.findAll({
+        const spotReviews = await Review.findAll({
             where: {
-                userId: req.user.id,
                 spotId: req.params.spotId
             }
-        });
+        })
 
-        if(duplicatedReview)
-            return res.status(500).json({
-                message: "User already has a review for this spot"
-              })
+        for (const review of spotReviews) {
+            if (review.userId === req.user.id)
+                return res.status(500).json({
+                    message: "User already has a review for this spot"
+                })
+        }
 
         const createdReview = await Review.create({
             userId: req.user.id,
@@ -259,6 +268,6 @@ router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, n
     } catch (error) {
 
     }
-})
+});
 
 module.exports = router;

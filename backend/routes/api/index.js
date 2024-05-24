@@ -18,13 +18,13 @@ router.use('/users', usersRouter);
 router.use('/spots', spotsRouter);
 
 
-router.get('/api/csrf/restore', (_req,_res)=>{
-    if (process.env.NODE_ENV !== 'production') {
-        router.get('/api/csrf/restore', (req, res) => {
-          res.cookie('XSRF-TOKEN', req.csrfToken());
-          return res.json({});
-        });
-      }
+router.get('/api/csrf/restore', (_req, _res) => {
+  if (process.env.NODE_ENV !== 'production') {
+    router.get('/api/csrf/restore', (req, res) => {
+      res.cookie('XSRF-TOKEN', req.csrfToken());
+      return res.json({});
+    });
+  }
 });
 
 router.get('/require-auth', requireAuth, (req, res) => {
@@ -48,17 +48,17 @@ router.post('/signup', validateSignup, async (req, res, next) => {
     if (password)
       hashedPassword = bcrypt.hashSync(password);
     else
-    hashedPassword = bcrypt.hashSync(defaultPassword)
-  // // create user record in Users table
-  const newUser = await User.create({
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    username: username,
-    hashedPassword: hashedPassword
-  });
-  console.log(newUser);
-  // create safeUser object for setTokenCookie function
+      hashedPassword = bcrypt.hashSync(defaultPassword)
+    // // create user record in Users table
+    const newUser = await User.create({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      username: username,
+      hashedPassword: hashedPassword
+    });
+    console.log(newUser);
+    // create safeUser object for setTokenCookie function
     const safeUser = {
       id: newUser.id,
       firstName: newUser.firstName,
@@ -74,7 +74,6 @@ router.post('/signup', validateSignup, async (req, res, next) => {
     });
     // forward any errors not already sent
   } catch (error) {
-
     next(error);
   };
 });

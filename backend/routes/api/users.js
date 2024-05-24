@@ -5,9 +5,9 @@ const { Sequelize } = require('sequelize');
 const { validateLogin } = require('../../utils/validation.js');
 
 //Get the current User
-router.get('/:userId', requireAuth, async (req, res, next) => {
+router.get('/me', requireAuth, async (req, res, next) => {
     try {
-        const currentUser = await User.findByPk(parseInt(req.params.userId));
+        const currentUser = await User.findByPk(parseInt(req.user.id));
 
         res.json(currentUser || { "user": null });
     } catch (error) {
@@ -31,7 +31,6 @@ router.get('/me/spots', requireAuth, async (req, res, next) => {
                 attributes: []
             }, {
                 model: SpotImage,
-                
                 attributes: ['url'],
             }]
         })
