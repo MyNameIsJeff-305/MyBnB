@@ -23,7 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     url: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      unique: true
+      unique: true,
+      allowNull: false,
+      validate: {
+        isUrl: true,
+        len: [12, 100] //12 is the less possible amount of characters that a URL may have
+      }
     },
     spotId: {
       type: DataTypes.INTEGER,
