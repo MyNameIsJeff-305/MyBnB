@@ -1,51 +1,9 @@
 const router = require('express').Router();
-const { Sequelize, where } = require('sequelize');
-const { SpotImage, Spot, User, Review } = require('../../db/models');
+const { Sequelize } = require('sequelize');
+const { SpotImage, Spot, User, Review, ReviewImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
-const { groupBy, add } = require('lodash');
-const { Op } = require('sequelize');
-const { check } = require('express-validator');
+const { validateSpotValues, validateReviews, properUserValidation } = require('../../utils/validation')
 
-//Middlewares
-//Validate a Spot
-const validateSpotValues = [
-    check('address').exists({ checkFalsy: true }).withMessage("Street address is required"),
-    check('city').exists({ checkFalsy: true }).withMessage("City is required"),
-    check('state').exists({ checkFalsy: true }).withMessage("State is required"),
-    check('country').exists({ checkFalsy: true }).withMessage("Country is required"),
-    check('lat').exists({ checkFalsy: true }).isFloat().withMessage("Latitude is not valid"),
-    check('lng').exists({ checkFalsy: true }).isFloat().withMessage("Longitude is not valid"),
-    check('name').exists({ checkFalsy: true }).isLength(50).withMessage("Name must be less than 50 characters"),
-    check('description').exists({ checkFalsy: true }).withMessage("Description is required"),
-    check('price').exists({ checkFalsy: true }).withMessage("Price per day is required")
-];
-
-const properUserValidation = async (req, _res, next) => {
-    const { id } = req.user;
-    const { spotId } = req.params;
-    try {
-        const spot = await Spot.findByPk(spotId);
-
-        if (!spot) {
-            const err = new Error("Spot couldn't be found");
-            err.status = 404;
-            err.title = 'Resource not found';
-            return next(err);
-        }
-
-        // console.log(spot.ownerId, " ", id);
-        if (spot.ownerId !== id) {
-            const err = new Error('Unauthorized');
-            err.status = 403;
-            err.title = 'Forbidden';
-            return next(err);
-        }
-
-        next();
-    } catch (error) {//add 500 status
-        next(error);
-    }
-};
 
 //Get all Spots
 router.get('/', async (_req, res, next) => {
@@ -54,7 +12,7 @@ router.get('/', async (_req, res, next) => {
         const spots = await Spot.findAll({
             attributes: {
                 include: [
-                    [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+                    [(Sequelize.fn('AVG', Sequelize.col('Reviews.stars'))), 'avgRating'],
                     [Sequelize.fn('', Sequelize.col('SpotImages.url')), 'previewImage']
                 ],
             },
@@ -169,7 +127,15 @@ router.post('/:spotId/images', requireAuth, properUserValidation, async (req, re
             spotId: req.params.spotId
         })
 
-        res.json(spotImages)
+        const safeSpotImage = await SpotImage.findAll({
+            where: {
+                id: spotImages.id
+            },
+            attributes: ['id', 'url', 'preview']
+        });
+
+
+        res.json(safeSpotImage)
     } catch (error) {
         next(error)
     }
@@ -182,6 +148,11 @@ router.put('/:spotId', requireAuth, validateSpotValues, properUserValidation, as
 
         const spot = await Spot.findByPk(parseInt(req.params.spotId));
 
+        if (!spot)
+            return res.status(404).json({
+                "message": "Spot couldn't be found"
+            });
+            
         await spot.update(
             {
                 address: address,
@@ -201,10 +172,6 @@ router.put('/:spotId', requireAuth, validateSpotValues, properUserValidation, as
             }
         );
 
-        if (!spot)
-            return res.status(404).json({
-                "message": "Spot couldn't be found"
-            });
 
         res.json(spot)
 
@@ -227,11 +194,81 @@ router.delete('/:spotId', requireAuth, properUserValidation, async (req, res, ne
 
         res.json({
             message: "Successfully deleted"
-          })
+        })
 
     } catch (error) {
         next(error)
     }
+});
+
+//Get all Reviews by a Spot's Id
+router.get('/:spotId/reviews', async (req, res, next) => {
+    try {
+        const Reviews = await Review.findAll({
+            where: {
+                spotId: req.params.spotId
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastName']
+                },
+                {
+                    model: ReviewImage,
+                    attributes: ['id', 'url']
+                }
+            ]
+        });
+
+        if (!Reviews)
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            })
+
+        res.json({ Reviews })
+    } catch (error) {
+        next(error)
+    }
 })
+
+//Create a Review for a Spot based on the Spot's id
+router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, next) => {
+    try {
+        const { review, stars } = req.body;
+
+        const spot = await Spot.findByPk(parseInt(req.params.spotId));
+
+        if (!spot)
+            return res.status(404).json(
+                {
+                    message: "Spot couldn't be found"
+                });
+
+        const spotReviews = await Review.findAll({
+            where: {
+                spotId: req.params.spotId
+            }
+        })
+
+        for (const review of spotReviews) {
+            if (review.userId === req.user.id)
+                return res.status(500).json({
+                    message: "User already has a review for this spot"
+                })
+        }
+
+        const createdReview = await Review.create({
+            userId: req.user.id,
+            spotId: parseInt(req.params.spotId),
+            review: review,
+            stars: stars
+        })
+
+        res.json(createdReview);
+
+    } catch (error) {
+
+    }
+});
 
 module.exports = router;

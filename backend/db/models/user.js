@@ -28,18 +28,16 @@ module.exports = (sequelize, DataTypes) => {
     firstName: {
       allowNull: false,
       type: DataTypes.STRING,
-      validate: {
-        isNumeric: false,
-        isEmail: false
-      }
+      // validate: {
+      //   isEmail: false
+      // }
     },
     lastName: {
       allowNull: false,
       type: DataTypes.STRING,
-      validate: {
-        isNumeric: false,
-        isEmail: false
-      }
+      // validate: {
+      //   isEmail: false
+      // }
     },
     email: {
       type: DataTypes.STRING,
@@ -56,7 +54,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         len: [4, 30],
-        isNotEmail: true,
       }
     },
     hashedPassword: {
