@@ -148,6 +148,11 @@ router.put('/:spotId', requireAuth, validateSpotValues, properUserValidation, as
 
         const spot = await Spot.findByPk(parseInt(req.params.spotId));
 
+        if (!spot)
+            return res.status(404).json({
+                "message": "Spot couldn't be found"
+            });
+            
         await spot.update(
             {
                 address: address,
@@ -167,10 +172,6 @@ router.put('/:spotId', requireAuth, validateSpotValues, properUserValidation, as
             }
         );
 
-        if (!spot)
-            return res.status(404).json({
-                "message": "Spot couldn't be found"
-            });
 
         res.json(spot)
 

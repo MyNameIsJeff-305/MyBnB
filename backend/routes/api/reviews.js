@@ -8,25 +8,25 @@ const { validateSpotValues, validateReviews, properUserValidation, properReviewV
 router.post('/:reviewId/images', requireAuth, properReviewValidation, async (req, res, next) => {
     try {
         const { url } = req.body;
-    
+
         const review = await Review.findByPk(parseInt(req.params.reviewId));
-    
+
         if (!review)
             return res.status(404).json({
                 message: "Review couldn't be found"
             });
-    
+
         const reviewCount = await ReviewImage.count({
             where: {
                 reviewId: parseInt(req.params.reviewId)
             }
         });
-    
+
         if (reviewCount >= 10)
             return res.status(403).json({
                 message: "Maximum number of images for this resource was reached"
             });
-    
+
         const newReviewImage = await ReviewImage.create({
             url: url,
             reviewId: parseInt(req.params.reviewId)
@@ -43,6 +43,49 @@ router.post('/:reviewId/images', requireAuth, properReviewValidation, async (req
         next(error)
     }
 
-})
+});
+
+//Edit a Review
+router.put('/:reviewId', requireAuth, properReviewValidation, async (req, res, next) => {
+    try {
+        const { review, stars } = req.body
+
+        const updatedReview = await Review.findByPk(parseInt(req.params.reviewId));
+
+        if (!updatedReview)
+            res.status(404).json({
+                message: "Review couldn't be found"
+            })
+
+        await updatedReview.update({
+            review: review,
+            stars: stars
+        })
+
+        res.json(updatedReview)
+    } catch (error) {
+        next(error)
+    }
+});
+
+//Delete a Review
+router.delete('/:reviewId', requireAuth, properReviewValidation, async (req, res, next) => {
+    try {
+        const review = await Review.findByPk(parseInt(req.params.reviewId))
+
+        if (!review)
+            return res.status(404).json({
+                message: "Review couldn't be found"
+            });
+
+        await review.destroy();
+
+        res.json({
+            message: "Successfully deleted"
+        })
+    } catch (error) {
+        next(error)
+    }
+});
 
 module.exports = router;
