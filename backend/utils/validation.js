@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const { check } = require('express-validator');
-const { Spot } = require('../db/models')
+const { Spot, Review } = require('../db/models')
 
 const handleValidationErrors = (req, _res, next) => {
     const validationErrors = validationResult(req);
@@ -64,6 +64,32 @@ const properUserValidation = async (req, _res, next) => {
     }
 };
 
+const properReviewValidation = async (req, res, next) => {
+    const { id } = req.user;
+    const { reviewId } = req.params;
+    try {
+        const review = await Review.findByPk(reviewId);
+
+        if (!review) {
+            const err = new Error("Review couldn't be found");
+            err.status = 404;
+            err.title = "Resource not Found";
+            return next(err);
+        }
+
+        if (review.userId !== id) {
+            const err = new Error('Unauthorized');
+            err.status = 403;
+            err.title = 'Forbidden';
+            return next(err);
+        }
+
+        next();
+    } catch (error) {
+        next(error)
+    }
+};
+
 const validateLogin = [
 
     check('credential')
@@ -104,6 +130,7 @@ module.exports = {
     validateSpotValues,
     validateReviews,
     properUserValidation,
+    properReviewValidation,
     validateLogin,
     validateSignup
 }

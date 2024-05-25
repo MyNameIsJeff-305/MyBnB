@@ -3,6 +3,7 @@ const loginRouter = require('./login.js');
 const usersRouter = require('./users.js');
 const spotsRouter = require('./spots.js');
 const logoutRouter = require('./logout.js')
+const reviewsRouter = require('./reviews.js')
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.js');
 const { validateSignup } = require('../../utils/validation');
 const bcrypt = require('bcryptjs');
@@ -16,6 +17,7 @@ router.use('/login', loginRouter);
 router.use('/logout', logoutRouter);
 router.use('/users', usersRouter);
 router.use('/spots', spotsRouter);
+router.use('/reviews', reviewsRouter);
 
 
 router.get('/api/csrf/restore', (_req, _res) => {
