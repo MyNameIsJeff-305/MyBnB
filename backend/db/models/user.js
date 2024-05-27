@@ -22,7 +22,14 @@ module.exports = (sequelize, DataTypes) => {
         models.Review,
         {
           foreignKey: 'userId',onDelete: 'CASCADE'}
-      )}
+      ),
+      User.hasMany(
+        models.Booking,
+        {
+          foreignKey: "userId"
+        }
+      )
+    }
   }
   User.init({
     firstName: {
