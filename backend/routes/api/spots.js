@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Sequelize } = require('sequelize');
-const { SpotImage, Spot, User, Review, ReviewImage } = require('../../db/models');
+const { SpotImage, Spot, User, Review, ReviewImage, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
 const { validateSpotValues, validateReviews, properUserValidation } = require('../../utils/validation')
 
@@ -152,7 +152,7 @@ router.put('/:spotId', requireAuth, validateSpotValues, properUserValidation, as
             return res.status(404).json({
                 "message": "Spot couldn't be found"
             });
-            
+
         await spot.update(
             {
                 address: address,
@@ -270,5 +270,23 @@ router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, n
 
     }
 });
+
+//Get all Bookings for a Spot based on the Spot's id
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+    try {
+        const Bookings = await Booking.findAll({
+            where: {
+                spotId: req.params.spotId
+            }
+        });
+
+        if()
+
+        res.json({Bookings})
+
+    } catch (error) {
+
+    }
+})
 
 module.exports = router;
