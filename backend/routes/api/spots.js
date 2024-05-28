@@ -3,9 +3,6 @@ const { Sequelize } = require('sequelize');
 const { SpotImage, Spot, User, Review, ReviewImage, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
 const { validateSpotValues, validateReviews, properUserValidation } = require('../../utils/validations');
-const { isBefore } = require('validator');
-const { isAfter } = require('validator');
-const { toDate } = require('validator');
 
 
 //Get all Spots
@@ -15,7 +12,7 @@ router.get('/', async (_req, res, next) => {
         const spots = await Spot.findAll({
             attributes: {
                 include: [
-                    [(Sequelize.fn('AVG', Sequelize.col('Reviews.stars'))), 'avgRating'],
+                    [(Sequelize.fn('AVG', Sequelize.col('Reviews.stars'))), 'avgRating'], //Check whether a Spot doesn't have reviews
                     [Sequelize.fn('', Sequelize.col('SpotImages.url')), 'previewImage']
                 ],
             },
