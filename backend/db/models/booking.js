@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+// const { Sequelize } = require('.');
 module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
     /**
@@ -38,7 +39,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isDate: true,
-        isBefore: this.endDate
+        isBefore: this.endDate,
+        isAfter: Date.now()
       }
     },
     endDate: {
@@ -46,7 +48,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isDate: true,
-        isAfter: this.startDate
+        isAfter: this.startDate,
+        isAfter: Date.now()
       }
     }
   }, {

@@ -2,7 +2,8 @@ const router = require('express').Router();
 const { Sequelize } = require('sequelize');
 const { SpotImage, Spot, User, Review, ReviewImage, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
-const { validateSpotValues, validateReviews, properUserValidation } = require('../../utils/validation')
+const { validateSpotValues, validateReviews, properUserValidation } = require('../../utils/validation');
+const { startCase } = require('lodash');
 
 
 //Get all Spots
@@ -274,15 +275,55 @@ router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, n
 //Get all Bookings for a Spot based on the Spot's id
 router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     try {
+
+        const { spotId } = req.params;
+
         const Bookings = await Booking.findAll({
             where: {
-                spotId: req.params.spotId
+                spotId: spotId
             }
         });
 
-        if()
+        const spot = await Spot.findAll({
+            where: {
+                id: parseInt(spotId)
+            }
+        })
 
-        res.json({Bookings})
+        if (!spot)
+            return res.json({
+                message: "Spot couldn't be found"
+            });
+
+        if (spot[0].ownerId !== req.user.id) {
+            const formattedBookings = Bookings.map(booking => {
+                return {
+                    spotId: booking.spotId,
+                    startDate: booking.startDate,
+                    endDate: booking.endDate
+                }
+            });
+            res.json({ Bookings: formattedBookings })
+        } else {
+            const formattedBookings = Bookings.map(booking => {
+                const user = {
+                    id: parseInt(req.user.id),
+                    firstName: req.user.firstName,
+                    lastName: req.user.lastName
+                };
+                return {
+                    User: user,
+                    id: booking.id,
+                    spotId: booking.spotId,
+                    userId: booking.userId,
+                    startDate: booking.startDate,
+                    endDate: booking.endDate,
+                    createdAt: booking.createdAt,
+                    updatedAt: booking.updatedAt
+                }
+            });
+            res.json({ Bookings: formattedBookings })
+        }
 
     } catch (error) {
 

@@ -2,7 +2,6 @@
 const {
   Model,
   Validator,
-  Sequelize
 } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
