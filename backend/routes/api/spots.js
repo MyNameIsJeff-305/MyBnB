@@ -2,8 +2,10 @@ const router = require('express').Router();
 const { Sequelize } = require('sequelize');
 const { SpotImage, Spot, User, Review, ReviewImage, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
-const { validateSpotValues, validateReviews, properUserValidation } = require('../../utils/validation');
-const { startCase } = require('lodash');
+const { validateSpotValues, validateReviews, properUserValidation } = require('../../utils/validations');
+const { isBefore } = require('validator');
+const { isAfter } = require('validator');
+const { toDate } = require('validator');
 
 
 //Get all Spots
@@ -326,8 +328,72 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
         }
 
     } catch (error) {
-
+        next(error)
     }
-})
+});
+
+//Create a Booking from a Spot based on the Spot's id
+router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
+    try {
+        const { startDate, endDate } = req.body;
+
+        const spotId = parseInt(req.params.spotId);
+
+        const spot = await Spot.findByPk(spotId)
+
+        if (!spot) {
+            const err = new Error("Spot couldn't be found");
+            err.status = 404;
+            err.title = "Resource not Found";
+            return next(err);
+        }
+
+        if (spot.ownerId === parseInt(req.user.id)) {
+            const err = new Error("Owners cannot self-reserve")
+            err.status = 403;
+            err.title = "Unauthorized";
+            return next(err);
+        }
+
+        const bookings = await Booking.findAll({
+            where: {
+                spotId: parseInt(req.params.spotId)
+            }
+        });
+
+        const err = new Error("Sorry, this spot is already booked for the specified dates");
+        err.status = 403;
+        err.errors = {};
+        for (const booking of bookings) {
+            if(booking.startDate >= new Date(startDate) && booking.startDate <= new Date(endDate)) {
+                err.errors.startDate = "Start date conflicts with an existing booking";
+            }
+            if(booking.endDate <= new Date(endDate) && booking.endDate >= new Date(startDate)) {
+                err.errors.endDate = "End date conflicts with an existing booking";
+            }
+        }
+        if(err.errors.startDate || err.errors.endDate){
+            return next(err);}
+
+        if (new Date(endDate) <= new Date(startDate)) {
+            const err = new Error('Bad Request');
+            err.status = 400
+            err.errors = { 'endDate': "endDate cannot be on or before startDate" };
+            return next(err)
+        }
+
+        const newBooking = await Booking.create({
+            spotId: parseInt(req.params.spotId),
+            userId: parseInt(req.user.id),
+            startDate: new Date(startDate),
+            endDate: new Date(endDate)
+        });
+
+        res.json(newBooking);
+
+    } catch (error) {
+        next(error)
+    }
+});
 
 module.exports = router;

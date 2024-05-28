@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { requireAuth } = require('../../utils/auth.js');
 const { User, Spot, Review, SpotImage, ReviewImage, Booking } = require('../../db/models');
 const { Sequelize } = require('sequelize');
-const { validateLogin } = require('../../utils/validation.js');
+const { validateLogin } = require('../../utils/validations.js');
 const { includes } = require('lodash');
 
 //Get the current User

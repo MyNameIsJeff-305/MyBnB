@@ -5,7 +5,7 @@ const spotsRouter = require('./spots.js');
 const logoutRouter = require('./logout.js')
 const reviewsRouter = require('./reviews.js')
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.js');
-const { validateSignup } = require('../../utils/validation');
+const { validateSignup } = require('../../utils/validations');
 const bcrypt = require('bcryptjs');
 const { User } = require('../../db/models');
 

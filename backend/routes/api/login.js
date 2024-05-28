@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const { setTokenCookie } = require('../../utils/auth');
 const { User } = require('../../db/models/');
 
-const { validateLogin } = require('../../utils/validation');
+const { validateLogin } = require('../../utils/validations');
 
 const router = express.Router();
 
