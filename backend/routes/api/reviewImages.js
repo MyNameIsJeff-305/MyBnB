@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { Review, ReviewImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
+//Delete a Review Image
 router.delete('/:reviewImageId', requireAuth, async (req, res, next) => {
     try {
         const myReviewImage = await ReviewImage.findByPk(parseInt(req.params.reviewImageId));
