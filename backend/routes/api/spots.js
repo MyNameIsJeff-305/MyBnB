@@ -12,19 +12,21 @@ router.get('/', async (_req, res, next) => {
             attributes: {
                 include: [
                     [(Sequelize.fn('AVG', Sequelize.col('Reviews.stars'))), 'avgRating'], //Check whether a Spot doesn't have reviews
-                    [Sequelize.fn('', Sequelize.col('SpotImages.url')), 'previewImage']
+                    // [Sequelize.col('SpotImages.url'), 'previewImage']
+                    [Sequelize.literal(`(
+                        SELECT url
+                        FROM SpotImages
+                        WHERE SpotImages.spotId = Spot.id AND SpotImages.preview = true
+                        LIMIT 1
+                    )`), 'previewImage']
                 ],
             },
-            group: ['Spot.id'],
             include: [
                 {
                     model: Review,
                     attributes: []
                 },
-                {
-                    model: SpotImage,
-                    attributes: [],
-                }]
+            ]
         });
         res.json(spots);
 
