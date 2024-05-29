@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-   await Spot.bulkCreate([
+   await Spot.bulkCreate(options,[
     {
       name: 'App Academy',
       description: "A nice place where turn into a Software Engineer",
