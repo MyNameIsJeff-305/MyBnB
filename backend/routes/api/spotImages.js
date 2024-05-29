@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Booking, SpotImage, Spot } = require('../../db/models');
+const { SpotImage, Spot } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 //Delete a Spot Image
@@ -16,7 +16,6 @@ router.delete('/:spotImageId', requireAuth, async (req, res, next) => {
         const spot = await Spot.findByPk(mySpotImage.spotId);
 
         if (spot.ownerId !== req.user.id) {
-            console.log("Hello");
             const err = new Error("Spot must belong to the current user");
             err.status = 403;
             err.title = "Forbidden";
