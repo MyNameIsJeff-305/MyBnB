@@ -25,7 +25,7 @@ module.exports = {
         allowNull: true
       },
       price: {
-        type: Sequelize.DECIMAL,
+        type: process.env.NODE_ENV === 'production' ? Sequelize.DECIMAL : Sequelize.FLOAT,
         allowNull: false
       },
       address: {
@@ -57,8 +57,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Users',
-          key: 'id',
-          // onDelete: 'CASCADE'
+          key: 'id'
         },
         onDelete: 'CASCADE'
       },
@@ -74,8 +73,12 @@ module.exports = {
       }
     }, options);
   },
+
   async down(queryInterface, Sequelize) {
-    options.tableName = "Spots"
+    options.tableName = 'Spots';
+    if (process.env.NODE_ENV === 'production') {
+      options.schema = process.env.SCHEMA;
+    }
     return queryInterface.dropTable(options);
   }
 };
