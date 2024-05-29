@@ -37,7 +37,7 @@ router.get('/', validateQueryValues, async (req, res, next) => {
             attributes: {
                 include: [
                     [(Sequelize.fn('AVG', Sequelize.col('Reviews.stars'))), 'avgRating'], //Check whether a Spot doesn't have reviews
-                    [Sequelize.fn('', Sequelize.col('SpotImages.url')), 'previewImage']
+                    [Sequelize.col('SpotImages.url'), 'previewImage']
                 ],
             },
             // group: ['Spot.id'],
