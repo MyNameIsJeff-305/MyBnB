@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Sequelize } = require('sequelize');
 const { SpotImage, Spot, User, Review, ReviewImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
-const { validateSpotValues, validateReviews, properUserValidation, properReviewValidation } = require('../../utils/validation')
+const { validateSpotValues, validateReviews, properUserValidation, properReviewValidation } = require('../../utils/validations')
 
 //Add an image to a Review based on the Review's id
 router.post('/:reviewId/images', requireAuth, properReviewValidation, async (req, res, next) => {

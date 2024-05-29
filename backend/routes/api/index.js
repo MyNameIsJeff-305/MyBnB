@@ -2,10 +2,11 @@ const router = require('express').Router();
 const loginRouter = require('./login.js');
 const usersRouter = require('./users.js');
 const spotsRouter = require('./spots.js');
-const logoutRouter = require('./logout.js')
-const reviewsRouter = require('./reviews.js')
+const logoutRouter = require('./logout.js');
+const reviewsRouter = require('./reviews.js');
+const bookingsRouter = require('./bookings.js');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.js');
-const { validateSignup } = require('../../utils/validation');
+const { validateSignup } = require('../../utils/validations');
 const bcrypt = require('bcryptjs');
 const { User } = require('../../db/models');
 
@@ -18,6 +19,7 @@ router.use('/logout', logoutRouter);
 router.use('/users', usersRouter);
 router.use('/spots', spotsRouter);
 router.use('/reviews', reviewsRouter);
+router.use('/bookings', bookingsRouter);
 
 
 router.get('/api/csrf/restore', (_req, _res) => {

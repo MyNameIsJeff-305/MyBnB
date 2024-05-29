@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const { check } = require('express-validator');
-const { Spot, Review } = require('../db/models')
+const { Spot, Review, Booking } = require('../db/models');
+const { parseInt } = require('lodash');
 
 const handleValidationErrors = (req, _res, next) => {
     const validationErrors = validationResult(req);
@@ -50,21 +51,19 @@ const properUserValidation = async (req, _res, next) => {
             return next(err);
         }
 
-        // console.log(spot.ownerId, " ", id);
         if (spot.ownerId !== id) {
             const err = new Error('Unauthorized');
             err.status = 403;
             err.title = 'Forbidden';
             return next(err);
         }
-
         next();
-    } catch (error) {//add 500 status
+    } catch (error) {
         next(error);
     }
 };
 
-const properReviewValidation = async (req, res, next) => {
+const properReviewValidation = async (req, _res, next) => {
     const { id } = req.user;
     const { reviewId } = req.params;
     try {
@@ -132,5 +131,5 @@ module.exports = {
     properUserValidation,
     properReviewValidation,
     validateLogin,
-    validateSignup
+    validateSignup,
 }
