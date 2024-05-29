@@ -25,7 +25,7 @@ module.exports = {
         allowNull: true
       },
       price: {
-        type: Sequelize.FLOAT(5,2),
+        type: Sequelize.DECIMAL(5,2),
         allowNull: false
       },
       address: {
