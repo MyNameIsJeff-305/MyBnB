@@ -1,9 +1,6 @@
 const router = require('express').Router();
-const { Sequelize } = require('sequelize');
-const { SpotImage, Spot, User, Review, ReviewImage, Booking } = require('../../db/models');
-const { requireAuth } = require('../../utils/auth')
-const { validateSpotValues, validateReviews } = require('../../utils/validations');
-
+const { Booking } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth');
 
 router.put('/:bookingId', requireAuth, async (req, res, next) => {
     try {
