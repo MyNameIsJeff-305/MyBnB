@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       url: {
-        type: Sequelize.STRING(200),
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
@@ -25,9 +25,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Spots",
+          model: 'Spots',
           key: 'id',
-          // onDelete: 'CASCADE'
         },
         onDelete: 'CASCADE'
       },

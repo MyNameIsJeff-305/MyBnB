@@ -17,31 +17,31 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING(50),
+        type: Sequelize.STRING,
         allowNull: false
       },
       description: {
-        type: Sequelize.STRING(500),
+        type: Sequelize.STRING,
         allowNull: true
       },
       price: {
-        type: Sequelize.FLOAT(5,2),
+        type: process.env.NODE_ENV === 'production' ? Sequelize.DECIMAL : Sequelize.FLOAT,
         allowNull: false
       },
       address: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING,
         allowNull: false
       },
       city: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING,
         allowNull: false
       },
       state: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING,
         allowNull: false
       },
       country: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING,
         allowNull: false
       },
       lat: {
@@ -57,8 +57,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Users',
-          key: 'id',
-          // onDelete: 'CASCADE'
+          key: 'id'
         },
         onDelete: 'CASCADE'
       },
@@ -74,8 +73,12 @@ module.exports = {
       }
     }, options);
   },
+
   async down(queryInterface, Sequelize) {
-    options.tableName = "Spots"
+    options.tableName = 'Spots';
+    if (process.env.NODE_ENV === 'production') {
+      options.schema = process.env.SCHEMA;
+    }
     return queryInterface.dropTable(options);
   }
 };

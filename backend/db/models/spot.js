@@ -8,14 +8,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Spot.belongsTo(
         models.User, {
-        // as: 'Owner',
         foreignKey: 'ownerId',
         onDelete: 'CASCADE'
       }
       )
       Spot.hasMany(
         models.SpotImage,
-        { as: 'previewImage', foreignKey: 'spotId', onDelete: 'CASCADE' },
+        { as: "previewImage", foreignKey: 'spotId', onDelete: 'CASCADE' },
       ),
         Spot.hasMany(
           models.Review,
@@ -29,21 +28,21 @@ module.exports = (sequelize, DataTypes) => {
   }
   Spot.init({
     name: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [0, 50],
+        len: [0, 100],
       }
     },
     description: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING,
       allowNull: true,
       validate: {
         len: [0, 500]
       }
     },
     price: {
-      type: DataTypes.FLOAT(5, 2),
+      type: DataTypes.DECIMAL,
       allowNull: false,
       validate: {
         min: 0,
@@ -52,28 +51,28 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     address: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [0, 30]
+        len: [0, 100]
       }
     },
     city: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [0, 30]
+        len: [0, 100]
       }
     },
     state: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [0, 20]
+        len: [0, 100]
       }
     },
     country: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: [0, 30]

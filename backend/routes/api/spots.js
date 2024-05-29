@@ -1,13 +1,37 @@
 const router = require('express').Router();
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const { SpotImage, Spot, User, Review, ReviewImage, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
-const { validateSpotValues, validateReviews, properUserValidation } = require('../../utils/validations');
+const { validateSpotValues, validateReviews, properUserValidation, validateQueryValues, handleValidationErrors } = require('../../utils/validations');
 
 
 //Get all Spots
-router.get('/', async (_req, res, next) => {
+router.get('/', validateQueryValues, async (req, res, next) => {
     try {
+        //Parse page and size values
+        const { page, size, maxLat, minLat, maxLng, minLng, minPrice, maxPrice } = req.query;
+
+        //Declare where
+        const where = {};
+
+        //Latitude Filter
+        if (minLat)
+            where.lat = { [Op.gte]: parseFloat(minLat) };
+        if (maxLat)
+            where.lat = { ...where.lat, [Op.lte]: parseFloat(maxLat) };
+
+        //Longitude Filter
+        if (minLng)
+            where.lng = { [Op.gte]: parseFloat(minLng) };
+        if (maxLng)
+            where.lng = { ...where.lng, [Op.lte]: parseFloat(maxLng) };
+
+        //Price Filter
+        if (minPrice)
+            where.price = { [Op.gte]: parseFloat(minPrice) };
+        if (maxPrice)
+            where.price = { ...where.price, [Op.lte]: parseFloat(maxPrice) };
+
         const spots = await Spot.findAll({
             attributes: {
                 include: [
