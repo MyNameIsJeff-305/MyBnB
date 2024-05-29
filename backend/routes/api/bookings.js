@@ -14,7 +14,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         if (!myBooking) {
             return res.status(404).json({
                 message: "Booking couldn't be found"
-              })
+            })
         }
 
         if (myBooking.userId !== parseInt(req.user.id)) {
@@ -49,10 +49,10 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         err.errors = {};
 
         for (const booking of bookings) {
-            if(booking.startDate >= new Date(startDate) && booking.startDate <= new Date(endDate)){
+            if (booking.startDate >= new Date(startDate) && booking.startDate <= new Date(endDate)) {
                 err.errors.startDate = "Start date conflicts with an existing booking";
             }
-            if(booking.endDate <= new Date(endDate) && booking.endDate >= new Date(startDate)) {
+            if (booking.endDate <= new Date(endDate) && booking.endDate >= new Date(startDate)) {
                 err.errors.endDate = "End date conflicts with an existing booking";
             }
         }
@@ -71,8 +71,41 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+});
+
+//Delete a Booking
+router.delete('/:bookingId', requireAuth, async (req, res, next) => {
+    try {
+        const myBooking = await Booking.findByPk(parseInt(req.params.bookingId))
+
+        if (!myBooking) {
+            return res.status(404).json({
+                message: "Booking couldn't be found"
+            })
+        }
+
+        if(myBooking.startDate <= new Date(Date.now())) {
+            return res.status(403).json({
+                message: "Bookings that have been started can't be deleted"
+              })
+        }
+
+        if (myBooking.userId !== parseInt(req.user.id)) {
+            const err = new Error("Booking must belong to the current user");
+            err.status = 403;
+            err.title = "Forbidden";
+            return next(err)
+        }
+
+        await myBooking.destroy();
+
+        res.json({
+            message: "Successfully deleted"
+        })
+
+    } catch (error) {
+
+    }
 })
-
-
 
 module.exports = router;
