@@ -33,27 +33,24 @@ router.get('/', validateQueryValues, async (req, res, next) => {
             where.price = { ...where.price, [Op.lte]: parseFloat(maxPrice) };
 
         const spots = await Spot.findAll({
-            where,
             attributes: {
                 include: [
                     [(Sequelize.fn('AVG', Sequelize.col('Reviews.stars'))), 'avgRating'], //Check whether a Spot doesn't have reviews
-                    [Sequelize.col('SpotImages.url'), 'previewImage']
+                    // [Sequelize.col('SpotImages.url'), 'previewImage']
+                    [Sequelize.literal(`(
+                        SELECT url
+                        FROM SpotImages
+                        WHERE SpotImages.spotId = Spot.id AND SpotImages.preview = true
+                        LIMIT 1
+                    )`), 'previewImage']
                 ],
             },
-            // group: ['Spot.id'],
             include: [
                 {
                     model: Review,
                     attributes: []
                 },
-                {
-                    model: SpotImage,
-                    as: 'previewImage',
-                    attributes: [],
-                }],
-
-            // limit: size,
-            // offset: (page - 1) * size
+            ]
         });
         res.json(spots);
 
