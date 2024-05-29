@@ -28,14 +28,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   Spot.init({
     name: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [0, 50],
+        len: [0, 100],
       }
     },
     description: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING,
       allowNull: true,
       validate: {
         len: [0, 500]
@@ -51,28 +51,28 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     address: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [0, 30]
+        len: [0, 100]
       }
     },
     city: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [0, 30]
+        len: [0, 100]
       }
     },
     state: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [0, 20]
+        len: [0, 100]
       }
     },
     country: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: [0, 30]
