@@ -359,20 +359,21 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         err.status = 403;
         err.errors = {};
         for (const booking of bookings) {
-            if(booking.startDate >= new Date(startDate) && booking.startDate <= new Date(endDate)) {
+            if (booking.startDate >= new Date(startDate) && booking.startDate <= new Date(endDate)) {
                 err.errors.startDate = "Start date conflicts with an existing booking";
             }
-            if(booking.endDate <= new Date(endDate) && booking.endDate >= new Date(startDate)) {
+            if (booking.endDate <= new Date(endDate) && booking.endDate >= new Date(startDate)) {
                 err.errors.endDate = "End date conflicts with an existing booking";
             }
         }
-        if(err.errors.startDate || err.errors.endDate){
-            return next(err);}
+        if (err.errors.startDate || err.errors.endDate) {
+            return next(err);
+        }
 
         if (new Date(endDate) <= new Date(startDate)) {
             const err = new Error('Bad Request');
             err.status = 400
-            err.errors = { 'endDate': "endDate cannot be on or before startDate" };
+            err.errors = { endDate: "endDate cannot be on or before startDate" };
             return next(err)
         }
 
