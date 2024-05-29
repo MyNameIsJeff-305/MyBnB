@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const { check } = require('express-validator');
 const { Spot, Review, Booking } = require('../db/models');
+const { parseInt } = require('lodash');
 
 const handleValidationErrors = (req, _res, next) => {
     const validationErrors = validationResult(req);
@@ -50,21 +51,19 @@ const properUserValidation = async (req, _res, next) => {
             return next(err);
         }
 
-        // console.log(spot.ownerId, " ", id);
         if (spot.ownerId !== id) {
             const err = new Error('Unauthorized');
             err.status = 403;
             err.title = 'Forbidden';
             return next(err);
         }
-
         next();
-    } catch (error) {//add 500 status
+    } catch (error) {
         next(error);
     }
 };
 
-const properReviewValidation = async (req, res, next) => {
+const properReviewValidation = async (req, _res, next) => {
     const { id } = req.user;
     const { reviewId } = req.params;
     try {
@@ -125,61 +124,6 @@ const validateSignup = [
     handleValidationErrors
 ];
 
-// const properUserBookingValidation = async (req, _res, next) => {
-//     try {
-//         const userId = parseInt(req.user.id);
-//         const spotId = parseInt(req.params.spotId);
-
-//         console.log(spotId);
-
-//         const spot = await Spot.findByPk(spotId);
-
-//         if (!spot) {
-//             const err = new Error("Spot couldn't be found");
-//             err.status = 404;
-//             err.title = "Resource not Found";
-//             return next(err);
-//         }
-
-//         if (spot.ownerId === userId) {
-//             const err = new Error("Owners cannot self-reserve")
-//             err.status = 403;
-//             err.title = "Unauthorized";
-//             return next(err);
-//         }
-//     } catch (error) {
-//         next(error)
-//     }
-// };
-
-// const properBookingDateValidation = async (req, _res, next) => {
-//     try {
-
-//         const { startDate, endDate } = req.body;
-
-//         const Bookings = await Booking.findAll({
-//             where: {
-//                 spotId: parseInt(req.params.spotId)
-//             }
-//         })
-
-//         for (const booking of bookings) {
-//             const err = new Error("Sorry, this spot is already booked for the specified dates");
-//             err.status = 403;
-            // if ((booking.startDate === startDate) || isBefore(toString(booking.startDate), startDate)) {
-//                 err.errors.startDate = "Start date conflicts with an existing booking";
-//                 return next(err);
-//             } else if ((booking.endDate === endDate) || isAfter(toString(booking.endDate), endDate)) {
-//                 err.errors.endDate = "End date conflicts with an existing booking";
-//                 return next(err);
-//             }
-//         }
-
-//     } catch (error) {
-//         next(error)
-//     }
-// }
-
 module.exports = {
     handleValidationErrors,
     validateSpotValues,
@@ -188,6 +132,4 @@ module.exports = {
     properReviewValidation,
     validateLogin,
     validateSignup,
-    // properUserBookingValidation,
-    // properBookingDateValidation
 }

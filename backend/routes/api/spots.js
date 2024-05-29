@@ -8,7 +8,6 @@ const { validateSpotValues, validateReviews, properUserValidation } = require('.
 //Get all Spots
 router.get('/', async (_req, res, next) => {
     try {
-
         const spots = await Spot.findAll({
             attributes: {
                 include: [
@@ -27,8 +26,6 @@ router.get('/', async (_req, res, next) => {
                     attributes: [],
                 }]
         });
-
-
         res.json(spots);
 
     } catch (error) {
