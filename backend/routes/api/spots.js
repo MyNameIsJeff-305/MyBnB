@@ -9,7 +9,10 @@ const { validateSpotValues, validateReviews, properUserValidation, validateQuery
 router.get('/', validateQueryValues, async (req, res, next) => {
     try {
         //Parse page and size values
-        const { page, size, maxLat, minLat, maxLng, minLng, minPrice, maxPrice } = req.query;
+        const { maxLat, minLat, maxLng, minLng, minPrice, maxPrice } = req.query;
+
+        const page = parseInt(req.query.page) || 1;
+        const size = parseInt(req.query.size) || 20;
 
         //Declare where
         const where = {};
@@ -35,7 +38,7 @@ router.get('/', validateQueryValues, async (req, res, next) => {
         const spots = await Spot.findAll({
             attributes: {
                 include: [
-                    [(Sequelize.fn('AVG', Sequelize.col('Reviews.stars'))), 'avgRating'], //Check whether a Spot doesn't have reviews
+                    [Sequelize.literal(`(SELECT AVG(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)`), 'avgRating'], //Check whether a Spot doesn't have reviews
                     // [Sequelize.col('SpotImages.url'), 'previewImage']
                     [Sequelize.literal(`(
                         SELECT url
@@ -49,8 +52,10 @@ router.get('/', validateQueryValues, async (req, res, next) => {
                 {
                     model: Review,
                     attributes: []
-                },
-            ]
+                }
+            ],
+            limit: size,
+            offset: (page - 1) * size
         });
         res.json(spots);
 
@@ -70,7 +75,7 @@ router.get('/:spotId', async (req, res, next) => {
             },
             attributes: {
                 include: [
-                    [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+                    [Sequelize.literal(`(SELECT AVG(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)`), 'avgRating'],
                     [Sequelize.fn('COUNT', Sequelize.col('Reviews.id')), 'numReviews'],
                 ],
             },
@@ -229,7 +234,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
     try {
         const Reviews = await Review.findAll({
             where: {
-                spotId: req.params.spotId
+                spotId: parseInt(req.params.spotId)
             },
             include: [
                 {
