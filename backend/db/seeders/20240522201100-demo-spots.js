@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-   await Spot.bulkCreate(options,[
+   await Spot.bulkCreate([
     {
       name: 'App Academy',
       description: "A nice place where turn into a Software Engineer",
@@ -27,7 +27,7 @@ module.exports = {
     },
     {
       name: 'The Pines Homestead',
-      description: "This Colonial Style Home has countless amenities. Nestled on it's own, private 5-acre lake with a fishing pier and paddle boat for your pleasure. This property is surrounded by 150 acres of gorgeous Pine Trees. Take a stroll in the woods, enjoy a campfire, Rock on the rocking chairs on the front porch, sip a glass of wine and watch sunset light up the sky through the pines. Soak in the 6 person jacuzzi under the stars. Come make yourself at home and enjoy our slice of paradise.",
+      description: "This Colonial Style Home has countless amenities.",
       price: 299.99,
       address: "4281 Georgia 46",
       city: "Soperton",
@@ -39,7 +39,7 @@ module.exports = {
     },
     {
       name: 'The Up house',
-      description: "I don’t always like visitors, but I guess it’s pretty nice to have them now that it’s just me and Dug. So, come stay in my cozy home I made with my dear Ellie. My greatest adventures have happened here, and I learned that the best ones are always with someone you love, so bring your pals to kickstart your very own Adventure Book and watch as my house drifts off before you depart.",
+      description: "I don’t always like visitors, but I guess it’s pretty nice to have them now that it’s just me and Dug. ",
       price: 299.99,
       address: "21132 US-84",
       city: "Espanola",

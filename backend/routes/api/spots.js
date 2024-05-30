@@ -14,7 +14,7 @@ router.get('/', validateQueryValues, async (req, res, next) => {
         const page = parseInt(req.query.page) || 1;
         const size = parseInt(req.query.size) || 20;
 
-        console.log(page, "  ", size);
+        // console.log(page, "  ", size);
 
         //Declare where
         const where = {};
@@ -39,28 +39,35 @@ router.get('/', validateQueryValues, async (req, res, next) => {
 
         const spots = await Spot.findAll({
             where,
-            attributes: {
-                include: [
-                    [Sequelize.literal(`(
-                        SELECT AVG(stars) 
-                        FROM Reviews 
-                        WHERE Reviews.spotId = Spot.id
-                    )`), 'avgRating'], //Check whether a Spot doesn't have reviews
-                    // [Sequelize.col('SpotImages.url'), 'previewImage']
-                    [Sequelize.literal(`(
-                        SELECT url
-                        FROM SpotImages
-                        WHERE SpotImages.spotId = Spot.id AND SpotImages.preview = true
-                        LIMIT 1
-                    )`), 'previewImage']
-                ],
-            },
+            attributes: [
+
+                // [Sequelize.literal(`(
+                //     SELECT AVG(stars) 
+                //     FROM Reviews 
+                //     WHERE Reviews.spotId = Spot.id
+                // )`), 'avgRating'], //Check whether a Spot doesn't have reviews
+                [Sequelize.col('SpotImages.url'), 'previewImage'],
+                // [Sequelize.literal(`(
+                //     SELECT url
+                //     FROM SpotImages
+                //     WHERE SpotImages.spotId = Spot.id AND SpotImages.preview = true
+                //     LIMIT 1
+                // )`), 'previewImage']
+            ],
             include: [
+                // {
+                //     model: Review,
+                //     attributes: []
+                // },
                 {
-                    model: Review,
+                    model: SpotImage,
+                    where: {
+                        preview: true
+                    },
                     attributes: []
                 }
             ],
+            group: ["SpotImage.id", "Spot.id"],
             limit: size,
             offset: (page - 1) * size
         });

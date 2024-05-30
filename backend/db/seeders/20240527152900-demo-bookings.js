@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await Booking.bulkCreate(options,[
+    await Booking.bulkCreate([
       {
         spotId: 1,
         userId: 2,
