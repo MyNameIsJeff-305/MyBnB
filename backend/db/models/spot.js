@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       )
       Spot.hasMany(
         models.SpotImage,
-        { as: "SpotImages", foreignKey: 'spotId', onDelete: 'CASCADE' },
+        { foreignKey: 'spotId', onDelete: 'CASCADE' },
       ),
         Spot.hasMany(
           models.Review,
@@ -28,28 +28,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Spot.init({
-    name: {
-      type: DataTypes.STRING,
+    ownerId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        len: [0, 100],
-      }
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      validate: {
-        len: [0, 500]
-      }
-    },
-    price: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
-      validate: {
-        min: 0,
-        isFloat: true,
-        isNumeric: true
-      }
+      references: {
+        model: 'Users',
+        key: 'id',
+        // onDelete: 'CASCADE'
+      },
+      onDelete: "CASCADE"
     },
     address: {
       type: DataTypes.STRING,
@@ -80,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     lat: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL(9, 7),
       allowNull: false,
       validate: {
         min: -90,
@@ -88,22 +75,35 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     lng: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL(10, 7),
       allowNull: false,
       validate: {
         min: -180,
         max: 180
       }
     },
-    ownerId: {
-      type: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
-      references: {
-        model: 'Users',
-        key: 'id',
-        // onDelete: 'CASCADE'
-      },
-      onDelete: "CASCADE"
+      validate: {
+        len: [0, 100],
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        len: [0, 500]
+      }
+    },
+    price: {
+      type: DataTypes.DECIMAL(5, 2),
+      allowNull: false,
+      validate: {
+        min: 0,
+        isFloat: true,
+        isNumeric: true
+      }
     }
   }, {
     sequelize,

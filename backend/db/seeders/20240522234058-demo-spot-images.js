@@ -10,8 +10,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await SpotImage.bulkCreate(options,[
+  async up(queryInterface, Sequelize) {
+    await SpotImage.bulkCreate([
       {
         url: "https://assets-global.website-files.com/5dcc7f8c449e597ed83356b8/5e3a384c96ecbe8564dadb2a_Artboard%20Copy%206-p-800.webp",
         spotId: 1,
@@ -59,10 +59,10 @@ module.exports = {
         url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEyNjE4NTg5MzIzNjI0NjI2MA%3D%3D/original/65f84c4a-f3f0-49a2-8faa-27861aaa9b33.jpeg?im_w=2560&im_q=highq",
         spotId: 3
       }
-    ])
+    ], options)
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     options.tableName = 'SpotImages';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {}, {});
