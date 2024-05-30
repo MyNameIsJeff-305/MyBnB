@@ -28,28 +28,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Spot.init({
-    name: {
-      type: DataTypes.STRING,
+    ownerId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        len: [0, 100],
-      }
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      validate: {
-        len: [0, 500]
-      }
-    },
-    price: {
-      type: DataTypes.DECIMAL(5, 2),
-      allowNull: false,
-      validate: {
-        min: 0,
-        isFloat: true,
-        isNumeric: true
-      }
+      references: {
+        model: 'Users',
+        key: 'id',
+        // onDelete: 'CASCADE'
+      },
+      onDelete: "CASCADE"
     },
     address: {
       type: DataTypes.STRING,
@@ -95,15 +82,28 @@ module.exports = (sequelize, DataTypes) => {
         max: 180
       }
     },
-    ownerId: {
-      type: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
-      references: {
-        model: 'Users',
-        key: 'id',
-        // onDelete: 'CASCADE'
-      },
-      onDelete: "CASCADE"
+      validate: {
+        len: [0, 100],
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        len: [0, 500]
+      }
+    },
+    price: {
+      type: DataTypes.DECIMAL(5, 2),
+      allowNull: false,
+      validate: {
+        min: 0,
+        isFloat: true,
+        isNumeric: true
+      }
     }
   }, {
     sequelize,

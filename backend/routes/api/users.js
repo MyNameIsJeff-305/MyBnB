@@ -1,9 +1,7 @@
 const router = require('express').Router();
 const { requireAuth } = require('../../utils/auth.js');
 const { User, Spot, Review, SpotImage, ReviewImage, Booking } = require('../../db/models');
-const { Sequelize } = require('sequelize');
-const { validateLogin } = require('../../utils/validations.js');
-const { includes } = require('lodash');
+const { Sequelize, where } = require('sequelize');
 
 //Get the current User
 router.get('/me', requireAuth, async (req, res, next) => {
@@ -20,22 +18,53 @@ router.get('/me', requireAuth, async (req, res, next) => {
 router.get('/me/spots', requireAuth, async (req, res, next) => {
     try {
         const spots = await Spot.findAll({
-            attributes: {
-                include: [
-                    [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
-                    [Sequelize.fn('', Sequelize.col('SpotImages.url')), 'previewImage']
-                ],
-            },
-            where: { ownerId: req.user.id },
-            include: [{
-                model: Review,
-                attributes: []
-            }, {
-                model: SpotImage,
-                attributes: ['url'],
-            }]
+            where: {
+                ownerId: parseInt(req.user.id)
+            }
         })
-        res.json({ spots })
+
+        let Spots = [];
+        let avgReviews = {};
+        let previewImages = {};
+
+        for (const spot of spots) {
+            const values = spot.toJSON();
+            Spots.push(values);
+            
+            const reviews = await Review.findAll({
+                where: {
+                    spotId: spot.id
+                }
+            });
+            let totalStars = 0
+            let count = 0
+            for (const review of reviews) {
+                totalStars += review.stars;
+                count++
+            }
+            avgReviews[spot.id] = totalStars/count;
+
+            const previews = await SpotImage.findAll({
+                where: {
+                    spotId: spot.id
+                }
+            });
+
+            for (const preview of previews) {
+                if(preview.preview)
+                    previewImages[spot.id] = preview.url
+            }
+        }
+
+        for (const spot of Spots) {
+            spot.avgRating = avgReviews[spot.id];
+            spot.previewImage = previewImages[spot.id]
+        }
+
+
+
+
+        res.json({ Spots })
     } catch (error) {
         next(error)
     }
