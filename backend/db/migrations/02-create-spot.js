@@ -25,7 +25,7 @@ module.exports = {
         allowNull: true
       },
       price: {
-        type: process.env.NODE_ENV === 'production' ? Sequelize.DECIMAL : Sequelize.FLOAT,
+        type: Sequelize.DECIMAL(5, 2),
         allowNull: false
       },
       address: {
@@ -45,12 +45,12 @@ module.exports = {
         allowNull: false
       },
       lat: {
-        type: Sequelize.FLOAT,
-        allowNull: false
+        type: Sequelize.DECIMAL(9, 7),
+        allowNull: false,
       },
       lng: {
-        type: Sequelize.FLOAT,
-        allowNull: false
+        type: Sequelize.DECIMAL(10, 7),
+        allowNull: false,
       },
       ownerId: {
         type: Sequelize.INTEGER,
@@ -76,9 +76,6 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     options.tableName = 'Spots';
-    if (process.env.NODE_ENV === 'production') {
-      options.schema = process.env.SCHEMA;
-    }
     return queryInterface.dropTable(options);
   }
 };

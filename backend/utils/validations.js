@@ -30,12 +30,14 @@ const validateSpotValues = [
     check('lng').exists({ checkFalsy: true }).isFloat().withMessage("Longitude is not valid"),
     check('name').exists({ checkFalsy: true }).isLength(50).withMessage("Name must be less than 50 characters"),
     check('description').exists({ checkFalsy: true }).withMessage("Description is required"),
-    check('price').exists({ checkFalsy: true }).withMessage("Price per day is required")
+    check('price').exists({ checkFalsy: true }).withMessage("Price per day is required"),
+    handleValidationErrors
 ];
 
 const validateReviews = [
     check('review').exists({ checkFalsy: true }).withMessage("Review Text is required"),
-    check('stars').isLength({ min: 1, max: 5 }).withMessage("Stars must be an integer from 1 to 5")
+    check('stars').isLength({ min: 1, max: 5 }).withMessage("Stars must be an integer from 1 to 5"),
+    handleValidationErrors
 ];
 
 const properUserValidation = async (req, _res, next) => {
@@ -132,7 +134,10 @@ const validateQueryValues = [
     check('maxLng').optional().isFloat({ max: 180 }).withMessage('Maximum longitude is invalid'),
     check('minLng').optional().isFloat({ min: -180 }).withMessage('Minimum longitude is invalid'),
     check('minPrice').optional().isFloat({ min: 0 }).withMessage('Minimum price must be greater than or equal to 0'),
-    check('maxPrice').optional().isFloat({ min: 0 }).withMessage('Maximum price must be greater than or equal to 0')
+    check('maxPrice').optional().isFloat({ min: 0 }).withMessage('Maximum price must be greater than or equal to 0'),
+    check('minPrice').optional().isFloat({max: 'maxPrice'}).withMessage('Minimum price must be lower than Maximum.'),
+    check('maxPrice').optional().isFloat({min: 'minPrice'}).withMessage('Maximum price must be greater than Minimum.'),
+    handleValidationErrors
 ];
 
 module.exports = {

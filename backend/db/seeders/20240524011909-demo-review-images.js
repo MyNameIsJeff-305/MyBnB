@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await ReviewImage.bulkCreate(options,[
+    await ReviewImage.bulkCreate([
       {
         url: "https://computersciencehero.com/wp-content/uploads/2019/10/o.jpg",
         reviewId: 1
