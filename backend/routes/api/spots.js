@@ -14,6 +14,8 @@ router.get('/', validateQueryValues, async (req, res, next) => {
         const page = parseInt(req.query.page) || 1;
         const size = parseInt(req.query.size) || 20;
 
+        console.log(page, "  ", size);
+
         //Declare where
         const where = {};
 
@@ -36,9 +38,14 @@ router.get('/', validateQueryValues, async (req, res, next) => {
             where.price = { ...where.price, [Op.lte]: parseFloat(maxPrice) };
 
         const spots = await Spot.findAll({
+            where,
             attributes: {
                 include: [
-                    [Sequelize.literal(`(SELECT AVG(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)`), 'avgRating'], //Check whether a Spot doesn't have reviews
+                    [Sequelize.literal(`(
+                        SELECT AVG(stars) 
+                        FROM Reviews 
+                        WHERE Reviews.spotId = Spot.id
+                    )`), 'avgRating'], //Check whether a Spot doesn't have reviews
                     // [Sequelize.col('SpotImages.url'), 'previewImage']
                     [Sequelize.literal(`(
                         SELECT url
