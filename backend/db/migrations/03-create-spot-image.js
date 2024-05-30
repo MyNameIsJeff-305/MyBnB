@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       url: {
-        type: Sequelize.STRING(200),
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
@@ -25,9 +25,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Spots",
+          model: 'Spots',
           key: 'id',
-          // onDelete: 'CASCADE'
         },
         onDelete: 'CASCADE'
       },
@@ -45,7 +44,7 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
       }
-    });
+    }, options);
   },
   async down(queryInterface, Sequelize) {
     options.tableName = 'SpotImages'

@@ -1,30 +1,61 @@
 const router = require('express').Router();
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const { SpotImage, Spot, User, Review, ReviewImage, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
-const { validateSpotValues, validateReviews, properUserValidation } = require('../../utils/validations');
+const { validateSpotValues, validateReviews, properUserValidation, validateQueryValues, handleValidationErrors } = require('../../utils/validations');
 
 
 //Get all Spots
-router.get('/', async (_req, res, next) => {
+router.get('/', validateQueryValues, async (req, res, next) => {
     try {
+        //Parse page and size values
+        const { maxLat, minLat, maxLng, minLng, minPrice, maxPrice } = req.query;
+
+        const page = parseInt(req.query.page) || 1;
+        const size = parseInt(req.query.size) || 20;
+
+        //Declare where
+        const where = {};
+
+        //Latitude Filter
+        if (minLat)
+            where.lat = { [Op.gte]: parseFloat(minLat) };
+        if (maxLat)
+            where.lat = { ...where.lat, [Op.lte]: parseFloat(maxLat) };
+
+        //Longitude Filter
+        if (minLng)
+            where.lng = { [Op.gte]: parseFloat(minLng) };
+        if (maxLng)
+            where.lng = { ...where.lng, [Op.lte]: parseFloat(maxLng) };
+
+        //Price Filter
+        if (minPrice)
+            where.price = { [Op.gte]: parseFloat(minPrice) };
+        if (maxPrice)
+            where.price = { ...where.price, [Op.lte]: parseFloat(maxPrice) };
+
         const spots = await Spot.findAll({
             attributes: {
                 include: [
-                    [(Sequelize.fn('AVG', Sequelize.col('Reviews.stars'))), 'avgRating'], //Check whether a Spot doesn't have reviews
-                    [Sequelize.fn('', Sequelize.col('SpotImages.url')), 'previewImage']
+                    [Sequelize.literal(`(SELECT AVG(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)`), 'avgRating'], //Check whether a Spot doesn't have reviews
+                    // [Sequelize.col('SpotImages.url'), 'previewImage']
+                    [Sequelize.literal(`(
+                        SELECT url
+                        FROM SpotImages
+                        WHERE SpotImages.spotId = Spot.id AND SpotImages.preview = true
+                        LIMIT 1
+                    )`), 'previewImage']
                 ],
             },
-            group: ['Spot.id'],
             include: [
                 {
                     model: Review,
                     attributes: []
-                },
-                {
-                    model: SpotImage,
-                    attributes: [],
-                }]
+                }
+            ],
+            limit: size,
+            offset: (page - 1) * size
         });
         res.json(spots);
 
@@ -44,7 +75,7 @@ router.get('/:spotId', async (req, res, next) => {
             },
             attributes: {
                 include: [
-                    [Sequelize.fn('AVG', Sequelize.col('Reviews.stars')), 'avgRating'],
+                    [Sequelize.literal(`(SELECT AVG(stars) FROM Reviews WHERE Reviews.spotId = Spot.id)`), 'avgRating'],
                     [Sequelize.fn('COUNT', Sequelize.col('Reviews.id')), 'numReviews'],
                 ],
             },
@@ -203,7 +234,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
     try {
         const Reviews = await Review.findAll({
             where: {
-                spotId: req.params.spotId
+                spotId: parseInt(req.params.spotId)
             },
             include: [
                 {

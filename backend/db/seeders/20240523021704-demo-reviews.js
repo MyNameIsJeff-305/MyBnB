@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await Review.bulkCreate([
+    await Review.bulkCreate(options,[
       {
         userId: 1,
         spotId: 1,
