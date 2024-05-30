@@ -1,5 +1,5 @@
 'use strict';
-const {Review} = require('../models')
+const { Review } = require('../models')
 
 /** @type {import('sequelize-cli').Migration} */
 
@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await Review.bulkCreate([
       {
         userId: 1,
@@ -60,10 +60,10 @@ module.exports = {
         review: "Too many mosquitoes",
         stars: 2
       },
-    ])
+    ], options)
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     options.tableName = 'Reviews';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {}, {});

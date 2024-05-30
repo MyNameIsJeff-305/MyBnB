@@ -32,7 +32,7 @@ module.exports = {
         username: 'FakeUser2',
         hashedPassword: bcrypt.hashSync('password3')
       }
-    ]);
+    ], options);
   },
 
   async down (queryInterface, Sequelize) {

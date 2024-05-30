@@ -41,7 +41,7 @@ module.exports = {
         url: "https://koa.com/blog/images/large-mouth-bass.jpg?preset=heroimagecropped",
         reviewId: 4
       },
-    ])
+    ], options)
   },
 
   async down(queryInterface, Sequelize) {

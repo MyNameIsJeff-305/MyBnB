@@ -39,41 +39,63 @@ router.get('/', validateQueryValues, async (req, res, next) => {
 
         const spots = await Spot.findAll({
             where,
-            attributes: [
-
-                // [Sequelize.literal(`(
-                //     SELECT AVG(stars) 
-                //     FROM Reviews 
-                //     WHERE Reviews.spotId = Spot.id
-                // )`), 'avgRating'], //Check whether a Spot doesn't have reviews
-                [Sequelize.col('SpotImages.url'), 'previewImage'],
-                // [Sequelize.literal(`(
-                //     SELECT url
-                //     FROM SpotImages
-                //     WHERE SpotImages.spotId = Spot.id AND SpotImages.preview = true
-                //     LIMIT 1
-                // )`), 'previewImage']
-            ],
-            include: [
-                // {
-                //     model: Review,
-                //     attributes: []
-                // },
-                {
-                    model: SpotImage,
-                    where: {
-                        preview: true
-                    },
-                    attributes: []
-                }
-            ],
-            group: ["SpotImage.id", "Spot.id"],
             limit: size,
             offset: (page - 1) * size
         });
-        res.json(spots);
 
-    } catch (error) {
+        let Spots = [];
+
+        for (const spot of spots) {
+            const values = spot.toJSON();
+            Spots.push(values);
+        }
+
+        const reviews = await Review.findAll();
+
+        let average = {};
+
+        for (const review of reviews) {
+            let values = review.toJSON();
+            if (!average[values.spotId]) {
+                average[values.spotId] = {
+                    spotId: values.spotId,
+                    cumulTotal: values.stars,
+                    amountReviews: 1
+                }
+            }
+            else {
+                average[values.spotId].total = average[values.spotId].cumulTotal + values.stars;
+                average[values.spotId].amountReviews++;
+            }
+        }
+
+        let ratings = {};
+
+        for (const rating in average) {
+            ratings[average[rating].spotId] = average[rating].cumulTotal / average[rating].amountReviews
+        }
+
+        const previewImages = await SpotImage.findAll({
+            where: {
+                preview: true
+            }
+        });
+
+        let previews = {};
+
+        for (const previewImage of previewImages) {
+            let image = previewImage.toJSON();
+            previews[image.spotId] = image.url;
+        }
+
+        for (const spot of Spots) {
+            spot.avgRating = ratings[spot.id];
+            spot.previewImage = previews[spot.id]
+        }
+
+        res.json({ Spots, page: +page, size: +size });
+    }
+    catch (error) {
         next(error)
     }
 });
