@@ -11,6 +11,7 @@
     "migrate": "npx dotenv sequelize db:migrate",
     "seed": "npx dotenv sequelize db:seed:all",
     "michael": "npm run migrate && npm run seed && dotenv npm start --production",
+    "magic": "npm run migrate && npm run seed & npm run start",
     "start:development": "nodemon ./bin/www",
     "start:production": "dotenv node ./bin/www",
     "build": "dotenv node psql-setup-script.js"
