@@ -1,4 +1,3 @@
-// Imports -- External
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -8,24 +7,24 @@ const cookieParser = require('cookie-parser');
 const { ValidationError } = require('sequelize');
 require('express-async-errors');
 
-// Imports -- Internal
+
 const { environment } = require('./config');
 const routes = require('./routes');
 
 
 const isProduction = environment === 'production';
 
-// Initialize app
+
 const app = express();
 
-// use all global middleware
+
 app.use(morgan('dev'));  // logging
 
-// converts json req bodies into parsed objects attached to req.body
+
 app.use(cookieParser());
 app.use(express.json());
 
-// Security Middleware
+
 if (!isProduction) {
     app.use(cors());
 }
@@ -45,10 +44,10 @@ app.use(
     })
 );
 
-// Routes
+
 app.use(routes);
 
-// Error handling middleware
+
 app.use((_req, _res, next) => {
     const err = new Error("The requested resource couldn't be found.");
     err.title = "Resource Not Found";
@@ -59,7 +58,6 @@ app.use((_req, _res, next) => {
 
 app.use((err, _req, _res, next) => {
     console.log(err.errors, "we are here")
-    // check if error is a Sequelize error:
     if (err instanceof ValidationError) {
         let errors = {};
         for (let error of err.errors) {
@@ -82,9 +80,10 @@ app.use((err, _req, res, _next) => {  // error formatter
         title: err.title,
         message: err.message,
         errors: err.errors,
-        stack: err.stack   // edit later
+        stack: err.stack
     });
 });
 
-// Exports
+//Fixed the 'title' and 'stack' problems in production
+
 module.exports = app;
