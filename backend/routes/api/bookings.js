@@ -46,10 +46,10 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         err.errors = {};
 
         for (const booking of bookings) {
-            if (booking.startDate >= new Date(startDate) && booking.startDate <= new Date(endDate)) {
+            if (new Date(booking.startDate) >= new Date(startDate) && new Date(booking.startDate) <= new Date(endDate)) {
                 err.errors.startDate = "Start date conflicts with an existing booking";
             }
-            if (booking.endDate <= new Date(endDate) && booking.endDate >= new Date(startDate)) {
+            if (new Date(booking.endDate) <= new Date(endDate) && new Date(booking.endDate) >= new Date(startDate)) {
                 err.errors.endDate = "End date conflicts with an existing booking";
             }
         }

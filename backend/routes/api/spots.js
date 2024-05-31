@@ -14,8 +14,6 @@ router.get('/', validateQueryValues, async (req, res, next) => {
         const page = parseInt(req.query.page) || 1;
         const size = parseInt(req.query.size) || 20;
 
-        // console.log(page, "  ", size);
-
         //Declare where
         const where = {};
 
@@ -129,7 +127,8 @@ router.get('/:spotId', async (req, res, next) => {
         const images = await SpotImage.findAll({
             where: {
                 spotId: spot.id
-            }
+            },
+            attributes: ['id', 'url', 'preview']
         })
 
         const owner = await User.findByPk(spot.ownerId);
@@ -290,7 +289,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
             ]
         });
 
-        if (!Reviews)
+        if (!Reviews || Reviews.length === 0)
             return res.status(404).json({
                 message: "Spot couldn't be found"
             })
@@ -431,14 +430,18 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         const err = new Error("Sorry, this spot is already booked for the specified dates");
         err.status = 403;
         err.errors = {};
+
         for (const booking of bookings) {
-            if (booking.startDate >= new Date(startDate) && booking.startDate <= new Date(endDate)) {
+            
+            if (new Date(booking.startDate) >= new Date(startDate) || new Date(booking.startDate) <= new Date(endDate)) {
                 err.errors.startDate = "Start date conflicts with an existing booking";
             }
-            if (booking.endDate <= new Date(endDate) && booking.endDate >= new Date(startDate)) {
+            if (new Date(booking.endDate) <= new Date(endDate) || new Date(booking.endDate) >= new Date(startDate)) {
                 err.errors.endDate = "End date conflicts with an existing booking";
             }
         }
+
+
         if (err.errors.startDate || err.errors.endDate) {
             return next(err);
         }

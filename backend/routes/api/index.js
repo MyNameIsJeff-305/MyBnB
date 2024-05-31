@@ -8,7 +8,7 @@ const bookingsRouter = require('./bookings.js');
 const spotImagesRouter = require('./spotImages.js');
 const reviewImagesRouter = require('./reviewImages.js');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.js');
-const { validateSignup } = require('../../utils/validations');
+const { validateSignup, handleValidationErrors } = require('../../utils/validations');
 const bcrypt = require('bcryptjs');
 const { User } = require('../../db/models');
 
@@ -78,7 +78,7 @@ router.post('/signup', validateSignup, async (req, res, next) => {
     await setTokenCookie(res, safeUser);
 
     return res.json({
-      newUser: safeUser
+      user: safeUser
     });
     // forward any errors not already sent
   } catch (error) {

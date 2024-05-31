@@ -28,7 +28,7 @@ const validateSpotValues = [
     check('country').exists({ checkFalsy: true }).withMessage("Country is required"),
     check('lat').exists({ checkFalsy: true }).isFloat().withMessage("Latitude is not valid"),
     check('lng').exists({ checkFalsy: true }).isFloat().withMessage("Longitude is not valid"),
-    check('name').exists({ checkFalsy: true }).isLength(50).withMessage("Name must be less than 50 characters"),
+    check('name').exists({ checkFalsy: true }).isLength({min: 0, max: 50}).withMessage("Name must be less than 50 characters"),
     check('description').exists({ checkFalsy: true }).withMessage("Description is required"),
     check('price').exists({ checkFalsy: true }).withMessage("Price per day is required"),
     handleValidationErrors
@@ -65,17 +65,16 @@ const properUserValidation = async (req, _res, next) => {
     }
 };
 
-const properReviewValidation = async (req, _res, next) => {
+const properReviewValidation = async (req, res, next) => {
     const { id } = req.user;
     const { reviewId } = req.params;
     try {
         const review = await Review.findByPk(reviewId);
 
         if (!review) {
-            const err = new Error("Review couldn't be found");
-            err.status = 404;
-            err.title = "Resource not Found";
-            return next(err);
+            return res.status(404).json({
+                message: "Review couldn't be found"
+            })
         }
 
         if (review.userId !== id) {
@@ -96,10 +95,10 @@ const validateLogin = [
     check('credential')
         .exists({ checkFalsy: true })
         .notEmpty()
-        .withMessage('Please provide a valid email or username.'),
+        .withMessage("Email or username is required"),
     check('password')
         .exists({ checkFalsy: true })
-        .withMessage('Please provide a password.'),
+        .withMessage("Password is required"),
     handleValidationErrors
 ];
 
@@ -109,7 +108,7 @@ const validateSignup = [
         .isEmail()
         .withMessage('Invalid email'),
     check('username')
-        .exists()
+        .exists({ checkFalsy: true })
         .withMessage("Username is required"),
     check('username')
         .exists({ checkFalsy: true })
@@ -123,6 +122,8 @@ const validateSignup = [
         .exists({ checkFalsy: true })
         .isLength({ min: 6 })
         .withMessage('Password must be 6 characters or more.'),
+    check('firstName').exists({ checkFalsy: true }).withMessage("First Name is required"),
+    check('lastName').exists({ checkFalsy: true }).withMessage("Last Name is required"),
     handleValidationErrors
 ];
 
@@ -135,8 +136,8 @@ const validateQueryValues = [
     check('minLng').optional().isFloat({ min: -180 }).withMessage('Minimum longitude is invalid'),
     check('minPrice').optional().isFloat({ min: 0 }).withMessage('Minimum price must be greater than or equal to 0'),
     check('maxPrice').optional().isFloat({ min: 0 }).withMessage('Maximum price must be greater than or equal to 0'),
-    check('minPrice').optional().isFloat({max: 'maxPrice'}).withMessage('Minimum price must be lower than Maximum.'),
-    check('maxPrice').optional().isFloat({min: 'minPrice'}).withMessage('Maximum price must be greater than Minimum.'),
+    check('minPrice').optional().isFloat({ max: 'maxPrice' }).withMessage('Minimum price must be lower than Maximum.'),
+    check('maxPrice').optional().isFloat({ min: 'minPrice' }).withMessage('Maximum price must be greater than Minimum.'),
     handleValidationErrors
 ];
 
