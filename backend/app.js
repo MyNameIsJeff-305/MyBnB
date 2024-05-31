@@ -41,13 +41,13 @@ app.use(
 app.use(routes); //API routes
 
 //Catch unhandled requests and orward to error handler.
-app.use((_req, _res, next) => {
-    const err = new Error("The requested resource couldn't be found");
-    err.title = "Resource not Found";
-    err.errors = { message: "The Requested resource couldn't be found" };
-    err.status = 404;
-    next(err);
-});
+// app.use((_req, _res, next) => {
+//     const err = new Error("The requested resource couldn't be found");
+//     err.title = "Resource not Found";
+//     err.errors = { message: "The Requested resource couldn't be found" };
+//     err.status = 404;
+//     next(err);
+// });
 
 //Process Sequelize errors
 app.use((err, _req, _res, next) => {
