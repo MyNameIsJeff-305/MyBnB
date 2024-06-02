@@ -25,7 +25,7 @@ module.exports = {
         allowNull: true
       },
       price: {
-        type: Sequelize.DECIMAL(5, 2),
+        type: Sequelize.FLOAT,
         allowNull: false
       },
       address: {
@@ -45,7 +45,7 @@ module.exports = {
         allowNull: false
       },
       lat: {
-        type: Sequelize.DECIMAL(9, 7),
+        type: Sequelize.DECIMAL(10, 7),
         allowNull: false,
       },
       lng: {

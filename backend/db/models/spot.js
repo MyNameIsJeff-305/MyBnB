@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     lat: {
-      type: DataTypes.DECIMAL(9, 7),
+      type: DataTypes.DECIMAL(10, 7),
       allowNull: false,
       validate: {
         min: -90,
@@ -97,7 +97,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     price: {
-      type: DataTypes.DECIMAL(5, 2),
+      type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
         min: 0,

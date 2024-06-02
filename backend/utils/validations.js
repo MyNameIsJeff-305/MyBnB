@@ -100,34 +100,6 @@ const validateLogin = [
     handleValidationErrors
 ];
 
-const validateUser = async (req, res, next) => {
-    // const userEmail = await User.findAll({
-    //     where: {
-    //         email: req.body.email
-    //     }
-    // });
-    // if (userEmail.email === req.body.email)
-    //     return res.status(500).json({
-    //         message: "User already exists",
-    //         errors: {
-    //             email: "User with that email already exists"
-    //         }
-    //     });
-
-    // const userUsername = await User.findAll({
-    //     where: {
-    //         username: req.body.username
-    //     }
-    // });
-    // if (userUsername.username === req.body.username)
-    //     return res.status(500).json({
-    //         message: "User already exists",
-    //         errors: {
-    //             username: "User with that username already exists"
-    //         }
-    //     })
-}
-
 const validateSignup = [
     check('email')
         .exists({ checkFalsy: true })
@@ -164,5 +136,4 @@ module.exports = {
     validateLogin,
     validateSignup,
     validateQueryValues,
-    validateUser
 }
