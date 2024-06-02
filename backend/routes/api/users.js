@@ -24,9 +24,41 @@ router.get('/me', requireAuth, async (req, res, next) => {
 
 
 
-router.post('/', validateSignup, validateUser, async (req, res, next) => {
+router.post('/', validateSignup, async (req, res, next) => {
     // try block
     try {
+        const userEmail = await User.findAll({
+            where: {
+                email: req.body.email
+            }
+        });
+
+        for (const user of userEmail) {
+            if (user.email === req.body.email)
+                return res.status(500).json({
+                    message: "User already exists",
+                    errors: {
+                        email: "User with that email already exists"
+                    }
+                });
+        }
+
+        const userUsername = await User.findAll({
+            where: {
+                username: req.body.username
+            }
+        });
+        for (const user of userUsername) {
+            if (userUsername[0].username === req.body.username)
+                return res.status(500).json({
+                    message: "User already exists",
+                    errors: {
+                        username: "User with that username already exists"
+                    }
+                })
+        }
+
+
         // deconstruct req.body
         const defaultPassword = 'password'
         const { email, password, username, firstName, lastName } = req.body;
