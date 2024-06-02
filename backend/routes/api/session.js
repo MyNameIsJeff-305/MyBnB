@@ -2,7 +2,12 @@ const router = require('express').Router();
 const { Sequelize } = require('sequelize');
 const { SpotImage, Spot, User, Review, ReviewImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth')
-const { validateSpotValues, validateReviews, validateLogin, properUserValidation, properReviewValidation } = require('../../utils/validations')
+const { Op } = require('sequelize');
+const bcrypt = require('bcryptjs');
+
+const { setTokenCookie } = require('../../utils/auth');
+
+const { validateLogin } = require('../../utils/validations');
 
 //Route Handlers__________________________________
 //Get the current User

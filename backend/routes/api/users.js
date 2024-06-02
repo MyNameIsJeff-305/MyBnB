@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { requireAuth } = require('../../utils/auth.js');
 const { User, Spot, Review, SpotImage, ReviewImage, Booking } = require('../../db/models');
+const { validateSignup } = require('../../utils/validations')
 const { Sequelize, where } = require('sequelize');
 
 //Get the current User
@@ -181,6 +182,47 @@ router.get('/me/bookings', requireAuth, async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-})
+});
+
+router.post('/users', validateSignup, async (req, res, next) => {
+    // try block
+    try {
+        // deconstruct req.body
+        const defaultPassword = 'password'
+        const { email, password, username, firstName, lastName } = req.body;
+        // // create a hashed password for user
+        let hashedPassword;
+        if (password)
+            hashedPassword = bcrypt.hashSync(password);
+        else
+            hashedPassword = bcrypt.hashSync(defaultPassword)
+        // // create user record in Users table
+        const newUser = await User.create({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            username: username,
+            hashedPassword: hashedPassword
+        });
+        console.log(newUser);
+        // create safeUser object for setTokenCookie function
+        const safeUser = {
+            id: newUser.id,
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            email: newUser.email,
+            username: newUser.username
+        };
+        // set token cookie
+        await setTokenCookie(res, safeUser);
+
+        return res.json({
+            user: safeUser
+        });
+        // forward any errors not already sent
+    } catch (error) {
+        next(error);
+    };
+});
 
 module.exports = router;
