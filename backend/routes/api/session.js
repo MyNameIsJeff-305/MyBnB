@@ -1,0 +1,81 @@
+const express = require('express');
+const { Op } = require('sequelize');
+const bcrypt = require('bcryptjs');
+
+const { setTokenCookie } = require('../../utils/auth');
+const { User } = require('../../db/models/');
+
+const { validateLogin } = require('../../utils/validations');
+
+const router = express.Router();
+
+//Route Handlers__________________________________
+
+//Log in
+router.post('/', validateLogin, async (req, res, next) => {
+        const { credential, password } = req.body;
+
+        const user = await User.unscoped().findOne({
+            where: {
+                [Op.or]: {
+                    username: credential,
+                    email: credential
+                }
+            }
+        });
+
+        if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
+            return res.status(401).json({
+                message: "Invalid Credentials"
+            })
+        }
+
+        const safeUser = {
+            id: user.id,
+            email: user.email,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName
+        };
+
+        await setTokenCookie(res, safeUser);
+        return res.json({
+            user: safeUser
+        });
+});
+
+//Restore Session User
+router.get('/', (req, res) => {
+    try {
+        const { user } = req;
+        if (user) {
+            const safeUser = {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName
+            };
+            return res.json({
+                user: safeUser
+            });
+        } else return res.json({ user: null });
+    } catch (error) {
+        next(error)
+    }
+});
+
+//Log out
+router.delete('/', (_req, res) => {
+    try {
+        res.clearCookie('token');
+        return res.json({ message: 'success' })
+    } catch (error) {
+        next({
+            message: 'Logout error. (DELETE) backend/routes/api/session.js'
+        })
+    }
+});
+
+
+module.exports = router;

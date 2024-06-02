@@ -7,6 +7,7 @@ const reviewsRouter = require('./reviews.js');
 const bookingsRouter = require('./bookings.js');
 const spotImagesRouter = require('./spotImages.js');
 const reviewImagesRouter = require('./reviewImages.js');
+const sessionRouter = require('./session.js');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.js');
 const { validateSignup, handleValidationErrors } = require('../../utils/validations');
 const bcrypt = require('bcryptjs');
@@ -18,6 +19,7 @@ router.use(restoreUser);
 
 router.use('/login', loginRouter);
 router.use('/logout', logoutRouter);
+router.use('/session', sessionRouter)';'
 router.use('/users', usersRouter);
 router.use('/spots', spotsRouter);
 router.use('/reviews', reviewsRouter);
