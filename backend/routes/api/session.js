@@ -11,10 +11,10 @@ const { validateLogin } = require('../../utils/validations');
 
 //Route Handlers__________________________________
 //Get the current User
-router.get('/', requireAuth, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         const currentUser = await User.findByPk(parseInt(req.user.id));
-        
+
         res.json({
             user: {
                 id: currentUser.id,
