@@ -461,17 +461,15 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         const spot = await Spot.findByPk(spotId)
 
         if (!spot) {
-            const err = new Error("Spot couldn't be found");
-            err.status = 404;
-            err.title = "Resource not Found";
-            return next(err);
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            });
         }
 
         if (spot.ownerId === parseInt(req.user.id)) {
-            const err = new Error("Owners cannot self-reserve")
-            err.status = 403;
-            err.title = "Unauthorized";
-            return next(err);
+            return res.status(403).json({
+                message: "Owners cannot self-reserve"
+            })
         }
 
         const bookings = await Booking.findAll({

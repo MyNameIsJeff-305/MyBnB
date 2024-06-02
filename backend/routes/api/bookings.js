@@ -54,6 +54,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     }
 });
 
+//Edit A Booking
 router.put('/:bookingId', requireAuth, async (req, res, next) => {
     try {
         const { startDate, endDate } = req.body;
