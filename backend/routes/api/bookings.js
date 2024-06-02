@@ -2,6 +2,58 @@ const router = require('express').Router();
 const { Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
+//Get all of the Current User's Bookings
+router.get('/current', requireAuth, async (req, res, next) => {
+    try {
+        const bookings = await Booking.findAll({
+            where: {
+                userId: parseInt(req.user.id)
+            }
+        });
+
+        const formattedBookings = [];
+
+        for (const booking of bookings) {
+
+            const spot = await Spot.findByPk(booking.spotId);
+
+            const previewImage = await SpotImage.findOne({
+                where: {
+                    spotId: spot.id,
+                    preview: true
+                }
+            });
+
+            formattedBookings.push({
+                id: booking.id,
+                spotId: booking.spotId,
+                Spot: {
+                    id: spot.id,
+                    ownerId: spot.ownerId,
+                    address: spot.address,
+                    city: spot.city,
+                    state: spot.state,
+                    country: spot.country,
+                    lat: spot.lat,
+                    lng: spot.lng,
+                    name: spot.name,
+                    price: spot.price,
+                    previewImage: previewImage.url
+                },
+                userId: booking.userId,
+                startDate: booking.startDate,
+                endDate: booking.endDate,
+                createdAt: booking.createdAt,
+                updatedAt: booking.updatedAt
+            })
+        }
+
+        res.json({ Bookings: formattedBookings })
+    } catch (error) {
+        next(error)
+    }
+});
+
 router.put('/:bookingId', requireAuth, async (req, res, next) => {
     try {
         const { startDate, endDate } = req.body;
