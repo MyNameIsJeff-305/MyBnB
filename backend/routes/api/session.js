@@ -1,15 +1,20 @@
-const express = require('express');
-const { Op } = require('sequelize');
-const bcrypt = require('bcryptjs');
-
-const { setTokenCookie } = require('../../utils/auth');
-const { User } = require('../../db/models/');
-
-const { validateLogin } = require('../../utils/validations');
-
-const router = express.Router();
+const router = require('express').Router();
+const { Sequelize } = require('sequelize');
+const { SpotImage, Spot, User, Review, ReviewImage } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth')
+const { validateSpotValues, validateReviews, validateLogin, properUserValidation, properReviewValidation } = require('../../utils/validations')
 
 //Route Handlers__________________________________
+//Get the current User
+router.get('/', requireAuth, async (req, res, next) => {
+    try {
+        const currentUser = await User.findByPk(parseInt(req.user.id));
+
+        res.json({ user: currentUser } || { "user": null });
+    } catch (error) {
+        next(error);
+    }
+});
 
 //Log in
 router.post('/', validateLogin, async (req, res, next) => {
@@ -45,25 +50,25 @@ router.post('/', validateLogin, async (req, res, next) => {
 });
 
 //Restore Session User
-router.get('/', (req, res) => {
-    try {
-        const { user } = req;
-        if (user) {
-            const safeUser = {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName
-            };
-            return res.json({
-                user: safeUser
-            });
-        } else return res.json({ user: null });
-    } catch (error) {
-        next(error)
-    }
-});
+// router.get('/', (req, res) => {
+//     try {
+//         const { user } = req;
+//         if (user) {
+//             const safeUser = {
+//                 id: user.id,
+//                 email: user.email,
+//                 username: user.username,
+//                 firstName: user.firstName,
+//                 lastName: user.lastName
+//             };
+//             return res.json({
+//                 user: safeUser
+//             });
+//         } else return res.json({ user: null });
+//     } catch (error) {
+//         next(error)
+//     }
+// });
 
 //Log out
 router.delete('/', (_req, res) => {
