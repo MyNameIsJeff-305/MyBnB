@@ -98,6 +98,59 @@ router.get('/', validateQueryValues, async (req, res, next) => {
     }
 });
 
+//Get all Spots owned by the Current User
+router.get('/current', requireAuth, async (req, res, next) => {
+    try {
+        const spots = await Spot.findAll({
+            where: {
+                ownerId: parseInt(req.user.id)
+            }
+        })
+
+        let Spots = [];
+        let avgReviews = {};
+        let previewImages = {};
+
+        for (const spot of spots) {
+            const values = spot.toJSON();
+            Spots.push(values);
+
+            const reviews = await Review.findAll({
+                where: {
+                    spotId: spot.id
+                }
+            });
+            let totalStars = 0
+            let count = 0
+            for (const review of reviews) {
+                totalStars += review.stars;
+                count++
+            }
+            avgReviews[spot.id] = totalStars / count;
+
+            const previews = await SpotImage.findAll({
+                where: {
+                    spotId: spot.id
+                }
+            });
+
+            for (const preview of previews) {
+                if (preview.preview)
+                    previewImages[spot.id] = preview.url
+            }
+        }
+
+        for (const spot of Spots) {
+            spot.avgRating = avgReviews[spot.id];
+            spot.previewImage = previewImages[spot.id]
+        }
+
+        res.json({ Spots })
+    } catch (error) {
+        next(error)
+    }
+});
+
 //Get details of a Spot from an id
 router.get('/:spotId', async (req, res, next) => {
     try {
@@ -253,7 +306,7 @@ router.put('/:spotId', requireAuth, validateSpotValues, properUserValidation, as
 router.delete('/:spotId', requireAuth, properUserValidation, async (req, res, next) => {
     try {
         const spot = await Spot.findByPk(parseInt(req.params.spotId))
-
+console.log(spot === undefined);
         if (!spot)
             return res.status(404).json({
                 message: "Spot couldn't be found"
@@ -408,17 +461,15 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         const spot = await Spot.findByPk(spotId)
 
         if (!spot) {
-            const err = new Error("Spot couldn't be found");
-            err.status = 404;
-            err.title = "Resource not Found";
-            return next(err);
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            });
         }
 
         if (spot.ownerId === parseInt(req.user.id)) {
-            const err = new Error("Owners cannot self-reserve")
-            err.status = 403;
-            err.title = "Unauthorized";
-            return next(err);
+            return res.status(403).json({
+                message: "Owners cannot self-reserve"
+            })
         }
 
         const bookings = await Booking.findAll({

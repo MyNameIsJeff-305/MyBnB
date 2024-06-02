@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const { check } = require('express-validator');
-const { Spot, Review, Booking } = require('../db/models');
+const { Spot, Review, User, Booking } = require('../db/models');
 const { parseInt } = require('lodash');
 
 const handleValidationErrors = (req, _res, next) => {
@@ -12,10 +12,9 @@ const handleValidationErrors = (req, _res, next) => {
             .array()
             .forEach(error => errors[error.path] = error.msg);
 
-        const err = Error('bad request.');
+        const err = Error('Bad request.');
         err.errors = errors;
         err.status = 400;
-        err.title = "Bad Request.";
         next(err);
     }
     next();
@@ -28,7 +27,7 @@ const validateSpotValues = [
     check('country').exists({ checkFalsy: true }).withMessage("Country is required"),
     check('lat').exists({ checkFalsy: true }).isFloat().withMessage("Latitude is not valid"),
     check('lng').exists({ checkFalsy: true }).isFloat().withMessage("Longitude is not valid"),
-    check('name').exists({ checkFalsy: true }).isLength({min: 0, max: 50}).withMessage("Name must be less than 50 characters"),
+    check('name').exists({ checkFalsy: true }).isLength({ min: 0, max: 50 }).withMessage("Name must be less than 50 characters"),
     check('description').exists({ checkFalsy: true }).withMessage("Description is required"),
     check('price').exists({ checkFalsy: true }).withMessage("Price per day is required"),
     handleValidationErrors
@@ -40,17 +39,16 @@ const validateReviews = [
     handleValidationErrors
 ];
 
-const properUserValidation = async (req, _res, next) => {
+const properUserValidation = async (req, res, next) => {
     const { id } = req.user;
     const { spotId } = req.params;
     try {
         const spot = await Spot.findByPk(spotId);
 
         if (!spot) {
-            const err = new Error("Spot couldn't be found");
-            err.status = 404;
-            err.title = 'Resource not found';
-            return next(err);
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            })
         }
 
         if (spot.ownerId !== id) {
@@ -102,6 +100,34 @@ const validateLogin = [
     handleValidationErrors
 ];
 
+const validateUser = async (req, res, next) => {
+    // const userEmail = await User.findAll({
+    //     where: {
+    //         email: req.body.email
+    //     }
+    // });
+    // if (userEmail.email === req.body.email)
+    //     return res.status(500).json({
+    //         message: "User already exists",
+    //         errors: {
+    //             email: "User with that email already exists"
+    //         }
+    //     });
+
+    // const userUsername = await User.findAll({
+    //     where: {
+    //         username: req.body.username
+    //     }
+    // });
+    // if (userUsername.username === req.body.username)
+    //     return res.status(500).json({
+    //         message: "User already exists",
+    //         errors: {
+    //             username: "User with that username already exists"
+    //         }
+    //     })
+}
+
 const validateSignup = [
     check('email')
         .exists({ checkFalsy: true })
@@ -149,5 +175,6 @@ module.exports = {
     properReviewValidation,
     validateLogin,
     validateSignup,
-    validateQueryValues
+    validateQueryValues,
+    validateUser
 }
