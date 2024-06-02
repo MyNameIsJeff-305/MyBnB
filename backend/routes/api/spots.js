@@ -306,7 +306,7 @@ router.put('/:spotId', requireAuth, validateSpotValues, properUserValidation, as
 router.delete('/:spotId', requireAuth, properUserValidation, async (req, res, next) => {
     try {
         const spot = await Spot.findByPk(parseInt(req.params.spotId))
-
+console.log(spot === undefined);
         if (!spot)
             return res.status(404).json({
                 message: "Spot couldn't be found"

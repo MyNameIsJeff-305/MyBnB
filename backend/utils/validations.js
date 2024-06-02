@@ -12,10 +12,9 @@ const handleValidationErrors = (req, _res, next) => {
             .array()
             .forEach(error => errors[error.path] = error.msg);
 
-        const err = Error('bad request.');
+        const err = Error('Bad request.');
         err.errors = errors;
         err.status = 400;
-        err.title = "Bad Request.";
         next(err);
     }
     next();
@@ -40,17 +39,16 @@ const validateReviews = [
     handleValidationErrors
 ];
 
-const properUserValidation = async (req, _res, next) => {
+const properUserValidation = async (req, res, next) => {
     const { id } = req.user;
     const { spotId } = req.params;
     try {
         const spot = await Spot.findByPk(spotId);
 
         if (!spot) {
-            const err = new Error("Spot couldn't be found");
-            err.status = 404;
-            err.title = 'Resource not found';
-            return next(err);
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            })
         }
 
         if (spot.ownerId !== id) {

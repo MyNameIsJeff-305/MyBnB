@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Booking } = require('../../db/models');
+const { Booking, Spot } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 //Get all of the Current User's Bookings

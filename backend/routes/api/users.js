@@ -49,7 +49,7 @@ router.post('/', validateSignup, async (req, res, next) => {
             }
         });
         for (const user of userUsername) {
-            if (userUsername[0].username === req.body.username)
+            if (user.username === req.body.username)
                 return res.status(500).json({
                     message: "User already exists",
                     errors: {
