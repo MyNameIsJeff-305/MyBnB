@@ -500,10 +500,10 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
         for (const booking of bookings) {
 
-            if (new Date(booking.startDate) >= new Date(startDate) || new Date(booking.startDate) <= new Date(endDate)) {
+            if (new Date(booking.startDate) >= new Date(startDate) && new Date(booking.startDate) <= new Date(endDate)) {
                 err.errors.startDate = "Start date conflicts with an existing booking";
             }
-            if (new Date(booking.endDate) <= new Date(endDate) || new Date(booking.endDate) >= new Date(startDate)) {
+            if (new Date(booking.endDate) <= new Date(endDate) && new Date(booking.endDate) >= new Date(startDate)) {
                 err.errors.endDate = "End date conflicts with an existing booking";
             }
         }
@@ -527,7 +527,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
             endDate: new Date(endDate)
         });
 
-        res.json(newBooking);
+        res.status(201).json(newBooking);
 
     } catch (error) {
         next(error)
