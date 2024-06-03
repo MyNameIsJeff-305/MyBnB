@@ -13,6 +13,11 @@ const { validateLogin } = require('../../utils/validations');
 //Get the current User
 router.get('/', async (req, res, next) => {
     try {
+        if (req.user === null)
+            return res.status(200).json({
+                user: null
+            })
+
         const currentUser = await User.findByPk(parseInt(req.user.id));
 
         res.json({
