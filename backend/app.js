@@ -77,10 +77,10 @@ app.use((err, _req, res, _next) => {  // error formatter
     }
     console.error(err);
     res.json({
-        title: err.title,
+        // title: err.title || 'Server Error',
         message: err.message,
         errors: err.errors,
-        stack: err.stack
+        // stack: isProduction ? null : err.stack
     });
 });
 

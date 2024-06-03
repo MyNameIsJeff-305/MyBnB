@@ -27,7 +27,7 @@ const validateSpotValues = [
     check('country').exists({ checkFalsy: true }).withMessage("Country is required"),
     check('lat').exists({ checkFalsy: true }).isFloat().withMessage("Latitude is not valid"),
     check('lng').exists({ checkFalsy: true }).isFloat().withMessage("Longitude is not valid"),
-    check('name').exists({ checkFalsy: true }).isLength({ min: 0, max: 50 }).withMessage("Name must be less than 50 characters"),
+    check('name').exists({ checkFalsy: true }).isLength({ max: 50 }).withMessage("Name must be less than 50 characters"),
     check('description').exists({ checkFalsy: true }).withMessage("Description is required"),
     check('price').exists({ checkFalsy: true }).withMessage("Price per day is required"),
     handleValidationErrors
@@ -100,34 +100,6 @@ const validateLogin = [
     handleValidationErrors
 ];
 
-const validateUser = async (req, res, next) => {
-    // const userEmail = await User.findAll({
-    //     where: {
-    //         email: req.body.email
-    //     }
-    // });
-    // if (userEmail.email === req.body.email)
-    //     return res.status(500).json({
-    //         message: "User already exists",
-    //         errors: {
-    //             email: "User with that email already exists"
-    //         }
-    //     });
-
-    // const userUsername = await User.findAll({
-    //     where: {
-    //         username: req.body.username
-    //     }
-    // });
-    // if (userUsername.username === req.body.username)
-    //     return res.status(500).json({
-    //         message: "User already exists",
-    //         errors: {
-    //             username: "User with that username already exists"
-    //         }
-    //     })
-}
-
 const validateSignup = [
     check('email')
         .exists({ checkFalsy: true })
@@ -136,18 +108,6 @@ const validateSignup = [
     check('username')
         .exists({ checkFalsy: true })
         .withMessage("Username is required"),
-    check('username')
-        .exists({ checkFalsy: true })
-        .isLength({ min: 4 })
-        .withMessage('Please provide a username with at least 4 characters.'),
-    check('username')
-        .not()
-        .isEmail()
-        .withMessage('Username cannot be an email'),
-    check('password')
-        .exists({ checkFalsy: true })
-        .isLength({ min: 6 })
-        .withMessage('Password must be 6 characters or more.'),
     check('firstName').exists({ checkFalsy: true }).withMessage("First Name is required"),
     check('lastName').exists({ checkFalsy: true }).withMessage("Last Name is required"),
     handleValidationErrors
@@ -176,5 +136,4 @@ module.exports = {
     validateLogin,
     validateSignup,
     validateQueryValues,
-    validateUser
 }

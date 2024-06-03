@@ -101,7 +101,7 @@ router.post('/:reviewId/images', requireAuth, properReviewValidation, async (req
             url: newReviewImage.url
         }
 
-        res.json(safeReviewImage);
+        res.status(201).json(safeReviewImage);
 
     } catch (error) {
         next(error)

@@ -18,12 +18,7 @@ router.get('/me', requireAuth, async (req, res, next) => {
     }
 });
 
-
-
-
-
-
-
+//Signup a User
 router.post('/', validateSignup, async (req, res, next) => {
     // try block
     try {
