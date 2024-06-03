@@ -520,6 +520,13 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
             return next(err)
         }
 
+        if(new Date(startDate) >= new Date(endDate)) {
+            const err = new Error('Bad Request');
+            err.status = 400
+            err.errors = { endDate: "startDate cannot be on or before endDate" };
+            return next(err);
+        }
+
         const newBooking = await Booking.create({
             spotId: parseInt(req.params.spotId),
             userId: parseInt(req.user.id),
