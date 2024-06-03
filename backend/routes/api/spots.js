@@ -233,11 +233,11 @@ router.post('/', requireAuth, validateSpotValues, async (req, res, next) => {
             city: city,
             state: state,
             country: country,
-            lat: lat,
-            lng: lng,
+            lat: parseFloat(lat),
+            lng: parseFloat(lng),
             name: name,
             description: description,
-            price: price
+            price: parseFloat(price)
         })
 
         res.json(newSpot);
