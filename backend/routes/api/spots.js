@@ -179,7 +179,7 @@ router.get('/:spotId', async (req, res, next) => {
         let sumStars = 0
         for (const review of reviews) {
             sumStars += review.stars;
-            numReviews++    
+            numReviews++
         }
         let avg = sumStars/numReviews;
 
@@ -240,7 +240,7 @@ router.post('/', requireAuth, validateSpotValues, async (req, res, next) => {
             price: parseFloat(price)
         })
 
-        res.json(newSpot);
+        res.status(201).json(newSpot);
 
     } catch (error) {
         next(error)
@@ -492,7 +492,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         err.errors = {};
 
         for (const booking of bookings) {
-            
+
             if (new Date(booking.startDate) >= new Date(startDate) || new Date(booking.startDate) <= new Date(endDate)) {
                 err.errors.startDate = "Start date conflicts with an existing booking";
             }
