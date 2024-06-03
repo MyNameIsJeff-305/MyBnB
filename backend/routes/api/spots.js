@@ -181,7 +181,7 @@ router.get('/:spotId', async (req, res, next) => {
             sumStars += review.stars;
             numReviews++
         }
-        let avg = sumStars/numReviews;
+        let avg = sumStars / numReviews;
 
         const images = await SpotImage.findAll({
             where: {
@@ -266,7 +266,7 @@ router.post('/:spotId/images', requireAuth, properUserValidation, async (req, re
         });
 
 
-        res.json(safeSpotImage)
+        res.status(201).json({ safeSpotImage })
     } catch (error) {
         next(error)
     }
@@ -315,7 +315,7 @@ router.put('/:spotId', requireAuth, validateSpotValues, properUserValidation, as
 router.delete('/:spotId', requireAuth, properUserValidation, async (req, res, next) => {
     try {
         const spot = await Spot.findByPk(parseInt(req.params.spotId))
-console.log(spot === undefined);
+        console.log(spot === undefined);
         if (!spot)
             return res.status(404).json({
                 message: "Spot couldn't be found"

@@ -27,7 +27,7 @@ const validateSpotValues = [
     check('country').exists({ checkFalsy: true }).withMessage("Country is required"),
     check('lat').exists({ checkFalsy: true }).isFloat().withMessage("Latitude is not valid"),
     check('lng').exists({ checkFalsy: true }).isFloat().withMessage("Longitude is not valid"),
-    check('name').exists({ checkFalsy: true }).isLength({ min: 0, max: 50 }).withMessage("Name must be less than 50 characters"),
+    check('name').exists({ checkFalsy: true }).isLength({ max: 50 }).withMessage("Name must be less than 50 characters"),
     check('description').exists({ checkFalsy: true }).withMessage("Description is required"),
     check('price').exists({ checkFalsy: true }).withMessage("Price per day is required"),
     handleValidationErrors
