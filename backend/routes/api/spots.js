@@ -267,9 +267,9 @@ router.post('/:spotId/images', requireAuth, properUserValidation, async (req, re
 
 
         res.status(201).json({
-            id: safeSpotImage.id,
-            url: safeSpotImage.url,
-            preview: safeSpotImage.preview
+            id: safeSpotImage[0].id,
+            url: safeSpotImage[0].url,
+            preview: safeSpotImage[0].preview
         })
     } catch (error) {
         next(error)
