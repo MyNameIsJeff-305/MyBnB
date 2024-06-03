@@ -144,6 +144,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
         }
 
         for (const spot of Spots) {
+            spot.lat = parseFloat(spot.lat);
+            spot.lng = parseFloat(spot.lng);
+            spot.price = parseFloat(spot.price);
             spot.avgRating = avgReviews[spot.id];
             spot.previewImage = previewImages[spot.id]
         }
@@ -191,6 +194,9 @@ router.get('/:spotId', async (req, res, next) => {
 
         spot.SpotImages = images;
         spot.Owner = owner;
+        spot.lat = parseFloat(spot.lat);
+        spot.lng = parseFloat(spot.lng);
+        spot.price = parseFloat(spot.price);
 
         res.json({
             id: spot.id,
