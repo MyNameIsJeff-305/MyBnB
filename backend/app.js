@@ -1,67 +1,80 @@
 const express = require('express');
-require('express-async-errors');
 const morgan = require('morgan');
 const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { ValidationError } = require('sequelize');
+require('express-async-errors');
 
-const routes = require('./routes');
+
 const { environment } = require('./config');
+const routes = require('./routes');
+
+
 const isProduction = environment === 'production';
 
+
 const app = express();
-app.use(morgan('dev'));
+
+
+app.use(morgan('dev'));  // logging
+
+
 app.use(cookieParser());
 app.use(express.json());
 
 
-//Security Middleware
 if (!isProduction) {
-    app.use(cors()); //enable cors in development exclusively
+    app.use(cors());
 }
 
-app.use(
-    helmet.crossOriginResourcePolicy({
-        policy: 'cross-origin'
-    })
+app.use(helmet.crossOriginResourcePolicy({
+    policy: "cross-origin"
+})
 );
 
-//_csrf token and req.csrfToken
 app.use(
     csurf({
         cookie: {
             secure: isProduction,
-            sameSite: isProduction && 'Lax',
+            sameSite: isProduction && "Lax",
             httpOnly: true
         }
-    }));
+    })
+);
 
-app.use(routes); //API routes
 
-//Catch unhandled requests and orward to error handler.
+app.use(routes);
+
+
 app.use((_req, _res, next) => {
-    const err = new Error("The requested resource couldn't be found");
-    err.title = "Resource not Found";
-    err.errors = { message: "The Requested resource couldn't be found" };
+    const err = new Error("The requested resource couldn't be found.");
+    err.title = "Resource Not Found";
+    err.errors = { message: "The requested resource couldn't be found." };
     err.status = 404;
+    next(err.errors);
+});
+
+app.use((err, _req, _res, next) => {
+    console.log(err.errors, "we are here")
+    if (err instanceof ValidationError) {
+        let errors = {};
+        for (let error of err.errors) {
+            errors[error.path] = error.message;
+        }
+        err.title = 'Validation error';
+        err.errors = errors;
+    }
     next(err);
 });
 
-//Process Sequelize errors
-app.use((err, _req, _res, next) => {
-    // check if error is a Sequelize error:
-    if (err instanceof ValidationError) {
-      err.errors = err.errors.map((error) => error.message);
-      err.title = 'Validation error';
-    }
-    next(err);
-  });
-
-//Error Formatter
-app.use((err, _req, res, _next) => {
+app.use((err, _req, res, _next) => {  // error formatter
     res.status(err.status || 500);
+    if (isProduction) {
+        delete err.title;
+        delete err.stack;
+    }
     console.error(err);
     res.json({
         // title: err.title || 'Server Error',
@@ -70,5 +83,7 @@ app.use((err, _req, res, _next) => {
         // stack: isProduction ? null : err.stack
     });
 });
+
+//Fixed the 'title' and 'stack' problems in production
 
 module.exports = app;
