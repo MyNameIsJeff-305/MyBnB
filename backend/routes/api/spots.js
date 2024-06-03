@@ -399,7 +399,7 @@ router.post('/:spotId/reviews', requireAuth, validateReviews, async (req, res, n
             stars: stars
         })
 
-        res.json(createdReview);
+        res.status(201).json(createdReview);
 
     } catch (error) {
 
@@ -412,6 +412,8 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
         const { spotId } = req.params;
 
+
+
         const Bookings = await Booking.findAll({
             where: {
                 spotId: spotId
@@ -422,9 +424,10 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
             where: {
                 id: parseInt(spotId)
             }
-        })
+        });
 
-        if (!spot)
+
+        if (spot.length === 0)
             return res.status(404).json({
                 message: "Spot couldn't be found"
             });
