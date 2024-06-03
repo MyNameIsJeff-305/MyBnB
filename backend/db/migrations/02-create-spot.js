@@ -45,11 +45,11 @@ module.exports = {
         allowNull: false
       },
       lat: {
-        type: Sequelize.DECIMAL(10, 7),
+        type: Sequelize.FLOAT,
         allowNull: false,
       },
       lng: {
-        type: Sequelize.DECIMAL(10, 7),
+        type: Sequelize.FLOAT,
         allowNull: false,
       },
       ownerId: {

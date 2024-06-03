@@ -44,6 +44,9 @@ router.get('/', validateQueryValues, async (req, res, next) => {
         let Spots = [];
 
         for (const spot of spots) {
+            spot.lat = parseFloat(spot.lat);
+            spot.lng = parseFloat(spot.lng);
+            spot.price = parseFloat(spot.price);
             const values = spot.toJSON();
             Spots.push(values);
         }
