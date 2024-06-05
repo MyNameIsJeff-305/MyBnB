@@ -1,4 +1,4 @@
-# `MyBnB`
+# MyBnB
 
 Welcome to MyBnB – the ultimate Airbnb backend clone! Dive into a seamless and robust solution crafted to emulate the core functionalities of Airbnb's backend system. Whether you're an aspiring developer looking to learn from real-world architecture or a seasoned programmer interested in exploring high-performance backend operations, MyBnB offers a comprehensive and scalable platform. Explore, learn, and innovate with MyBnB – where every stay starts with exceptional code.
 
