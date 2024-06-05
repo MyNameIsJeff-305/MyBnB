@@ -8,9 +8,9 @@ Welcome to MyBnB – the ultimate Airbnb backend clone! Dive into a seamless and
 
 ## API Documentation
 
-## USER AUTHENTICATION/AUTHORIZATION
+### USER AUTHENTICATION/AUTHORIZATION
 
-### All endpoints that require authentication
+#### All endpoints that require authentication
 
 All endpoints that require a current user to be logged in.
 
@@ -27,7 +27,7 @@ All endpoints that require a current user to be logged in.
     }
     ```
 
-### All endpoints that require proper authorization
+#### All endpoints that require proper authorization
 
 All endpoints that require authentication and the current user does not have the
 correct role(s) or permission(s).
