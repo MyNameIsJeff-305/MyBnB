@@ -52,7 +52,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: `/api/users/:userId`
+  * URL: `/api/session`
   * Body: none
 
 * Successful Response when there is a logged in user
@@ -93,7 +93,7 @@ information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: `/api/login`
+  * URL: `/api/session`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -159,7 +159,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: `/api/signup`
+  * URL: `/api/users`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -289,7 +289,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: `/api/users/me/spots`
+  * URL: `/api/spots/current`
   * Body: none
 
 * Successful Response
@@ -636,7 +636,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: `/api/users/me/reviews`
+  * URL: `/api/reviews/current`
   * Body: none
 
 * Successful Response
@@ -984,7 +984,7 @@ Return all the bookings that the current user has made.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: `/api/users/me/bookings`
+  * URL: `/api/bookings/current`
   * Body: none
 
 * Successful Response
