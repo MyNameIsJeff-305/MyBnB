@@ -57,7 +57,6 @@ app.use((_req, _res, next) => {
 });
 
 app.use((err, _req, _res, next) => {
-    console.log(err.errors, "we are here")
     if (err instanceof ValidationError) {
         let errors = {};
         for (let error of err.errors) {
