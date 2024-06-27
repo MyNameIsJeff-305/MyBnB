@@ -1,0 +1,33 @@
+#userName-field {
+    padding-left: 50px;
+}
+
+#username-input{
+    margin: 10px;
+}
+
+#password-field{
+    padding-left: 50px;
+}
+
+#password-input{
+    margin: 10px;
+}
+
+#login-button{
+    margin-left: 50px;
+    padding-left: 5px;
+}
+
+.login-items{
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+    padding: 5px;
+}
+
+.login-box{
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+}
