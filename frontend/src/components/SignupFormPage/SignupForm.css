@@ -1,0 +1,42 @@
+.main-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.input-fields{
+    margin: 20px;
+}
+
+#labels {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+#input {
+    margin: 5px;
+}
+
+
+
+#signup-btn{
+    margin-top: 20px;
+}
+
+
+.signup-items{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-content: space-between;
+    align-content: space-between;
+    padding: 5px;
+}
+
+.sign-up-btn{
+    display: flex;
+    margin-right: 60px;
+}
