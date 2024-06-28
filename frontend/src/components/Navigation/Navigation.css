@@ -1,0 +1,71 @@
+/* Navigation.css */
+
+/* Reset some basic styles */
+ul,
+li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Navigation container styles */
+.navigation {
+    background-color: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #eaeaea;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation list */
+.navigation-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Navigation items */
+.navigation-list li {
+    margin-right: 20px;
+}
+
+/* NavLink styles */
+.navigation-list a {
+    color: #484848;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 22px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* NavLink hover effect */
+.navigation-list a:hover {
+    background-color: #f7f7f7;
+    color: #007a87;
+}
+
+/* Active NavLink */
+.navigation-list a.active {
+    background-color: #f7f7f7;
+    color: #007a87;
+}
+
+/* Logout button styles */
+.navigation-list button {
+    background-color: #ff385c;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 22px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.navigation-list button:hover {
+    background-color: #e31c5f;
+}
+
+.hidden {
+    display: none;
+}

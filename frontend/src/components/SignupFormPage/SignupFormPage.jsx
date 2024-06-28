@@ -15,7 +15,7 @@ function SignupFormPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [validationErrors, setValidationErrors] = useState({});
 
-    //   if (sessionUser) return <Navigate to="/" replace={true} />;
+    if (sessionUser) return <Navigate to="/" replace={true} />;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -44,12 +44,12 @@ function SignupFormPage() {
     return (
         <div className='main-container'>
             <h1>Sign Up</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='signup-form'>
                 <div className='signup-items'>
                     <label id='labels'>
                         Email
                         <input
-                            id='input'
+                            className='input'
                             type="text"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -60,7 +60,7 @@ function SignupFormPage() {
                     <label id='labels'>
                         Username
                         <input
-                            id='input'
+                            className='input'
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
@@ -71,7 +71,7 @@ function SignupFormPage() {
                     <label id='labels'>
                         First Name
                         <input
-                            id='input'
+                            className='input'
                             type="text"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
@@ -82,7 +82,7 @@ function SignupFormPage() {
                     <label id='labels'>
                         Last Name
                         <input
-                            id='input'
+                            className='input'
                             type="text"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
@@ -93,7 +93,7 @@ function SignupFormPage() {
                     <label id='labels'>
                         Password
                         <input
-                            id='input'
+                            className='input'
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -104,7 +104,7 @@ function SignupFormPage() {
                     <label id='labels'>
                         Confirm Password
                         <input
-                            id='input'
+                            className='input'
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
