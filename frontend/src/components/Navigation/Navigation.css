@@ -8,6 +8,11 @@ li {
     margin: 0;
 }
 
+.item:hover {
+    cursor: pointer;
+    color: #ff385c;
+}
+
 /* Navigation container styles */
 .navigation {
     background-color: #fff;
