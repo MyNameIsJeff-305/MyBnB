@@ -4,6 +4,9 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import * as sessionActions from './store/session';
 
+import './index.css';
+import AllSpots from './components/AllSpots/';
+
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -17,6 +20,7 @@ function Layout() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+      <div className='nav-bar'></div>
       {isLoaded && <Outlet />}
     </>
   );
@@ -28,7 +32,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Welcome!</h1>
+        element: <AllSpots />
       }
     ]
   }
