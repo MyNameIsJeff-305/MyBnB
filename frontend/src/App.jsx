@@ -5,7 +5,7 @@ import Navigation from './components/Navigation';
 import * as sessionActions from './store/session';
 
 import './index.css';
-import AllSpots from './components/AllSpots/';
+import Splash from './components/Splash/Splash';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <AllSpots />
+        element: <Splash />
       }
     ]
   }
