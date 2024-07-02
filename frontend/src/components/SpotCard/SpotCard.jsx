@@ -34,7 +34,7 @@ function SpotCard({ spot }) {
                 </div>
                 <div className="right-panel">
                     <FaStar className="star" />
-                    <span>{spot.avgRating.toString().slice(0, 3)}</span>
+                    <span>{spot.avgRating.toString().slice(0, 3) || "New"}</span>
                 </div>
             </div>
             {showTooltip && (

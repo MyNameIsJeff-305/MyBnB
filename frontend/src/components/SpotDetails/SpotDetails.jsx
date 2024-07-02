@@ -1,22 +1,23 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getAllSpotsThunk } from "../../store/spots";
+import { getAllSpotsThunk, loadSpotThunk } from "../../store/spots";
 
 import './SpotDetails.css';
 
 function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
-    const spot = useSelector((state) => state.spots.byId[parseInt(spotId)]);
+    const spot = useSelector((state) => state.spots.spot);
 
 
     useEffect(() => {
-        dispatch(getAllSpotsThunk());
+        dispatch(loadSpotThunk(spotId));
     }, [dispatch]);
 
-
-
+    if(!spot) {
+        return <div>loading...</div>
+    }
 
     return (
         <div className="spot-details">
