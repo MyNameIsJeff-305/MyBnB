@@ -34,7 +34,6 @@ const deleteSpot = (deletedSpot) => ({
     payload: deletedSpot
 })
 
-
 //THUNKS
 export const getAllSpotsThunk = () => async (dispatch) => {
     try {
@@ -53,7 +52,7 @@ export const loadSpotThunk = (spotId) => async (dispatch) => {
         const data = await res.json();
         dispatch(loadSpot(data));
     } catch (error) {
-        
+
     }
 }
 

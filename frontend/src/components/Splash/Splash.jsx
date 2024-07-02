@@ -25,7 +25,7 @@ function Splash() {
         <>
             <div className="spot-list">
                 {spots.map(spot => (
-                    <div key={spot.id} onClick={(e) => goToSpot(e, spot)}>
+                    <div className='spots' key={spot.id} onClick={(e) => goToSpot(e, spot)}>
                         <SpotCard key={spot.id} spot={spot} />
                     </div>
                 ))}

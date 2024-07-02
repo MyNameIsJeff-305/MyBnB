@@ -1,18 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaStar } from 'react-icons/fa';
 import './SpotCard.css';
 
 function SpotCard({ spot }) {
     const [showTooltip, setShowTooltip] = useState(false);
+    const [timer, setTimer] = useState(null)
 
 
     const handleMouseEnter = () => {
-        setShowTooltip(true);
+        const newTimer = setTimeout(() => {
+            setShowTooltip(true);
+        }, 500);
+        setTimer(newTimer);
     };
 
     const handleMouseLeave = () => {
+        clearTimeout(timer);
         setShowTooltip(false);
     };
+
+    useEffect(() => {
+        return () => {
+            clearTimeout(timer);
+        }
+    }, [timer]);
+
+    let avgRating = "New!";
+
+    if (spot.avgRating)
+        avgRating = spot.avgRating.toString().slice(0, 3);
 
     return (
         <div className="spot-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
@@ -21,11 +37,7 @@ function SpotCard({ spot }) {
             </div>
             <div className="spot-data">
                 <div className="left-panel">
-                    <div className="location">
-                        <span>{spot.city}</span>
-                        <span>, </span>
-                        <span>{spot.state}</span>
-                    </div>
+                    <span>{spot.city}, {spot.state}</span>
                     <div className="price">
                         <span id="price">$</span>
                         <span id="price">{spot.price}</span>
@@ -34,14 +46,12 @@ function SpotCard({ spot }) {
                 </div>
                 <div className="right-panel">
                     <FaStar className="star" />
-                    <span>{spot.avgRating.toString().slice(0, 3) || "New"}</span>
+                    <span>{avgRating}</span>
                 </div>
             </div>
-            {showTooltip && (
-                <div className="tooltip">
-                    {spot.name}
-                </div>
-            )}
+            <div className={`tooltip ${showTooltip ? 'show' : 'hide'}`}>
+                {spot.name}
+            </div>
         </div>
     )
 }

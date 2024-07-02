@@ -4,22 +4,30 @@
     padding: 20px;
     gap: 35px;
     align-content: center;
+    cursor: pointer;
 }
 
 @media (min-width: 600px) {
     .spot-list {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        cursor: pointer;
     }
 }
 
 @media (min-width: 768px) {
     .spot-list {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        cursor: pointer;
     }
 }
 
 @media (min-width: 1400px) {
     .spot-list {
         grid-template-columns: repeat(4, 1fr);
+        cursor: pointer;
     }
+}
+
+.spots {
+    cursor: pointer;
 }

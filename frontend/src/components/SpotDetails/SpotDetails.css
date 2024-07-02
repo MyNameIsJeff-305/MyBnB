@@ -1,0 +1,140 @@
+.spot-details {
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.header span {
+    color: #888;
+    font-size: 16px;
+}
+
+.images {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.left-image-panel {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.left-image-panel img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.right-image-panel {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+.right-image-panel img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.description-panel {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.description-panel-left {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.description-panel h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.description {
+    color: #555;
+    font-size: 16px;
+}
+
+.description-panel-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.price-reviews {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
+
+.price-span {
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.reviews {
+    display: flex;
+    align-items: center;
+}
+
+.avg-reviews {
+    display: flex;
+    align-items: center;
+    color: #f0ad4e; /* Airbnb's star color */
+}
+
+.avg-reviews span {
+    margin-left: 5px;
+}
+
+.num-reviews {
+    color: #888;
+    font-size: 14px;
+}
+
+.reserve {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.reserve-button {
+    padding: 10px 20px;
+    background-color: #ff5a5f; /* Airbnb's reserve button color */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.reserve-button:hover {
+    background-color: #e5454b;
+}
