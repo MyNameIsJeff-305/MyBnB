@@ -48,6 +48,30 @@ module.exports = {
         lat: 36.2071897,
         lng: -106.3187518,
         ownerId: 2
+      },
+      {
+        name: 'Luxury Disney Vacation Home on Reunion Golf Resort',
+        description: "This 5 bedroom Luxury family vacation home has one of the most picturesque views in all of Reunion, located on the 14th fairway of the Jack Nicklaus course. 2 MASTER SUITES which looks over your private POOL & SPA. All rooms are professionally decorated with a Disney and a Harry Potter room. Your family will stay busy with the arcade, pool table, ping pong table and a large number of board games for all ages. Pool area has a basketball and volleyball net and a WEBER BBQ",
+        price: 407,
+        address: "331 Muirfield Loop",
+        city: "Kissimmee",
+        state: "Florida",
+        country: "United States",
+        lat: 28.2840529,
+        lng: -81.6027615,
+        ownerId: 3
+      },
+      {
+        name: 'Tranquility with Resort Access',
+        description: "This is a truly magical place for our family and guests. Unwind and let all of your troubles go while you swing in our benches hanging from 200 year old oak trees. Wake up and sip your coffee while gazing out to the vast distance and let your imagination run free.",
+        price: 242,
+        address: "25310 Oakmont Dr",
+        city: "Lake Wales",
+        state: "Florida",
+        country: "United States",
+        lat: 27.76997,
+        lng: -81.2065782,
+        ownerId: 3
       }
     ], options)
   },
