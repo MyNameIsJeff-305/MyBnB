@@ -52,10 +52,8 @@ function spotsReducer(state = initialState, action) {
     let newState;
     switch (action.type) {
         case SET_SPOTS:
-            console.log("THIS IS ACTION ", action);
             newState = { ...state };
             newState.allSpots = action.payload.Spots;
-
             for (const spot of action.payload.Spots) {
                 newState.byId[spot.id] = spot;
             }

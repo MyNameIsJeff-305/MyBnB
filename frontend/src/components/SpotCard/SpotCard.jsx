@@ -5,6 +5,7 @@ import './SpotCard.css';
 function SpotCard({ spot }) {
     const [showTooltip, setShowTooltip] = useState(false);
 
+
     const handleMouseEnter = () => {
         setShowTooltip(true);
     };
