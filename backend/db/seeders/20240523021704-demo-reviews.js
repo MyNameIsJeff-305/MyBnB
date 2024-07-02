@@ -60,6 +60,30 @@ module.exports = {
         review: "Too many mosquitoes",
         stars: 2
       },
+      {
+        userId: 2,
+        spotId: 4,
+        review: "Love how great is this place. All is like in the movie",
+        stars: 5
+      },
+      {
+        userId: 3,
+        spotId: 4,
+        review: "Too many mosquitoes",
+        stars: 3
+      },
+      {
+        userId: 2,
+        spotId: 5,
+        review: "Love how great is this place. All is like in the movie",
+        stars: 5
+      },
+      {
+        userId: 3,
+        spotId: 5,
+        review: "Too many mosquitoes",
+        stars: 4
+      },
     ], options)
   },
 
