@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllSpotsThunk } from "../../store/spots";
 import SpotCard from "../SpotCard";
 
+import './Splash.css';
+
 function Splash() {
     const dispatch = useDispatch();
     const spots = useSelector((state) => state.spots.allSpots);
 
     useEffect(() => {
-        const getDate = async() => {
-            dispatch(getAllSpotsThunk());
-        }
+        dispatch(getAllSpotsThunk());
     }, [dispatch]);
 
 

@@ -38,10 +38,7 @@ export const getAllSpotsThunk = () => async (dispatch) => {
         dispatch(getAllSpots(data));
 
     } catch (error) {
-        if(!res.ok) {
-            let errors = await res.json();
-            return errors;
-        }
+        throw error;
     }
 }
 
@@ -55,11 +52,11 @@ function spotsReducer(state = initialState, action) {
     let newState;
     switch (action.type) {
         case SET_SPOTS:
-            console.log("THIS IS ACTION ",action);
+            console.log("THIS IS ACTION ", action);
             newState = { ...state };
-            newState.allSpots = action.payload;
+            newState.allSpots = action.payload.Spots;
 
-            for (const spot of action.payload) {
+            for (const spot of action.payload.Spots) {
                 newState.byId[spot.id] = spot;
             }
             return newState;
