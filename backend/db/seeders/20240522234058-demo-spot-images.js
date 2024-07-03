@@ -1,4 +1,5 @@
 'use strict';
+const { preview } = require('vite');
 const { SpotImage } = require('../models');
 
 /** @type {import('sequelize-cli').Migration} */
@@ -92,6 +93,35 @@ module.exports = {
       {
         url: "https://a0.muscache.com/im/pictures/miso/Hosting-800218468142723860/original/0ce6ffd3-84a8-4444-965a-81c5a6fc1138.jpeg?im_w=1200",
         spotId: 5
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/ced15ffe-0ab5-48cf-a189-dbdeaaf04387.jpeg?im_w=1920&im_q=highq",
+        spotId: 6,
+        preview: true
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/f52a6a13-c8d1-4966-ad19-e614fd4bae3c.jpeg?im_w=1920&im_q=highq",
+        spotId: 6
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/0caa1462-bd5f-4cfa-8f9d-7012f7eb7d02.jpeg?im_w=1920&im_q=highq",
+        spotId: 6
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/dcb25748-642f-4314-9815-acaba652ca1e.jpeg?im_w=960&im_q=highq",
+        spotId: 6
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/1c51e2a3-fbf3-42df-abf2-70407923e12b.jpeg?im_w=960&im_q=highq",
+        spotId: 6
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/8f21b0ad-7c68-469e-81ae-872e7d714c03.jpeg?im_w=960&im_q=highq",
+        spotId: 6
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/40f5ca8e-51e1-4bb7-8a49-0ee06feb8ba6.jpeg?im_w=960&im_q=highq",
+        spotId: 6
       },
     ], options)
   },

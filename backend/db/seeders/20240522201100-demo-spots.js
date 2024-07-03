@@ -59,7 +59,7 @@ module.exports = {
         country: "United States",
         lat: 28.2840529,
         lng: -81.6027615,
-        ownerId: 3
+        ownerId: 2
       },
       {
         name: 'Tranquility with Resort Access',
@@ -71,6 +71,18 @@ module.exports = {
         country: "United States",
         lat: 27.76997,
         lng: -81.2065782,
+        ownerId: 3
+      },
+      {
+        name: 'Make core memories with Inside Out 2',
+        description: "Do you ever look at someone and wonder, “What is going on inside their head?” Well, now you don’t have to! Because for the first time ever, I’m inviting guests to spend the night at Team Riley Headquarters. Amazing, right?! I know what you’re thinking, and yes, you can take control of Riley’s emotions. All of them. More than I ever thought could or should be here. Anyway, please be gentle with her. I just love our girl so much!",
+        price: 160.99,
+        address: "25310 Oakmont Dr",
+        city: "Las Vegas",
+        state: "Nevada",
+        country: "United States",
+        lat: 36.2912236,
+        lng: -115.2445241,
         ownerId: 3
       }
     ], options)
