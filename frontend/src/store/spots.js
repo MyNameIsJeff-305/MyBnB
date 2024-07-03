@@ -79,7 +79,6 @@ export const postSpotThunk = (spotForm) => async (dispatch) => {
 
 export const updateSpotThunk = (spotForm) => async (dispatch) => {
     try {
-
         const options = {
             method: 'PUT',
             header: { 'Content-Type': 'application/json' },
@@ -163,6 +162,8 @@ function spotsReducer(state = initialState, action) {
 
             newState.allSpots = newAllSpots;
             newState.byId = { ...newState.byId, [spotId]: action.payload };
+
+            return newState;
 
         case DELETE_SPOT:
             newState = { ...state };

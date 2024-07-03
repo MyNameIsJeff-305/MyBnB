@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { loadSpotThunk } from "../../store/spots";
+import { getAllReviewsThunk } from "../../store/reviews";
 import { FaStar } from 'react-icons/fa';
 
 import './SpotDetails.css';
@@ -11,10 +12,15 @@ function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.spot);
+    const reviews = useSelector((state) => state.reviews);
+
 
     useEffect(() => {
         dispatch(loadSpotThunk(spotId));
+        dispatch(getAllReviewsThunk(spotId));
     }, [dispatch, spotId]);
+
+    console.log("THIS IS REVIEWS", reviews);
 
     if (!spot) {
         return <div>loading...</div>;
@@ -24,8 +30,6 @@ function SpotDetails() {
     const otherImages = spot.SpotImages?.filter((i) => i.preview === false) || [];
 
     let avgRating = "New!";
-
-    console.log("This is otherImages", otherImages);
 
     if (spot.avgStarRating)
         avgRating = spot.avgStarRating.toString().slice(0, 3);
@@ -97,11 +101,9 @@ function SpotDetails() {
                 </div>
             </div>
             <div className="reviews-container">
-                <ReviewCard />
-                <ReviewCard />
-                <ReviewCard />
-                <ReviewCard />
-                <ReviewCard />
+                {reviews.allReviews.map((review) => {
+                    <ReviewCard review={review} />
+                })}
             </div>
         </div>
     )
