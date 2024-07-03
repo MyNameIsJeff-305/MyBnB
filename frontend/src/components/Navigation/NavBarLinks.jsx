@@ -1,7 +1,9 @@
 import { FaGlobe } from "react-icons/fa";
 import ProfileButton from '../ProfileButton';
+import { useNavigate } from "react-router-dom";
 
 function NavBarLinks() {
+
     return (
         <div className="nav-bar-links">
             <div className="host">

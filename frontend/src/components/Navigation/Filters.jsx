@@ -10,7 +10,7 @@ function Filters() {
             </div>
             <div className='item'>
                 <span>Any Week</span>
-                <div className='divider'></div>
+                <div className='divider-vertical'></div>
             </div>
             <div className='guest-item'>
                 <span>Add Guests</span>

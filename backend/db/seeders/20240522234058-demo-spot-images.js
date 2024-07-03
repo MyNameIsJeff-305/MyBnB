@@ -4,7 +4,7 @@ const { SpotImage } = require('../models');
 /** @type {import('sequelize-cli').Migration} */
 
 let options = {};
-options.tableName = 'Spots'
+options.tableName = 'SpotImage'
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
@@ -23,6 +23,14 @@ module.exports = {
       },
       {
         url: "https://assets-global.website-files.com/5dcc7f8c449e597be23356e0/64e7fe3c7fa59319efb79b52_APP_ACADEMY_1014%20(1)-p-1600.jpg",
+        spotId: 1
+      },
+      {
+        url: "https://cdn.prod.website-files.com/5dcc7f8c449e597ed83356b8/62f2d4b8eafac549c059e553_hero-min.webp",
+        spotId: 1
+      },
+      {
+        url: "https://cdn.prod.website-files.com/5dcc7f8c449e597ed83356b8/639cd1028e7435d04669272f_priscilla-du-preez-NjirplnVra8-unsplash-min-p-500.webp",
         spotId: 1
       },
       {
@@ -92,6 +100,35 @@ module.exports = {
       {
         url: "https://a0.muscache.com/im/pictures/miso/Hosting-800218468142723860/original/0ce6ffd3-84a8-4444-965a-81c5a6fc1138.jpeg?im_w=1200",
         spotId: 5
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/ced15ffe-0ab5-48cf-a189-dbdeaaf04387.jpeg?im_w=1920&im_q=highq",
+        spotId: 6,
+        preview: true
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/f52a6a13-c8d1-4966-ad19-e614fd4bae3c.jpeg?im_w=1920&im_q=highq",
+        spotId: 6
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/0caa1462-bd5f-4cfa-8f9d-7012f7eb7d02.jpeg?im_w=1920&im_q=highq",
+        spotId: 6
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/dcb25748-642f-4314-9815-acaba652ca1e.jpeg?im_w=960&im_q=highq",
+        spotId: 6
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/1c51e2a3-fbf3-42df-abf2-70407923e12b.jpeg?im_w=960&im_q=highq",
+        spotId: 6
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/8f21b0ad-7c68-469e-81ae-872e7d714c03.jpeg?im_w=960&im_q=highq",
+        spotId: 6
+      },
+      {
+        url: "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzMTA4MzUyMzk5Mjc3MDU5Nw%3D%3D/original/40f5ca8e-51e1-4bb7-8a49-0ee06feb8ba6.jpeg?im_w=960&im_q=highq",
+        spotId: 6
       },
     ], options)
   },
