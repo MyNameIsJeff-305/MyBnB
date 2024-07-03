@@ -1,4 +1,3 @@
-import { method } from 'lodash';
 import { csrfFetch } from './csrf';
 
 //CONSTANTS
