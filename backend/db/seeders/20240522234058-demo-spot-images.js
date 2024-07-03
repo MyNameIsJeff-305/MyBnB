@@ -1,11 +1,10 @@
 'use strict';
-const { preview } = require('vite');
 const { SpotImage } = require('../models');
 
 /** @type {import('sequelize-cli').Migration} */
 
 let options = {};
-options.tableName = 'Spots'
+options.tableName = 'SpotImage'
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
@@ -24,6 +23,14 @@ module.exports = {
       },
       {
         url: "https://assets-global.website-files.com/5dcc7f8c449e597be23356e0/64e7fe3c7fa59319efb79b52_APP_ACADEMY_1014%20(1)-p-1600.jpg",
+        spotId: 1
+      },
+      {
+        url: "https://cdn.prod.website-files.com/5dcc7f8c449e597ed83356b8/62f2d4b8eafac549c059e553_hero-min.webp",
+        spotId: 1
+      },
+      {
+        url: "https://cdn.prod.website-files.com/5dcc7f8c449e597ed83356b8/639cd1028e7435d04669272f_priscilla-du-preez-NjirplnVra8-unsplash-min-p-500.webp",
         spotId: 1
       },
       {

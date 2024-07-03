@@ -15,7 +15,7 @@ module.exports = {
     await Spot.bulkCreate([
       {
         name: 'App Academy',
-        description: "A nice place where turn into a Software Engineer",
+        description: "App Academy is a renowned coding bootcamp that offers intensive, immersive programs designed to transform individuals into skilled software engineers. Founded on the principles of accessibility and quality education, App Academy combines rigorous coursework with hands-on projects and real-world applications. Students learn in-demand programming languages like JavaScript, Ruby on Rails, and React, gaining proficiency through a curriculum that emphasizes both technical mastery and problem-solving skills. With a commitment to fostering a supportive learning environment, App Academy equips graduates with the tools and knowledge needed to succeed in the fast-paced tech industry, making it a premier choice for aspiring developers worldwide.",
         price: 234.45,
         address: "548 Market St Suite 96590",
         city: "San Francisco",

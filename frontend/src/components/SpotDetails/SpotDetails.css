@@ -24,16 +24,22 @@
 
 .images {
     display: flex;
+    justify-content: center;
     margin-bottom: 20px;
+    gap: 10px; /* Ensures space between left and right panels */
 }
 
 .left-image-panel {
     flex: 1;
     margin-right: 10px;
+    display: flex; /* Make it a flex container */
+    align-items: stretch; /* Stretch to match height */
 }
 
 .left-image-panel img {
     width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
@@ -41,14 +47,38 @@
 .right-image-panel {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    align-items: center; /* Align items vertically */
 }
 
-.right-image-panel img {
+.image-container {
+    position: relative;
     width: 100%;
+    padding-top: 100%; /* This maintains the aspect ratio to be square */
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.all-pictures-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
 .description-panel {
@@ -57,8 +87,10 @@
 }
 
 .description-panel-left {
-    flex: 1;
+    flex: 2; /* Adjusted width */
     margin-right: 20px;
+    display: flex; /* Ensure contents align correctly */
+    flex-direction: column;
 }
 
 .description-panel h2 {
@@ -72,10 +104,12 @@
 }
 
 .description-panel-right {
-    flex: 1;
+    flex: 1; /* Adjusted width */
+    height:fit-content;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 25px;
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #fff;
@@ -103,6 +137,7 @@
 .reviews {
     display: flex;
     align-items: center;
+    gap: 15px
 }
 
 .avg-reviews {
@@ -117,16 +152,18 @@
 
 .num-reviews {
     color: #888;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .reserve {
+    display: flex;
+    justify-content: center;
     margin-top: 10px;
     text-align: right;
 }
 
 .reserve-button {
-    padding: 10px 20px;
+    padding: 15px 130px 15px 130px;
     background-color: #ff5a5f; /* Airbnb's reserve button color */
     color: #fff;
     border: none;
@@ -137,4 +174,107 @@
 
 .reserve-button:hover {
     background-color: #e5454b;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .spot-details {
+        padding: 10px;
+    }
+
+    .images {
+        flex-direction: column;
+    }
+
+    .left-image-panel {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .right-image-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .image-container {
+        padding-top: 100%; /* Maintain square aspect ratio */
+    }
+
+    .image-container img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.left-image-panel img:hover,
+.image-container img:hover {
+    filter: brightness(0.8); /* Darken the image */
+    cursor: pointer;
+}
+
+/* Optional overlay effect */
+.left-image-panel img:hover::before,
+.image-container img:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* Adjust the opacity as needed */
+    z-index: 1; /* Ensure the overlay is above the image */
+    border-radius: 8px; /* Match the image border radius */
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background: #e0e0e0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /* Light grey color for divider */
+    /* Spacing around divider */
+}
+
+.reviews2 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avg-reviews2 {
+    display: flex;
+    align-items: center;
+    color: #f0ad4e; /* Airbnb's star color */
+    font-size: 20px;
+}
+
+.avg-reviews2 span {
+    margin-left: 5px;
+    font-size: 20px;
+}
+
+.num-reviews2 {
+    color: #888;
+    font-size: 20px;
+}
+
+.review-card {
+    margin-bottom: 30px;
+}
+
+.review-card h4 {
+    margin-bottom: -20px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.review-card h5 {
+    color: #ff5a5f;
+    margin-bottom: 5px;
+    font-weight: lighter;
+}
+
+.review-card span {
+    margin-top: -10px;
 }

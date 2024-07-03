@@ -5,30 +5,39 @@ import { loadSpotThunk } from "../../store/spots";
 import { FaStar } from 'react-icons/fa';
 
 import './SpotDetails.css';
+import ReviewCard from "./ReviewCard";
 
 function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.spot);
 
-
     useEffect(() => {
         dispatch(loadSpotThunk(spotId));
-    }, [dispatch]);
+    }, [dispatch, spotId]);
 
     if (!spot) {
-        return <div>loading...</div>
+        return <div>loading...</div>;
     }
 
-    const mainImage = spot.SpotImages.filter((i) => i.preview === true)
-    const otherImages = spot.SpotImages.filter((i) => i.preview === false);
+    const mainImage = spot.SpotImages?.filter((i) => i.preview === true) || [];
+    const otherImages = spot.SpotImages?.filter((i) => i.preview === false) || [];
 
     let avgRating = "New!";
 
-    // console.log("THIS IS SPOT", spot);
+    console.log("This is otherImages", otherImages);
 
     if (spot.avgStarRating)
         avgRating = spot.avgStarRating.toString().slice(0, 3);
+
+    const displayedImages = otherImages.slice(0, 4);
+
+    const handleOnClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        window.alert("Feature Coming Soon...")
+    }
 
     return (
         <div className="spot-details">
@@ -38,21 +47,22 @@ function SpotDetails() {
             </div>
             <div className="images">
                 <div className="left-image-panel">
-                    <img key={mainImage[0].id} src={mainImage[0].url}></img>
+                    {mainImage.length > 0 && <img key={mainImage[0].id} src={mainImage[0].url} alt="Main preview" />}
                 </div>
                 <div className="right-image-panel">
-                    {
-                        for(let i = 0; i < 4; i++){
-                            <img src={spotImages[i].url} key={spotImages[i].id}></img>
-                        }
-                        if(spotImages.length > 4)
-                            <button className="more-images">Show All Photos</button>
-                    }
+                    {displayedImages.map((i, index) => (
+                        <div key={i.id} className="image-container">
+                            <img className="image-tile" src={i.url} alt={`Image ${i.id}`} />
+                            {index === 3 && otherImages.length > 4 && (
+                                <button className="all-pictures-button">All Pictures</button>
+                            )}
+                        </div>
+                    ))}
                 </div>
             </div>
             <div className="description-panel">
                 <div className="description-panel-left">
-                    <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
+                    <h2>Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}</h2>
                     <span className="description">{spot.description}</span>
                 </div>
                 <div className="description-panel-right">
@@ -72,12 +82,29 @@ function SpotDetails() {
                         </div>
                     </div>
                     <div className="reserve">
-                        <button className="reserve-button">Reserve</button>
+                        <button className="reserve-button" onClick={(e) => handleOnClick(e)}>Reserve</button>
                     </div>
                 </div>
+            </div>
+            <div className='divider'></div>
+            <div className="reviews2">
+                <div className="avg-reviews2">
+                    <FaStar />
+                    <span>{avgRating}</span>
+                </div>
+                <div className="num-reviews2">
+                    <span>{spot.numReviews} reviews</span>
+                </div>
+            </div>
+            <div className="reviews-container">
+                <ReviewCard />
+                <ReviewCard />
+                <ReviewCard />
+                <ReviewCard />
+                <ReviewCard />
             </div>
         </div>
     )
 }
 
-export default SpotDetails
+export default SpotDetails;
