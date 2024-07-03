@@ -15,7 +15,7 @@ module.exports = {
     await Spot.bulkCreate([
       {
         name: 'App Academy',
-        description: "A nice place where turn into a Software Engineer",
+        description: "App Academy is a renowned coding bootcamp that offers intensive, immersive programs designed to transform individuals into skilled software engineers. Founded on the principles of accessibility and quality education, App Academy combines rigorous coursework with hands-on projects and real-world applications. Students learn in-demand programming languages like JavaScript, Ruby on Rails, and React, gaining proficiency through a curriculum that emphasizes both technical mastery and problem-solving skills. With a commitment to fostering a supportive learning environment, App Academy equips graduates with the tools and knowledge needed to succeed in the fast-paced tech industry, making it a premier choice for aspiring developers worldwide.",
         price: 234.45,
         address: "548 Market St Suite 96590",
         city: "San Francisco",
@@ -59,7 +59,7 @@ module.exports = {
         country: "United States",
         lat: 28.2840529,
         lng: -81.6027615,
-        ownerId: 3
+        ownerId: 2
       },
       {
         name: 'Tranquility with Resort Access',
@@ -71,6 +71,18 @@ module.exports = {
         country: "United States",
         lat: 27.76997,
         lng: -81.2065782,
+        ownerId: 3
+      },
+      {
+        name: 'Make core memories with Inside Out 2',
+        description: "Do you ever look at someone and wonder, “What is going on inside their head?” Well, now you don’t have to! Because for the first time ever, I’m inviting guests to spend the night at Team Riley Headquarters. Amazing, right?! I know what you’re thinking, and yes, you can take control of Riley’s emotions. All of them. More than I ever thought could or should be here. Anyway, please be gentle with her. I just love our girl so much!",
+        price: 160.99,
+        address: "25310 Oakmont Dr",
+        city: "Las Vegas",
+        state: "Nevada",
+        country: "United States",
+        lat: 36.2912236,
+        lng: -115.2445241,
         ownerId: 3
       }
     ], options)
