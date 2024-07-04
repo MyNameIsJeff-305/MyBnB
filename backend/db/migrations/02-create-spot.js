@@ -21,7 +21,7 @@ module.exports = {
         allowNull: false
       },
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
       },
       price: {
@@ -75,7 +75,11 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
+    // Ensuring the correct schema is used for dropping the table in production
     options.tableName = 'Spots';
+    if (process.env.NODE_ENV === 'production') {
+      options.schema = process.env.SCHEMA;
+    }
     return queryInterface.dropTable(options);
   }
 };
