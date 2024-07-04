@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { loadSpotThunk } from "../../store/spots";
@@ -17,7 +17,6 @@ function SpotDetails() {
     const spot = useSelector((state) => state.spots.spot);
     const reviews = useSelector((state) => state.reviews);
     const [loadingReviews, setLoadingReviews] = useState(true);
-    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(loadSpotThunk(spotId));
@@ -25,7 +24,7 @@ function SpotDetails() {
     }, [dispatch, spotId]);
 
     if (!spot) {
-        return navigate('not-found');
+        return <div>loading...</div>;
     }
 
     const mainImage = spot.SpotImages?.filter((i) => i.preview === true) || [];
