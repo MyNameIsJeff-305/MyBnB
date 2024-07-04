@@ -5,7 +5,7 @@ import NavLogo from './NavLogo';
 import Filters from './Filters';
 import NavBarLinks from './NavBarLinks';
 
-function Navigation({ isLoaded }) {
+function Navigation() {
     const sessionUser = useSelector(state => state.session.user);
 
     return (
