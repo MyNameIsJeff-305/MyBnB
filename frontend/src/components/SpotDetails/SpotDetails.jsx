@@ -16,7 +16,6 @@ function SpotDetails() {
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector((state) => state.spots.spot);
     const reviews = useSelector((state) => state.reviews);
-    const [showMenu, setShowMenu] = useState(false);
     const [loadingReviews, setLoadingReviews] = useState(true);
 
     useEffect(() => {
@@ -41,8 +40,6 @@ function SpotDetails() {
         e.stopPropagation();
         window.alert("Feature Coming Soon...");
     };
-
-    const closeMenu = () => setShowMenu(false);
 
     return (
         <div className="spot-details">
@@ -109,7 +106,6 @@ function SpotDetails() {
                             <div className="log-in-to-review">
                                 <OpenModalMenuItem
                                     itemText="Log In to Review"
-                                    onItemClick={closeMenu}
                                     modalComponent={<LoginFormModal />}
                                 />
                             </div>

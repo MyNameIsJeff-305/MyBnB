@@ -36,24 +36,15 @@ const deleteSpot = (deletedSpot) => ({
 
 //THUNKS
 export const getAllSpotsThunk = () => async (dispatch) => {
-    try {
-        const res = await csrfFetch('/api/spots');
-        const data = await res.json();
-        dispatch(getAllSpots(data));
-
-    } catch (error) {
-        throw error;
-    }
+    const res = await csrfFetch('/api/spots');
+    const data = await res.json();
+    dispatch(getAllSpots(data));
 }
 
 export const loadSpotThunk = (spotId) => async (dispatch) => {
-    try {
-        const res = await csrfFetch(`/api/spots/${spotId}`);
-        const data = await res.json();
-        dispatch(loadSpot(data));
-    } catch (error) {
-
-    }
+    const res = await csrfFetch(`/api/spots/${spotId}`);
+    const data = await res.json();
+    dispatch(loadSpot(data));
 }
 
 export const postSpotThunk = (spotForm) => async (dispatch) => {
@@ -106,7 +97,7 @@ export const deleteSpotThunk = (spot) => async (dispatch) => {
             body: JSON.stringify(spot)
         }
 
-        const res = await csrfFetch(`/api/spots/${spot.id}`);
+        const res = await csrfFetch(`/api/spots/${spot.id}`, options);
 
         if (res.ok) {
             const data = await res.json();
@@ -128,24 +119,27 @@ const initialState = {
 function spotsReducer(state = initialState, action) {
     let newState;
     switch (action.type) {
-        case SET_SPOTS:
+        case SET_SPOTS: {
             newState = { ...state };
             newState.allSpots = action.payload.Spots;
             for (const spot of action.payload.Spots) {
                 newState.byId[spot.id] = spot;
             }
             return newState;
-        case LOAD_SPOT:
+        }
+        case LOAD_SPOT: {
             return {
                 ...state, spot: action.payload
             };
-        case POST_SPOT:
+        }
+        case POST_SPOT: {
             newState = { ...state };
             newState.allSpots = [action.payload, ...newState.allSpots];
             newState.byId = { ...newState.byId, [action.payload.id]: action.payload }
             return newState
+        }
 
-        case UPDATE_SPOT:
+        case UPDATE_SPOT: {
             newState = { ...state };
             const spotId = action.payload.id;
 
@@ -164,8 +158,9 @@ function spotsReducer(state = initialState, action) {
             newState.byId = { ...newState.byId, [spotId]: action.payload };
 
             return newState;
+        }
 
-        case DELETE_SPOT:
+        case DELETE_SPOT: {
             newState = { ...state };
 
             const filteredSpots = newState.allSpots.filter((spot) => {
@@ -178,8 +173,10 @@ function spotsReducer(state = initialState, action) {
             newState.byId = newById;
 
             return newState;
-        default:
+        }
+        default: {
             return state;
+        }
     }
 }
 

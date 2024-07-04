@@ -88,7 +88,7 @@ export const deleteReviewThunk = (review) => async (dispatch) => {
             body: JSON.stringify(review)
         }
 
-        const res = await csrfFetch(`/api/reviews/${review.id}`)
+        const res = await csrfFetch(`/api/reviews/${review.id}`, options)
 
         if (res.ok) {
             const data = await res.json();
@@ -111,21 +111,23 @@ function reviewsReducer(state = initialState, action) {
     let newState;
 
     switch (action.type) {
-        case SET_REVIEWS:
+        case SET_REVIEWS: {
             newState = { ...state };
             newState.allReviews = action.payload.Reviews;
             for (const review of newState.allReviews) {
                 newState.byId[review.id] = review;
             }
             return newState;
+        }
 
-        case POST_REVIEW:
+        case POST_REVIEW: {
             newState = { ...state };
             newState.allReviews = [action.payload, ...newState.allReviews];
             newState.byId = { ...newState.byId, [action.payload.id]: action.payload }
             return newState
+        }
 
-        case UPDATE_REVIEW:
+        case UPDATE_REVIEW: {
             newState = { ...state };
             const reviewId = action.payload.id;
 
@@ -143,8 +145,9 @@ function reviewsReducer(state = initialState, action) {
             newState.byId = { ...newState.byId, [reviewId]: action.payload };
 
             return newState;
+        }
 
-        case DELETE_REVIEW:
+        case DELETE_REVIEW: {
             newState = { ...state };
 
             const filteredReviews = newState.allReviews.filter((review) => {
@@ -157,8 +160,10 @@ function reviewsReducer(state = initialState, action) {
             newState.byId = newById;
 
             return newState;
-        default:
+        }
+        default: {
             return state;
+        }
     }
 }
 
