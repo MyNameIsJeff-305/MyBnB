@@ -1,4 +1,5 @@
 import { useModal } from "../../context/Modal";
+import '../LoginFormModal/LoginForm.css'
 
 function OpenModalButton({ modalComponent, buttonText, onButtonClick, onModalClose }) {
     const { setModalContent, setOnModalClose } = useModal();
@@ -11,7 +12,7 @@ function OpenModalButton({ modalComponent, buttonText, onButtonClick, onModalClo
         if (typeof onButtonClick === 'function') onButtonClick();
     };
 
-    return <button onClick={onClick}>{buttonText}</button>;
+    return <button className='login-container' onClick={onClick}>{buttonText}</button>;
 }
 
 export default OpenModalButton;

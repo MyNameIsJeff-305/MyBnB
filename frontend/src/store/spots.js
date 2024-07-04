@@ -56,6 +56,69 @@ export const loadSpotThunk = (spotId) => async (dispatch) => {
     }
 }
 
+export const postSpotThunk = (spotForm) => async (dispatch) => {
+    try {
+        const options = {
+            method: 'POST',
+            header: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(spotForm)
+        }
+
+        const res = await csrfFetch('/api/spots', options);
+
+        if (res.ok) {
+            const data = await res.json();
+            dispatch(postSpot(data));
+        } else
+            throw res;
+
+    } catch (error) {
+        return error;
+    }
+}
+
+export const updateSpotThunk = (spotForm) => async (dispatch) => {
+    try {
+        const options = {
+            method: 'PUT',
+            header: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(spotForm)
+        }
+
+        const res = await csrfFetch(`/api/spots/${spotForm.spotId}`, options)
+
+        if (res.ok) {
+            const data = await res.json();
+            dispatch(updateSpot(data));
+        } else
+            throw res;
+
+    } catch (error) {
+        return error;
+    }
+}
+
+export const deleteSpotThunk = (spot) => async (dispatch) => {
+    try {
+        const options = {
+            method: 'DELETE',
+            header: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(spot)
+        }
+
+        const res = await csrfFetch(`/api/spots/${spot.id}`);
+
+        if (res.ok) {
+            const data = await res.json();
+            dispatch(deleteSpot(data));
+        } else
+            throw res;
+
+    } catch (error) {
+        return error;
+    }
+}
+
 //REDUCER
 const initialState = {
     allSpots: [],
@@ -99,6 +162,8 @@ function spotsReducer(state = initialState, action) {
 
             newState.allSpots = newAllSpots;
             newState.byId = { ...newState.byId, [spotId]: action.payload };
+
+            return newState;
 
         case DELETE_SPOT:
             newState = { ...state };

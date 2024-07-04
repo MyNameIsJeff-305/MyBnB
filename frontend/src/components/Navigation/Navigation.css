@@ -167,7 +167,8 @@
 .host {
     padding-right: 20px;
     display: flex;
-    align-items: center;
+    align-content: center;
+    column-gap: 10px;
 }
 
 .a-tag {
@@ -220,4 +221,14 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
+}
+
+.create-spot {
+    color: #07525D;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+.create-spot:hover {
+    cursor: pointer;
 }

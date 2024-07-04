@@ -6,7 +6,7 @@ function Filters() {
         <div className='filters-container'>
             <div className='item'>
                 <span>Anywhere</span>
-                <div className='divider'></div>
+                <div className='divider-vertical'></div>
             </div>
             <div className='item'>
                 <span>Any Week</span>

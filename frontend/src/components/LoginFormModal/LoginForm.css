@@ -5,13 +5,18 @@ ul {
     margin: 0;
 }
 
+.login-container {
+    border-radius: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 /* Login form container styles */
 .login-form {
     display: flex;
     flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
     align-items: center;
     max-width: 400px;
-    margin: 10px auto;
     padding: 50px;
     border-radius: 10px;
     background-color: #fff;
@@ -21,7 +26,6 @@ ul {
 h1 {
     text-align: center;
     color: #484848;
-    margin-bottom: 20px;
 }
 
 /* Login items styles */
@@ -40,7 +44,7 @@ label {
 
 /* Input box styles */
 .login-box {
-    width: 100%;
+    width: 93%;
     padding: 10px;
     border: 1px solid #eaeaea;
     border-radius: 5px;
@@ -57,10 +61,10 @@ label {
 /* Login button styles */
 #login-button {
     width: 100%;
-    padding: 10px;
+    padding: 10px 100px 10px 100px;
     border: none;
     border-radius: 5px;
-    background-color: #ff385c;
+    background-color: #ff5a5f;
     color: #fff;
     font-size: 16px;
     font-weight: 600;
@@ -69,7 +73,7 @@ label {
 }
 
 #login-button:hover {
-    background-color: #e31c5f;
+    background-color: #e5454b;
 }
 
 #login-button:disabled {
@@ -78,8 +82,24 @@ label {
 }
 
 /* Error message styles */
-p {
+.error-message {
     color: #ff385c;
     font-weight: 600;
+    font-size: 12px;
     margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.demo-user {
+    margin-top: 40px;
+}
+
+.demo-user a {
+    color: #07525D;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.demo-user a:hover {
+    font-weight: bold;
 }
