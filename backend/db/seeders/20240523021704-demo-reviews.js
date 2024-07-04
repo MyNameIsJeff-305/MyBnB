@@ -13,43 +13,31 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await Review.bulkCreate([
       {
-        userId: 1,
-        spotId: 1,
-        review: "Too far away from Home",
-        stars: 3
-      },
-      {
         userId: 2,
         spotId: 1,
-        review: "I got dizzy due the highs, didn't love at all",
-        stars: 3
+        review: "Can't say enough positive things about App Academy. I was already a physical therapist when I decided to switch careers, App Academy (while a rigorous course) was excellent at teaching the fundamental of programming and helping me land my first software engineering job. Most importantly the amount of support I've gotten from App Academy even after graduating has been excellent, with alumni services and plenty of room for professional growth. App Academy really holds up its end of the deal of teaching software development and helping people get software engineering jobs, and I couldn't be more thankful.",
+        stars: 5
       },
       {
         userId: 3,
         spotId: 1,
-        review: "Fished a lot of Bass and Snappers!",
-        stars: 4
-      },
-      {
-        userId: 1,
-        spotId: 2,
-        review: "Can't love more this place. I got a new job one month after graduation!",
-        stars: 4
-      },
-      {
-        userId: 2,
-        spotId: 2,
-        review: "Love how great is this place. All is like in the movie",
+        review: "The best Academic decision of my life! App Academy is highly invested in not just teaching to code but also making sure you grow in your career. They offer opportunities to connect with Alumni as well as resources to assist you in finding jobs (even after you have landed your first job and your tuition has been paid). I cannot recommend App Academy enough.",
         stars: 5
       },
       {
         userId: 3,
         spotId: 2,
-        review: "Too many mosquitoes",
-        stars: 2
+        review: "Too Many Mosquitoes",
+        stars: 3
       },
       {
         userId: 2,
+        spotId: 2,
+        review: "A little bit far away home, but a nice place",
+        stars: 4
+      },
+      {
+        userId: 1,
         spotId: 3,
         review: "Love how great is this place. All is like in the movie",
         stars: 5
@@ -57,32 +45,44 @@ module.exports = {
       {
         userId: 3,
         spotId: 3,
-        review: "Too many mosquitoes",
+        review: "I am afraid of highs",
         stars: 2
       },
       {
-        userId: 2,
+        userId: 1,
         spotId: 4,
-        review: "Love how great is this place. All is like in the movie",
-        stars: 5
+        review: "Air Conditioner was not working.",
+        stars: 2
       },
       {
         userId: 3,
         spotId: 4,
-        review: "Too many mosquitoes",
+        review: "Pool was a mess",
         stars: 3
       },
       {
-        userId: 2,
+        userId: 1,
         spotId: 5,
-        review: "Love how great is this place. All is like in the movie",
+        review: "Lovely Place!",
         stars: 5
       },
       {
         userId: 3,
         spotId: 5,
-        review: "Too many mosquitoes",
-        stars: 4
+        review: "Not a clean place",
+        stars: 3
+      },
+      {
+        userId: 1,
+        spotId: 6,
+        review: "It' like live in the rel headquarter",
+        stars: 5
+      },
+      {
+        userId: 2,
+        spotId: 6,
+        review: "I do not like this place",
+        stars: 1
       },
     ], options)
   },

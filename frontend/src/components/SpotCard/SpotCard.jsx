@@ -39,8 +39,7 @@ function SpotCard({ spot }) {
                 <div className="left-panel">
                     <span>{spot.city}, {spot.state}</span>
                     <div className="price">
-                        <span id="price">$</span>
-                        <span id="price">{spot.price}</span>
+                        <span id="price">${spot.price}</span>
                         <span> night</span>
                     </div>
                 </div>
