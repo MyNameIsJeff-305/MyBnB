@@ -1,12 +1,10 @@
-import NavLogo from '../Navigation/NavLogo';
-
 import './PageNotFound.css';
 
 function PageNotFound() {
 
     return (
-        <div className='main-container'>
-            <div className='left-panel'>
+        <div className='main-container-404'>
+            <div className='left-panel-404'>
                 <h1>Oops!</h1>
                 <h2>We can't seem to find the page you're looking for.</h2>
                 <span>Error code: 404</span>
