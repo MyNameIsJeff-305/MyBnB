@@ -17,11 +17,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING(100),
+        type: Sequelize.TEXT,
         allowNull: false
       },
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
       },
       price: {
@@ -29,19 +29,19 @@ module.exports = {
         allowNull: false
       },
       address: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       city: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
       },
       state: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
       },
       country: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
       },
       lat: {
@@ -75,7 +75,11 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
+    // Ensuring the correct schema is used for dropping the table in production
     options.tableName = 'Spots';
+    if (process.env.NODE_ENV === 'production') {
+      options.schema = process.env.SCHEMA;
+    }
     return queryInterface.dropTable(options);
   }
 };
