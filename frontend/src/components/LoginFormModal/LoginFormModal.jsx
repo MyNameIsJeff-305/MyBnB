@@ -35,6 +35,7 @@ function LoginFormModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
+    
     return dispatch(sessionActions.login({ credential, password }))
       .then(closeModal)
       .catch(async (res) => {
@@ -42,8 +43,15 @@ function LoginFormModal() {
         if (data && data.message) {
           setErrors(data);
         }
-      });
+      })
   };
+
+  const demoSubmit = (e) => {
+    e.preventDefault();
+    return dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'password' }))
+    .then(closeModal);
+  }
+
 
   return (
     <div className='login-container'>
@@ -82,7 +90,7 @@ function LoginFormModal() {
         </div>
         <button type="submit" id='login-button' disabled={isButtonDisabled}>Log In</button>
         <div className='demo-user'>
-          <a>Demo User</a>
+          <a onClick={(e) => demoSubmit(e)}>Demo User</a>
         </div>
       </form>
     </div>

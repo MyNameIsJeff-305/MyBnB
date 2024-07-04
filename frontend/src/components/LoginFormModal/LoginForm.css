@@ -93,3 +93,13 @@ label {
 .demo-user {
     margin-top: 40px;
 }
+
+.demo-user a {
+    color: #07525D;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.demo-user a:hover {
+    font-weight: bold;
+}

@@ -103,15 +103,16 @@ function SpotDetails() {
                     <span>{spot.numReviews} reviews</span>
                 </div>
                 <div className="post-review">
-                    {sessionUser !== null ?
-                        <button className="post-review-button">Post your Review</button> :
-                        <div className="log-in-to-review">
-                            <OpenModalMenuItem
-                                itemText="Log In to Review"
-                                onItemClick={closeMenu}
-                                modalComponent={<LoginFormModal />}
-                            />
-                        </div>
+                    {
+                        sessionUser !== null ?
+                            <button className="post-review-button">Post your Review</button> :
+                            <div className="log-in-to-review">
+                                <OpenModalMenuItem
+                                    itemText="Log In to Review"
+                                    onItemClick={closeMenu}
+                                    modalComponent={<LoginFormModal />}
+                                />
+                            </div>
                     }
 
                 </div>
