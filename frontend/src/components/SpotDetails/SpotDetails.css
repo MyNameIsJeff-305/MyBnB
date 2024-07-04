@@ -238,7 +238,7 @@
 .reviews2 {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
 }
 
 .avg-reviews2 {
@@ -256,6 +256,7 @@
 .num-reviews2 {
     color: #888;
     font-size: 20px;
+    margin-right: 10px;
 }
 
 .review-card {
@@ -322,4 +323,13 @@
 .log-in-to-review li:hover {
     color: #e5454b;
     font-size: 16px;
+}
+
+.reviews-container {
+    margin-top: 30px;
+}
+
+.be-the-first {
+    font-style: italic;
+    color: #555;
 }

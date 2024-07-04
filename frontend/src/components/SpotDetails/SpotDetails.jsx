@@ -17,10 +17,11 @@ function SpotDetails() {
     const spot = useSelector((state) => state.spots.spot);
     const reviews = useSelector((state) => state.reviews);
     const [showMenu, setShowMenu] = useState(false);
+    const [loadingReviews, setLoadingReviews] = useState(true);
 
     useEffect(() => {
         dispatch(loadSpotThunk(spotId));
-        dispatch(getAllReviewsThunk(spotId));
+        dispatch(getAllReviewsThunk(spotId)).then(() => setLoadingReviews(false));
     }, [dispatch, spotId]);
 
     if (!spot) {
@@ -31,18 +32,15 @@ function SpotDetails() {
     const otherImages = spot.SpotImages?.filter((i) => i.preview === false) || [];
 
     let avgRating = "New!";
-
-    if (spot.avgStarRating)
-        avgRating = spot.avgStarRating.toString().slice(0, 3);
+    if (spot.avgStarRating) avgRating = spot.avgStarRating.toString().slice(0, 3);
 
     const displayedImages = otherImages.slice(0, 4);
 
     const handleOnClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
-
-        window.alert("Feature Coming Soon...")
-    }
+        window.alert("Feature Coming Soon...");
+    };
 
     const closeMenu = () => setShowMenu(false);
 
@@ -99,13 +97,15 @@ function SpotDetails() {
                     <FaStar />
                     <span>{avgRating}</span>
                 </div>
+                <span>{spot.numReviews !== 0 ? '·' : ''}</span>
                 <div className="num-reviews2">
-                    <span>{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span>
+                    {spot.numReviews !== 0 ? <span>{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span> : ''}
                 </div>
                 <div className="post-review">
                     {
-                        sessionUser !== null ?
+                        sessionUser !== null && sessionUser.id !== spot.ownerId ?
                             <button className="post-review-button">Post your Review</button> :
+                            sessionUser === null &&
                             <div className="log-in-to-review">
                                 <OpenModalMenuItem
                                     itemText="Log In to Review"
@@ -114,16 +114,20 @@ function SpotDetails() {
                                 />
                             </div>
                     }
-
                 </div>
             </div>
             <div className="reviews-container">
-                {reviews.allReviews.map((review) => (
-                    <ReviewCard review={review} />
-                ))}
+                {spot.numReviews === 0 && sessionUser !== null && sessionUser.id !== spot.ownerId ? <span className="be-the-first">Be the first to post a review!</span> : ''}
+                {loadingReviews ? (
+                    <div>Loading reviews...</div>
+                ) : (
+                    reviews.allReviews.map((review) => (
+                        <ReviewCard key={review.id} review={review} />
+                    ))
+                )}
             </div>
         </div>
-    )
+    );
 }
 
 export default SpotDetails;

@@ -66,24 +66,24 @@ module.exports = {
         review: "Lovely Place!",
         stars: 5
       },
-      {
-        userId: 3,
-        spotId: 5,
-        review: "Not a clean place",
-        stars: 3
-      },
-      {
-        userId: 1,
-        spotId: 6,
-        review: "It' like live in the rel headquarter",
-        stars: 5
-      },
-      {
-        userId: 2,
-        spotId: 6,
-        review: "I do not like this place",
-        stars: 1
-      },
+      // {
+      //   userId: 3,
+      //   spotId: 5,
+      //   review: "Not a clean place",
+      //   stars: 3
+      // },
+      // {
+      //   userId: 1,
+      //   spotId: 6,
+      //   review: "It' like live in the rel headquarter",
+      //   stars: 5
+      // },
+      // {
+      //   userId: 2,
+      //   spotId: 6,
+      //   review: "I do not like this place",
+      //   stars: 1
+      // },
     ], options)
   },
 
