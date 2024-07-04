@@ -54,6 +54,7 @@
 .price {
     cursor: pointer;
     margin-top: 5px;
+    gap: 5px;
 }
 
 #price {

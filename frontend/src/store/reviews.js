@@ -114,7 +114,7 @@ function reviewsReducer(state = initialState, action) {
         case SET_REVIEWS:
             newState = { ...state };
             newState.allReviews = action.payload.Reviews;
-            for (const review of action.payload.Reviews) {
+            for (const review of newState.allReviews) {
                 newState.byId[review.id] = review;
             }
             return newState;

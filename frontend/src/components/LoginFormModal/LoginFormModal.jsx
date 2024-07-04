@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
@@ -9,7 +9,28 @@ function LoginFormModal() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const { closeModal } = useModal();
+
+  // Reset state when the modal is opened
+  useEffect(() => {
+    setCredential("");
+    setPassword("");
+    setErrors({});
+    setIsButtonDisabled(true);
+  }, []);
+
+  useEffect(() => {
+    const newErrors = {};
+    if (credential.length > 0 && credential.length < 4) {
+      newErrors.credential = 'Username or Email must be at least 4 characters';
+    }
+    if (password.length > 0 && password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+    setErrors(newErrors);
+    setIsButtonDisabled(credential.length < 4 || password.length < 6);
+  }, [credential, password]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,16 +39,19 @@ function LoginFormModal() {
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
+        if (data && data.message) {
+          setErrors(data);
         }
       });
   };
 
   return (
-    <>
-      <h1>Log In</h1>
+    <div className='login-container'>
       <form onSubmit={handleSubmit} className='login-form'>
+        <h1>Log In</h1>
+        {errors.message && (
+          <p className='error-message'>{errors.message}</p>
+        )}
         <div className='login-items'>
           <label id='userName-field'>
             Username or Email
@@ -39,8 +63,9 @@ function LoginFormModal() {
               required
             />
           </label>
-        </div>
-        <div className='login-items'>
+          {errors.credential && (
+            <p className='error-message'>{errors.credential}</p>
+          )}
           <label id='password-field'>
             Password
             <input
@@ -51,13 +76,16 @@ function LoginFormModal() {
               required
             />
           </label>
-          {errors.credential && (
-            <p>{errors.credential}</p>
+          {errors.password && (
+            <p className='error-message'>{errors.password}</p>
           )}
         </div>
-        <button type="submit" id='login-button'>Log In</button>
+        <button type="submit" id='login-button' disabled={isButtonDisabled}>Log In</button>
+        <div className='demo-user'>
+          <a>Demo User</a>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 
