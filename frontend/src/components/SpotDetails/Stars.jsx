@@ -17,7 +17,7 @@ function Stars({ rating }) {
     return (
         <div className="star-scale">
             {starArray.map((star) => (
-                star === 1 ? <FaStar /> : <FaRegStar />
+                star === 1 ? <FaStar key={star}/> : <FaRegStar key={star}/>
             ))}
         </div>
     )
