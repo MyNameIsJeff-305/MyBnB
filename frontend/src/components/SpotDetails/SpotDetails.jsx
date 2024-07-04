@@ -100,7 +100,7 @@ function SpotDetails() {
                     <span>{avgRating}</span>
                 </div>
                 <div className="num-reviews2">
-                    <span>{spot.numReviews} reviews</span>
+                    <span>{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span>
                 </div>
                 <div className="post-review">
                     {
