@@ -46,11 +46,11 @@ module.exports = {
       },
       lat: {
         type: Sequelize.FLOAT,
-        allowNull: true,
+        allowNull: false,
       },
       lng: {
         type: Sequelize.FLOAT,
-        allowNull: true,
+        allowNull: false,
       },
       ownerId: {
         type: Sequelize.INTEGER,

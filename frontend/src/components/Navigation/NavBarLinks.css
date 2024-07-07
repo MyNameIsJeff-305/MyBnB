@@ -1,0 +1,23 @@
+.create-spot-button {
+    background-color: #fff;
+    color: #07525D;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+.create-spot-button:hover {
+    font-weight: bold;
+}
+
+.nav-bar-links {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    flex-direction: row;
+}
+
+.host {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
