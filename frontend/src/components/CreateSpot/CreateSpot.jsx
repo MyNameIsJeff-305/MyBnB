@@ -1,18 +1,17 @@
 import { useDispatch } from 'react-redux';
 import './CreateSpot.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function CreateSpot() {
     const dispatch = useDispatch();
+
     const [country, setCountry] = useState('');
     const [streetAddress, setStreetAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
-
+    // const [latitude, setLatitude] = useState('');
+    // const [longitude, setLongitude] = useState('');
     const [description, setDescription] = useState('');
-
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
     const [previewPicture, setPreviewPicture] = useState('');
@@ -21,11 +20,16 @@ function CreateSpot() {
     const [picture3, setPicture3] = useState('');
     const [picture4, setPicture4] = useState('');
 
-    const [validationErrors, setValidationErrors] = useState({});
+    const [validationErrors, setValidationErrors] = useState([]);
 
-    const handleOnSubmit = (e) => {
+    useEffect(() => {
+        const validations = [];
 
-    };
+    })
+
+    const handleOnSubmit = () => {
+
+    }
 
     return (
         <div className='create-spot-container'>
@@ -91,7 +95,7 @@ function CreateSpot() {
                         </div>
                         {validationErrors.city && <p>{validationErrors.city}</p>}
                         {validationErrors.state && <p>{validationErrors.state}</p>}
-                        <div className='latitude-longitude'>
+                        {/* <div className='latitude-longitude'>
                             <div>
                                 <label id='create-spot-label'>
                                     Latitude
@@ -119,7 +123,7 @@ function CreateSpot() {
                             </div>
                         </div>
                         {validationErrors.latitude && <p>{validationErrors.latitude}</p>}
-                        {validationErrors.longitude && <p>{validationErrors.longitude}</p>}
+                        {validationErrors.longitude && <p>{validationErrors.longitude}</p>} */}
                     </div>
                 </div>
                 <div className='divider-horizontal'></div>
