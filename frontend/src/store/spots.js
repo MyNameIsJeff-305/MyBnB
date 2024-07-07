@@ -134,9 +134,9 @@ function spotsReducer(state = initialState, action) {
         }
         case POST_SPOT: {
             newState = { ...state };
-            newState.allSpots = [action.payload, ...newState.allSpots];
+            newState.allSpots = [...newState.allSpots, action.payload];
             newState.byId = { ...newState.byId, [action.payload.id]: action.payload }
-            return newState
+            return newState;
         }
 
         case UPDATE_SPOT: {

@@ -19,8 +19,8 @@ function SpotDetails() {
     const [loadingReviews, setLoadingReviews] = useState(true);
 
     useEffect(() => {
-        dispatch(loadSpotThunk(spotId));
-        dispatch(getAllReviewsThunk(spotId)).then(() => setLoadingReviews(false));
+        dispatch(loadSpotThunk(parseInt(spotId)));
+        dispatch(getAllReviewsThunk(parseInt(spotId))).then(() => setLoadingReviews(false));
     }, [dispatch, spotId]);
 
     if (!spot) {
