@@ -329,7 +329,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getAllSpotsThunk, postSpotThunk } from "../../store/spots";
+import { postSpotThunk } from "../../store/spots";
 
 import './CreateSpot.css';
 import { postSpotImageThunk } from "../../store/spot-images";
@@ -355,7 +355,6 @@ function CreateSpot() {
     const dispatch = useDispatch();
 
     const spots = useSelector((state) => state.spots.allSpots);
-    const spot = useSelector((state) => state.spots.spot);
 
     useEffect(() => {
         const errors = {};
@@ -455,7 +454,7 @@ function CreateSpot() {
             <form className='create-spot-form'>
                 <div className='top'>
                     <h1>Create a New Spot</h1>
-                    <h2>Where's your place located?</h2>
+                    <h2>Where`&apos;`s your place located?</h2>
                     <span>Guests will only get your exact address once they booked a reservation.</span>
                 </div>
                 <div className='bottom'>
@@ -541,7 +540,7 @@ function CreateSpot() {
                 <div id='name-container' className='top'>
                     <div>
                         <h2>Create a title for your spot</h2>
-                        <span>Catch guests' attention with a spot title that highlights what makes your place special.</span>
+                        <span>Catch guests`&apos;` attention with a spot title that highlights what makes your place special.</span>
                     </div>
                     <input
                         className='create-spot-input'
