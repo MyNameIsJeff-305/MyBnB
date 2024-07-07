@@ -50,20 +50,6 @@
     color: #007a87;
 }
 
-/* Logout button styles */
-.navigation-list button {
-    display: flex;
-    align-items: center;
-    background-color: #ff385c;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 22px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
 .hidden {
     display: none;
 }
@@ -155,13 +141,6 @@
 .fa-search {
     color: white;
     font-size: 12px;
-}
-
-.nav-bar-links {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
 }
 
 .host {

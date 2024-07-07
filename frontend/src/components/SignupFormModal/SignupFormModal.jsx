@@ -43,8 +43,8 @@ function SignupFormPage() {
 
     return (
         <div className='main-container'>
-            <h1>Sign Up</h1>
             <form onSubmit={handleSubmit} className='signup-form'>
+                <h1>Sign Up</h1>
                 <div className='signup-items'>
                     <label id='labels'>
                         Email
