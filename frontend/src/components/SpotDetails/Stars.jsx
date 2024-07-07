@@ -1,23 +1,21 @@
 import { FaRegStar, FaStar } from "react-icons/fa";
-
 import './SpotDetails.css';
 
 function Stars({ rating }) {
-    const starArray = new Array(5);
+    const starArray = [];
 
-    if (rating < 5) {
-        for (let i = 0; i < rating; i++) {
-            starArray.push(1);
+    for (let i = 0; i < 5; i++) {
+        if (i < rating) {
+            starArray.unshift(1);
+        } else {
+            starArray.unshift(0);
         }
-        starArray.fill(0, rating, 5)
-    } else {
-        starArray.fill(1, 0, 5);
     }
 
     return (
         <div className="star-scale">
-            {starArray.map((star) => (
-                star === 1 ? <FaStar key={star}/> : <FaRegStar key={star}/>
+            {starArray.map((star, index) => (
+                star === 1 ? <FaStar key={index} /> : <FaRegStar key={index} />
             ))}
         </div>
     )
