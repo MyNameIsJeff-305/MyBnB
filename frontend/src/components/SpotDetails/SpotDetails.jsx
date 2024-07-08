@@ -10,10 +10,6 @@ import { FaStar } from 'react-icons/fa';
 import './SpotDetails.css';
 import ReviewCard from "./ReviewCard";
 
-function checkReviews(review, spotId) {
-    return review.spotId === spotId;
-}
-
 function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
@@ -25,23 +21,12 @@ function SpotDetails() {
     useEffect(() => {
         dispatch(loadSpotThunk(parseInt(spotId)));
         dispatch(getAllReviewsThunk(parseInt(spotId)))
-            .then(() => {
-                if (reviews.allReviews.length > 0) {
-                    if (reviews.allReviews[0].spotId === parseInt(spotId))
-                        setReviewChecker(true);
-                    else
-                        setReviewChecker(false)
-                } else {
-                    setReviewChecker(true)
-                }
-            });
+            .then(setReviewChecker(false));
     }, [dispatch]);
 
     if (!spot) {
         return <div>loading...</div>;
     }
-
-    console.log(reviewChecker);
 
     const mainImage = spot.SpotImages?.filter((i) => i.preview === true) || [];
     const otherImages = spot.SpotImages?.filter((i) => i.preview === false) || [];
@@ -130,7 +115,7 @@ function SpotDetails() {
             </div>
             <div className="reviews-container">
                 {spot.numReviews === 0 && sessionUser !== null && sessionUser.id !== spot.ownerId ? <span className="be-the-first">Be the first to post a review!</span> : ''}
-                {reviewChecker ? (
+                {reviewChecker || spot.numReviews === 0 ? (
                     <div></div>
                 ) : (
                     reviews.allReviews.map((review) => (
