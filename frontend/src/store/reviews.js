@@ -7,9 +7,9 @@ const UPDATE_REVIEW = 'reviews/updateReview';
 const DELETE_REVIEW = 'reviews/deleteReview';
 
 //ACTION CREATORS
-const setReviews = (spot) => ({
+const setReviews = (reviews) => ({
     type: SET_REVIEWS,
-    payload: spot
+    payload: reviews
 });
 
 const postReview = (review) => ({
@@ -32,7 +32,7 @@ export const getAllReviewsThunk = (spotId) => async (dispatch) => {
     try {
         const res = await csrfFetch(`/api/spots/${spotId}/reviews`);
         const data = await res.json();
-        dispatch(setReviews(data));
+        dispatch(setReviews(data.Reviews));
     } catch (error) {
         return error
     }
@@ -113,7 +113,7 @@ function reviewsReducer(state = initialState, action) {
     switch (action.type) {
         case SET_REVIEWS: {
             newState = { ...state };
-            newState.allReviews = action.payload.Reviews;
+            newState.allReviews = action.payload;
             for (const review of newState.allReviews) {
                 newState.byId[review.id] = review;
             }

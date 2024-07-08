@@ -18,7 +18,7 @@ function Splash() {
     const goToSpot = (e, spot) => {
         e.preventDefault();
         e.stopPropagation();
-        navigate(`/spots/${spot.id}`);
+        return navigate(`/spots/${spot.id}`);
     }
 
     return (
