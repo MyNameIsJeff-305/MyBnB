@@ -339,7 +339,7 @@ function CreateSpot() {
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
-    const [country, setCountry] = useState('USA');
+    const [country, setCountry] = useState('');
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState(0);
     const [name, setName] = useState('');
@@ -392,13 +392,13 @@ function CreateSpot() {
 
         if (picture1.length > 0 && ((!picture1.endsWith('.png')) && (!picture1.endsWith('.jpg')) && (!picture1.endsWith('.jpeg'))))
             errors.picture1 = 'Image URL must end in .png, .jpg, or .jpeg'
-        
+
         if (picture2.length > 0 && ((!picture2.endsWith('.png')) && (!picture2.endsWith('.jpg')) && (!picture2.endsWith('.jpeg'))))
             errors.picture2 = 'Image URL must end in .png, .jpg, or .jpeg'
-        
+
         if (picture3.length > 0 && ((!picture3.endsWith('.png')) && (!picture3.endsWith('.jpg')) && (!picture3.endsWith('.jpeg'))))
             errors.picture3 = 'Image URL must end in .png, .jpg, or .jpeg'
-        
+
         if (picture4.length > 0 && ((!picture4.endsWith('.png')) && (!picture4.endsWith('.jpg')) && (!picture4.endsWith('.jpeg'))))
             errors.picture4 = 'Image URL must end in .png, .jpg, or .jpeg'
 
@@ -438,7 +438,7 @@ function CreateSpot() {
 
         dispatch(postSpotThunk(formData));
 
-        
+
         for (const image of previewImagesData) {
             if (image.url !== '') {
                 dispatch(postSpotImageThunk(image, spots.length + 1))
@@ -454,7 +454,7 @@ function CreateSpot() {
             <form className='create-spot-form'>
                 <div className='top'>
                     <h1>Create a New Spot</h1>
-                    <h2>Where`&apos;`s your place located?</h2>
+                    <h2>Where&apos;s your place located?</h2>
                     <span>Guests will only get your exact address once they booked a reservation.</span>
                 </div>
                 <div className='bottom'>
@@ -540,7 +540,7 @@ function CreateSpot() {
                 <div id='name-container' className='top'>
                     <div>
                         <h2>Create a title for your spot</h2>
-                        <span>Catch guests`&apos;` attention with a spot title that highlights what makes your place special.</span>
+                        <span>Catch guests&apos; attention with a spot title that highlights what makes your place special.</span>
                     </div>
                     <input
                         className='create-spot-input'
