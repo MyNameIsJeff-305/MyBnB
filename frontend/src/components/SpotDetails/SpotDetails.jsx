@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { loadSpotThunk } from "../../store/spots";
@@ -10,9 +10,11 @@ import { FaStar } from 'react-icons/fa';
 import './SpotDetails.css';
 import ReviewCard from "./ReviewCard";
 import PostReviewModal from "../PostReviewModal/PostReviewModal";
+import PageNotFound from "../PageNotFound";
 
 function SpotDetails() {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const { spotId } = useParams();
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector((state) => state.spots.spot);
@@ -22,7 +24,7 @@ function SpotDetails() {
     useEffect(() => {
         dispatch(loadSpotThunk(parseInt(spotId)));
         dispatch(getAllReviewsThunk(parseInt(spotId)));
-    }, [dispatch, spotId, reviewChecker]);
+    }, [dispatch, spotId, reviews.allReviews]);
 
     const addReview = async (newReview) => {
         await dispatch(postReviewThunk({
@@ -34,7 +36,7 @@ function SpotDetails() {
         }));
 
         // After posting review, immediately fetch all reviews again
-        dispatch(getAllReviewsThunk(parseInt(spotId)));
+        // dispatch(getAllReviewsThunk(parseInt(spotId)));
     };
 
     const onModalClose = () => {
@@ -43,7 +45,7 @@ function SpotDetails() {
     };
 
     if (!spot) {
-        return <div>Loading...</div>;
+        return <PageNotFound />;
     }
 
     if (!reviews) {

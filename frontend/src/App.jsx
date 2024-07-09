@@ -46,6 +46,10 @@ const router = createBrowserRouter([
         element: <CreateSpot />
       },
       {
+        path: '/404',
+        element: <PageNotFound />
+      },
+      {
         path: '*',
         element: <PageNotFound />
       }
