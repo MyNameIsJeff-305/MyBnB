@@ -9,13 +9,14 @@ import { FaStar } from 'react-icons/fa';
 
 import './SpotDetails.css';
 import ReviewCard from "./ReviewCard";
+import PostReviewModal from "../PostReviewModal/PostReviewModal";
 
 function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector((state) => state.spots.spot);
-    const reviews = useSelector((state) => state.reviews);
+    const reviews = useSelector((state) => state.reviews.allReviews);
     const [reviewChecker, setReviewChecker] = useState(true);
 
     useEffect(() => {
@@ -52,7 +53,29 @@ function SpotDetails() {
                 <div className="left-image-panel">
                     {mainImage.length > 0 && <img key={mainImage[0].id} src={mainImage[0].url} alt="Main preview" />}
                 </div>
-                <div className="right-image-panel">
+                {otherImages.length === 1
+                    ? <div className="right-image-panel-1">
+                        {displayedImages.map((i, index) => (
+                            <div key={i.id} className="image-container-1">
+                                <img className="image-tile" src={i.url} alt={`Image ${i.id}`} />
+                                {index === 3 && otherImages.length > 4 && (
+                                    <button className="all-pictures-button">All Pictures</button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    : <div className="right-image-panel">
+                        {displayedImages.map((i, index) => (
+                            <div key={i.id} className="image-container">
+                                <img className="image-tile" src={i.url} alt={`Image ${i.id}`} />
+                                {index === 3 && otherImages.length > 4 && (
+                                    <button className="all-pictures-button">All Pictures</button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                }
+                {/* <div className="right-image-panel">
                     {displayedImages.map((i, index) => (
                         <div key={i.id} className="image-container">
                             <img className="image-tile" src={i.url} alt={`Image ${i.id}`} />
@@ -61,7 +84,7 @@ function SpotDetails() {
                             )}
                         </div>
                     ))}
-                </div>
+                </div> */}
             </div>
             <div className="description-panel">
                 <div className="description-panel-left">
@@ -80,7 +103,7 @@ function SpotDetails() {
                                 <span>{avgRating}</span>
                             </div>
                             <div className="num-reviews">
-                                <span>{spot.numReviews} reviews</span>
+                                {spot.numReviews !== 0 ? <span>{spot.numReviews} reviews</span> : <div></div>}
                             </div>
                         </div>
                     </div>
@@ -91,18 +114,25 @@ function SpotDetails() {
             </div>
             <div className='divider'></div>
             <div className="reviews2">
-                <div className="avg-reviews2">
-                    <FaStar />
-                    <span>{avgRating}</span>
-                </div>
-                <span>{spot.numReviews !== 0 ? '·' : ''}</span>
-                <div className="num-reviews2">
-                    {spot.numReviews !== 0 ? <span>{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span> : ''}
+                <div className="reviews2-top">
+                    <div className="avg-reviews2">
+                        <FaStar />
+                        <span>{avgRating}</span>
+                    </div>
+                    <span>{spot.numReviews !== 0 ? '·' : ''}</span>
+                    <div className="num-reviews2">
+                        {spot.numReviews !== 0 ? <span>{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span> : ''}
+                    </div>
                 </div>
                 <div className="post-review">
                     {
                         sessionUser !== null && sessionUser.id !== spot.ownerId ?
-                            <button className="post-review-button">Post your Review</button> :
+                            <div className="post-review-button">
+                                <OpenModalMenuItem
+                                    itemText="Post your Review"
+                                    modalComponent={<PostReviewModal spotId={parseInt(spotId)}/>}
+                                />
+                            </div> :
                             sessionUser === null &&
                             <div className="log-in-to-review">
                                 <OpenModalMenuItem
@@ -118,7 +148,7 @@ function SpotDetails() {
                 {reviewChecker || spot.numReviews === 0 ? (
                     <div></div>
                 ) : (
-                    reviews.allReviews.map((review) => (
+                    reviews.map((review) => (
                         <ReviewCard key={review.id} review={review} />
                     ))
                 )}

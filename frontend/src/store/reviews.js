@@ -38,15 +38,15 @@ export const getAllReviewsThunk = (spotId) => async (dispatch) => {
     }
 }
 
-export const postReviewThunk = (review) => async (dispatch) => {
+export const postReviewThunk = ({review, spotId}) => async (dispatch) => {
     try {
         const options = {
-            method: 'DELETE',
+            method: 'POST',
             header: { 'Content-Type': 'application/json' },
             body: JSON.stringify(review)
         }
-
-        const res = await csrfFetch(`/api/reviews/${review.id}`, options);
+        
+        const res = await csrfFetch(`/api/spots/${spotId}/reviews`, options);
 
         if (res.ok) {
             const data = await res.json();
