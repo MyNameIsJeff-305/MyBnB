@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { loadSpotThunk } from "../../store/spots";
-import { getAllReviewsThunk } from "../../store/reviews";
+import { getAllReviewsThunk, postReviewThunk } from "../../store/reviews"; // Import postReviewThunk
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import { FaStar } from 'react-icons/fa';
@@ -17,16 +17,37 @@ function SpotDetails() {
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector((state) => state.spots.spot);
     const reviews = useSelector((state) => state.reviews.allReviews);
-    const [reviewChecker, setReviewChecker] = useState(true);
+    const [reviewChecker, setReviewChecker] = useState(false);
 
     useEffect(() => {
         dispatch(loadSpotThunk(parseInt(spotId)));
-        dispatch(getAllReviewsThunk(parseInt(spotId)))
-            .then(setReviewChecker(false));
-    }, [dispatch]);
+        dispatch(getAllReviewsThunk(parseInt(spotId)));
+    }, [dispatch, spotId, reviewChecker]);
+
+    const addReview = async (newReview) => {
+        await dispatch(postReviewThunk({
+            review: {
+                review: newReview.review,
+                stars: newReview.stars,
+                spotId: parseInt(spotId)
+            }
+        }));
+
+        // After posting review, immediately fetch all reviews again
+        dispatch(getAllReviewsThunk(parseInt(spotId)));
+    };
+
+    const onModalClose = () => {
+        setReviewChecker(false);
+        dispatch(getAllReviewsThunk(parseInt(spotId)));
+    };
 
     if (!spot) {
-        return <div>loading...</div>;
+        return <div>Loading...</div>;
+    }
+
+    if (!reviews) {
+        return <div>Loading reviews...</div>;
     }
 
     const mainImage = spot.SpotImages?.filter((i) => i.preview === true) || [];
@@ -75,16 +96,6 @@ function SpotDetails() {
                         ))}
                     </div>
                 }
-                {/* <div className="right-image-panel">
-                    {displayedImages.map((i, index) => (
-                        <div key={i.id} className="image-container">
-                            <img className="image-tile" src={i.url} alt={`Image ${i.id}`} />
-                            {index === 3 && otherImages.length > 4 && (
-                                <button className="all-pictures-button">All Pictures</button>
-                            )}
-                        </div>
-                    ))}
-                </div> */}
             </div>
             <div className="description-panel">
                 <div className="description-panel-left">
@@ -130,7 +141,11 @@ function SpotDetails() {
                             <div className="post-review-button">
                                 <OpenModalMenuItem
                                     itemText="Post your Review"
-                                    modalComponent={<PostReviewModal spotId={parseInt(spotId)}/>}
+                                    modalComponent={<PostReviewModal spotId={parseInt(spotId)} onModalClose={() => {
+                                        onModalClose;
+                                        setReviewChecker(false);
+                                    }} />}
+                                    addReview={addReview} // Pass addReview function to PostReviewModal
                                 />
                             </div> :
                             sessionUser === null &&
@@ -138,6 +153,9 @@ function SpotDetails() {
                                 <OpenModalMenuItem
                                     itemText="Log In to Review"
                                     modalComponent={<LoginFormModal />}
+                                    onModalClose={
+                                        onModalClose
+                                    }
                                 />
                             </div>
                     }

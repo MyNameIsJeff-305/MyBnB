@@ -38,18 +38,27 @@ export const getAllReviewsThunk = (spotId) => async (dispatch) => {
     }
 }
 
-export const postReviewThunk = ({review, spotId}) => async (dispatch) => {
+export const postReviewThunk = (review) => async (dispatch) => {
     try {
         const options = {
             method: 'POST',
             header: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(review)
+            body: JSON.stringify(review.review)
         }
-        
-        const res = await csrfFetch(`/api/spots/${spotId}/reviews`, options);
+
+        // console.log(review);
+
+        const res = await csrfFetch(`/api/spots/${review.review.spotId}/reviews`, options);
+
+        // console.log(res);
+
+        const result = await csrfFetch(`/api/spots/${review.review.spotId}/reviews`)
+        // console.log("THIS IS RESULT", result);
+
+        // const reviewForDispatching = result.json().Reviews
 
         if (res.ok) {
-            const data = await res.json();
+            const data = await result.json();
             dispatch(postReview(data));
         } else
             throw res;
