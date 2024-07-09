@@ -46,20 +46,21 @@ export const postReviewThunk = (review) => async (dispatch) => {
             body: JSON.stringify(review.review)
         }
 
-        // console.log(review);
+        // console.log('THIS IS REVIEW', review);
 
         const res = await csrfFetch(`/api/spots/${review.review.spotId}/reviews`, options);
 
-        // console.log(res);
+        // console.log("THIS IS RES", res);
 
         const result = await csrfFetch(`/api/spots/${review.review.spotId}/reviews`)
+
         // console.log("THIS IS RESULT", result);
 
-        // const reviewForDispatching = result.json().Reviews
+        // console.log('THIS IS REVIEW FOR DISPATCHING', await result.json());
 
         if (res.ok) {
             const data = await result.json();
-            dispatch(postReview(data));
+            dispatch(postReview(data.Reviews[data.Reiews.length - 1]));
         } else
             throw res;
 
