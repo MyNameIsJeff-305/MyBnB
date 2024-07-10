@@ -388,3 +388,9 @@
     font-style: italic;
     color: #555;
 }
+
+.loading-spot {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}

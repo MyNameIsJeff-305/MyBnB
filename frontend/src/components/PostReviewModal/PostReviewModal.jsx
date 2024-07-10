@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useModal } from '../../context/Modal';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import { postReviewThunk } from '../../store/reviews';
+import { useModal } from '../../context/Modal';
 
-function PostReviewModal({ spotId }) {
+function PostReviewModal({ spotId, onModalClose, setReviewChecker }) {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
-    const { closeModal } = useModal();
-    const dispatch = useDispatch();
-
     const [errors, setErrors] = useState([]);
     const [showErrors, setShowErrors] = useState(false);
-
-    const [stars, setStars] = useState([false, false, false, false, false]);
-
+    const dispatch = useDispatch();
+    const { closeModal } = useModal();
 
     const handleStarClick = (starIndex) => {
-        const newStars = stars.map((star, index) => index <= starIndex ? true : false);
-        setStars(newStars);
         setRating(starIndex + 1);
     };
 
@@ -26,47 +20,47 @@ function PostReviewModal({ spotId }) {
         e.preventDefault();
         e.stopPropagation();
 
-        const res = await dispatch(postReviewThunk({
-            review: {
-                review: review,
-                stars: rating,
-                spotId: parseInt(spotId)
-            }
-        }));
+        setErrors([]);
+        setShowErrors(false);
 
-        if (errors.length > 0) {
-            setShowErrors(true);
-            return;
-        } else {
+        try {
+            await dispatch(postReviewThunk({
+                review: {
+                    review: review,
+                    stars: rating,
+                    spotId: parseInt(spotId)
+                }
+            }));
+
+            setReviewChecker(true);
+
+            onModalClose();
             closeModal();
+        } catch (error) {
+            setErrors([error.message]);
+            setShowErrors(true);
         }
     };
 
     return (
         <div className="post-review-container">
-            <form className="post-review-form">
+            <form className="post-review-form" onSubmit={handleOnSubmit}>
                 <h1>How was your stay?</h1>
-                {showErrors ? <p>{errors[0]}</p> : ''}
+                {showErrors && errors.length > 0 && <p>{errors[0]}</p>}
                 <textarea
                     className="review-input"
                     value={review}
                     onChange={(e) => setReview(e.target.value)}
                     placeholder="Leave your review here..."
                 />
-
                 <div className='stars'>
-                    {stars.map((star, index) => (
+                    {Array.from({ length: 5 }, (_, index) => (
                         <div className='star' key={index} onClick={() => handleStarClick(index)}>
-                            {star ? <FaStar /> : <FaRegStar />}
+                            {index < rating ? <FaStar /> : <FaRegStar />}
                         </div>
                     ))}
                 </div>
-
-                <button
-                    className="post-review-button"
-                    type="submit"
-                    onClick={handleOnSubmit}
-                >
+                <button className="post-review-button" type="submit">
                     Submit Your Review
                 </button>
             </form>

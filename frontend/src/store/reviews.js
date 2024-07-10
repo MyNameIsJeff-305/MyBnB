@@ -60,7 +60,7 @@ export const postReviewThunk = (review) => async (dispatch) => {
 
         if (res.ok) {
             const data = await result.json();
-            console.log("THIS IS THE DATA FOR DISPATCH", data.Reviews[data.Reviews.length - 1]);
+            // console.log("THIS IS THE DATA FOR DISPATCH", data.Reviews[data.Reviews.length - 1]);
             dispatch(postReview(data.Reviews[data.Reviews.length - 1]));
         } else
             throw res;

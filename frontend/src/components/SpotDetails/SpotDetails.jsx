@@ -17,27 +17,33 @@ function SpotDetails() {
     const navigate = useNavigate()
     const { spotId } = useParams();
     const sessionUser = useSelector(state => state.session.user);
-    const spot = useSelector((state) => state.spots.spot);
-    const reviews = useSelector((state) => state.reviews.allReviews);
+    const [showReviews, setShowReviews] = useState(false);
     const [reviewChecker, setReviewChecker] = useState(false);
 
     useEffect(() => {
         dispatch(loadSpotThunk(parseInt(spotId)));
-        dispatch(getAllReviewsThunk(parseInt(spotId)));
-    }, [dispatch, spotId, reviews.allReviews]);
+        dispatch(getAllReviewsThunk(parseInt(spotId))).then(() => {
+            setShowReviews(true)
+        })
+    }, [dispatch, spotId, reviewChecker]);
 
-    const addReview = async (newReview) => {
-        await dispatch(postReviewThunk({
-            review: {
-                review: newReview.review,
-                stars: newReview.stars,
-                spotId: parseInt(spotId)
-            }
-        }));
+    const spot = useSelector((state) => state.spots.spot);
+    const reviews = useSelector((state) => state.reviews.allReviews);
 
-        // After posting review, immediately fetch all reviews again
-        // dispatch(getAllReviewsThunk(parseInt(spotId)));
-    };
+    console.log("THIS IS REVIEWS", reviews);
+
+    // const addReview = async (newReview) => {
+    //     await dispatch(postReviewThunk({
+    //         review: {
+    //             review: newReview.review,
+    //             stars: newReview.stars,
+    //             spotId: parseInt(spotId)
+    //         }
+    //     }));
+
+    //     // After posting review, immediately fetch all reviews again
+    //     dispatch(getAllReviewsThunk(parseInt(spotId)));
+    // };
 
     const onModalClose = () => {
         setReviewChecker(false);
@@ -45,7 +51,15 @@ function SpotDetails() {
     };
 
     if (!spot) {
-        return <PageNotFound />;
+        return (
+            <div className="loading-spot">
+                <img
+                    src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
+                    alt="loading animation"
+                    style={{ height: '40px', width: '40px' }}
+                />
+            </div>
+        )
     }
 
     if (!reviews) {
@@ -66,7 +80,10 @@ function SpotDetails() {
         window.alert("Feature Coming Soon...");
     };
 
-    return (
+    console.log(spot);
+
+    return showReviews ? (
+
         <div className="spot-details">
             <div className="header">
                 <h1>{spot.name}</h1>
@@ -143,11 +160,11 @@ function SpotDetails() {
                             <div className="post-review-button">
                                 <OpenModalMenuItem
                                     itemText="Post your Review"
-                                    modalComponent={<PostReviewModal spotId={parseInt(spotId)} onModalClose={() => {
+                                    modalComponent={<PostReviewModal setReviewChecker={setReviewChecker} spotId={parseInt(spotId)} onModalClose={() => {
                                         onModalClose;
-                                        setReviewChecker(false);
+                                        // setReviewChecker(false);
                                     }} />}
-                                    addReview={addReview} // Pass addReview function to PostReviewModal
+                                // addReview={addReview} // Pass addReview function to PostReviewModal
                                 />
                             </div> :
                             sessionUser === null &&
@@ -164,17 +181,26 @@ function SpotDetails() {
                 </div>
             </div>
             <div className="reviews-container">
-                {spot.numReviews === 0 && sessionUser !== null && sessionUser.id !== spot.ownerId ? <span className="be-the-first">Be the first to post a review!</span> : ''}
-                {reviewChecker || spot.numReviews === 0 ? (
+                {/* {
+                    spot.numReviews === 0 && sessionUser !== null && sessionUser.id !== spot.ownerId
+                        ? <span className="be-the-first">Be the first to post a review!</span>
+                        : ''
+                } */}
+                {spot.numReviews === 0 ? (
                     <div></div>
                 ) : (
-                    reviews.map((review) => (
-                        <ReviewCard key={review.id} review={review} />
-                    ))
+                    reviews.map((review) => {
+                        console.log("REVIEW", review);
+                        return (
+                            <ReviewCard key={review.id} review={review} />
+                        )
+                    })
                 )}
             </div>
         </div>
-    );
+    ) : (
+        <></>
+    )
 }
 
 export default SpotDetails;
