@@ -1,0 +1,93 @@
+.post-review-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.post-review-form {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.post-review-form h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: #ff375d;
+}
+
+.post-review-form p {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: red;
+    font-size: 12px;
+    margin: 0;
+}
+
+.review-input {
+    font-family: Arial, Helvetica, sans-serif;
+    height: 150px;
+    resize: vertical; 
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.review-input::placeholder {
+    color: #bbb;
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.post-reviewstar {
+    font-size: 30px;
+    cursor: pointer;
+    color: #ff385c; 
+    margin: 0 5px;
+}
+
+.star:hover {
+    color: #ff385c;
+}
+
+.post-review-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #ff385c; 
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.post-review-button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.post-review-button:not(:disabled):hover {
+    background-color: #e31e4d;
+}
+
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+}

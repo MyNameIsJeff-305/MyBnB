@@ -41,16 +41,27 @@ export const getAllReviewsThunk = (spotId) => async (dispatch) => {
 export const postReviewThunk = (review) => async (dispatch) => {
     try {
         const options = {
-            method: 'DELETE',
+            method: 'POST',
             header: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(review)
+            body: JSON.stringify(review.review)
         }
 
-        const res = await csrfFetch(`/api/reviews/${review.id}`, options);
+        // console.log('THIS IS REVIEW', review);
+
+        const res = await csrfFetch(`/api/spots/${review.review.spotId}/reviews`, options);
+
+        // console.log("THIS IS RES", res);
+
+        const result = await csrfFetch(`/api/spots/${review.review.spotId}/reviews`)
+
+        // console.log("THIS IS RESULT", result);
+
+        // console.log('THIS IS REVIEW FOR DISPATCHING', await result.json());
 
         if (res.ok) {
-            const data = await res.json();
-            dispatch(postReview(data));
+            const data = await result.json();
+            // console.log("THIS IS THE DATA FOR DISPATCH", data.Reviews[data.Reviews.length - 1]);
+            dispatch(postReview(data.Reviews[data.Reviews.length - 1]));
         } else
             throw res;
 
