@@ -80,7 +80,7 @@ function SpotDetails() {
         window.alert("Feature Coming Soon...");
     };
 
-    console.log(spot);
+    // console.log(spot);
 
     return showReviews ? (
 

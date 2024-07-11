@@ -63,17 +63,20 @@ router.get('/', validateQueryValues, async (req, res, next) => {
                     cumulTotal: values.stars,
                     amountReviews: 1
                 }
+                // console.log("THIS IS AVG OBJECT", ` ${values.spotId} ` , average[values.spotId]);
             }
             else {
                 average[values.spotId].total = average[values.spotId].cumulTotal + values.stars;
                 average[values.spotId].amountReviews++;
             }
+            // console.log("AVERAGE", average);
         }
 
         let ratings = {};
 
         for (const rating in average) {
-            ratings[average[rating].spotId] = average[rating].cumulTotal / average[rating].amountReviews
+            // console.log("THIS IS RATING", ratings);
+            ratings[average[rating].spotId] = average[rating].total / average[rating].amountReviews
         }
 
         const previewImages = await SpotImage.findAll({
