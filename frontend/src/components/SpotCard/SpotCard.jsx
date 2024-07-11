@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { FaStar } from 'react-icons/fa';
 import './SpotCard.css';
-import { useDispatch, useSelector } from "react-redux";
-import { loadSpotThunk } from "../../store/spots";
+// import { useDispatch, useSelector } from "react-redux";
+// import { loadSpotThunk } from "../../store/spots";
 
 function SpotCard({ spot }) {
     const [showTooltip, setShowTooltip] = useState(false);
     const [timer, setTimer] = useState(null);
     
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(loadSpotThunk(spot.id));
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(loadSpotThunk(spot.id));
+    // }, [dispatch]);
 
-    const thisSpot = useSelector((state) => state.spots.spot);
+    // const thisSpot = useSelector((state) => state.spots.spot);
 
-    console.log("THIS SPOT", thisSpot);
+    // console.log("THIS SPOT", thisSpot);
 
     const handleMouseEnter = () => {
         const newTimer = setTimeout(() => {
