@@ -1,8 +1,8 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { loadSpotThunk } from "../../store/spots";
-import { getAllReviewsThunk, postReviewThunk } from "../../store/reviews"; // Import postReviewThunk
+import { getAllReviewsThunk } from "../../store/reviews";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import { FaStar } from 'react-icons/fa';
@@ -10,11 +10,11 @@ import { FaStar } from 'react-icons/fa';
 import './SpotDetails.css';
 import ReviewCard from "./ReviewCard";
 import PostReviewModal from "../PostReviewModal/PostReviewModal";
-import PageNotFound from "../PageNotFound";
+// import PageNotFound from "../PageNotFound";
 
 function SpotDetails() {
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const { spotId } = useParams();
     const sessionUser = useSelector(state => state.session.user);
     const [showReviews, setShowReviews] = useState(false);
