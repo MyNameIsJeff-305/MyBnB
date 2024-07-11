@@ -7,11 +7,14 @@ import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 
 import './ProfileButton.css'
+import { useNavigate } from 'react-router-dom';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+
+  const navigate = useNavigate();
 
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
@@ -40,6 +43,8 @@ function ProfileButton({ user }) {
     closeMenu();
   };
 
+  const goToManageSpots = () => navigate('/spots/current');
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
@@ -53,7 +58,7 @@ function ProfileButton({ user }) {
             <li>{user.email}</li>
             <div className='divider-horizontal'>
             </div>
-            <li>Manage Spots</li>
+            <li onClick={goToManageSpots}>Manage Spots</li>
             <div className='divider-horizontal'>
             </div>
             <div>
