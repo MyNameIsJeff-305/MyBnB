@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import { postReviewThunk } from '../../store/reviews';
@@ -34,35 +34,54 @@ function PostReviewModal({ spotId, onModalClose, setReviewChecker }) {
         setErrors([]);
         setShowErrors(false);
 
-        const res = await dispatch(postReviewThunk({
+        return dispatch(postReviewThunk({
             review: {
                 review: review,
                 stars: rating,
                 spotId: parseInt(spotId)
             }
-        }));
+        }))
+            .then(() => {
+                setReviewChecker(true);
+            })
+            .then(closeModal)
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data?.errors) {
+                    setErrors(error)
+                }
+            })
 
-        setReviewChecker(true);
+        // const res = await dispatch(postReviewThunk({
+        //     review: {
+        //         review: review,
+        //         stars: rating,
+        //         spotId: parseInt(spotId)
+        //     }
+        // }));
 
-        if (!res.ok) {
-            const error = await res.json();
-            console.log(res.status);
-            if (res.status === 500) {
-                setErrors(error)
-            }
-            else {
-                const newError = error.errors;
-                newError['message'] = newError.review;
-                // console.log("THIS IS ERROR.ERRORS", newError);
-                setErrors(newError);
-            }
-            setShowErrors(true);
-            // console.log("THIS IS ERROR", error.errors.review);
+        // setReviewChecker(true);
 
-        } else {
-            onModalClose();
-            closeModal();
-        }
+        // if (!res.ok) {
+        //     const error = await res.json();
+        //     console.log(res.status);
+        //     if (res.status === 500) {
+        //         setErrors(error)
+        //     }
+        //     else {
+        //         const newError = error.errors;
+        //         newError['message'] = newError.review;
+        //         // console.log("THIS IS ERROR.ERRORS", newError);
+        //         setErrors(newError);
+        //     }
+        //     setShowErrors(true);
+        //     // console.log("THIS IS ERROR", error.errors.review);
+
+        // } else {
+        //     onModalClose();
+        //     closeModal();
+        // }
+
     };
 
     return (

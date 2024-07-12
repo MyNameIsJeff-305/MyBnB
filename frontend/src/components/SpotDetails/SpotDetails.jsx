@@ -30,7 +30,7 @@ function SpotDetails() {
     const spot = useSelector((state) => state.spots.spot);
     const reviews = useSelector((state) => state.reviews.allReviews);
 
-    console.log("THIS IS REVIEWS", reviews);
+    // console.log("THIS IS REVIEWS", reviews);
 
     // const addReview = async (newReview) => {
     //     await dispatch(postReviewThunk({
@@ -181,16 +181,16 @@ function SpotDetails() {
                 </div>
             </div>
             <div className="reviews-container">
-                {/* {
+                {
                     spot.numReviews === 0 && sessionUser !== null && sessionUser.id !== spot.ownerId
                         ? <span className="be-the-first">Be the first to post a review!</span>
                         : ''
-                } */}
+                }
                 {spot.numReviews === 0 ? (
                     <div></div>
                 ) : (
                     reviews.map((review) => {
-                        console.log("REVIEW", review);
+                        // console.log("REVIEW", review);
                         return (
                             <ReviewCard key={review.id} review={review} />
                         )
