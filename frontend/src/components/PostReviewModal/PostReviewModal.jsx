@@ -63,7 +63,6 @@ function PostReviewModal({ spotId, onModalClose, setReviewChecker }) {
             onModalClose();
             closeModal();
         }
-
     };
 
     return (
