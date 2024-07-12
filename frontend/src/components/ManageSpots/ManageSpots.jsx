@@ -21,7 +21,7 @@ function ManageSpots() {
     console.log("THIS IS MY SPOTS", mySpots);
 
     const handleCreateNewSpot = () => {
-        navigate('/spots/new'); 
+        navigate('/spots/new');
     };
 
     const handleUpdateSpot = (spotId) => {

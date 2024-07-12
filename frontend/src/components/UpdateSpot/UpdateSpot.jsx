@@ -1,12 +1,26 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { postSpotThunk, updateSpotThunk } from "../../store/spots";
+import { useNavigate, useParams } from "react-router-dom";
+import { loadSpotThunk, updateSpotThunk } from "../../store/spots";
 
 import './UpdateSpot.css';
 import { postSpotImageThunk } from "../../store/spot-images";
 
-function UpdateSpot({spot}) {
+function UpdateSpot() {
+
+    const dispatch = useDispatch();
+
+    const { spotId } = useParams();
+
+
+    const spot = useSelector((state) => state.spot)
+
+    useEffect(() => {
+        dispatch(loadSpotThunk(parseInt(spotId)));
+    }, [dispatch]);
+
+
+    console.log(spot);
 
     const [address, setAddress] = useState(spot.address);
     const [city, setCity] = useState(spot.city);
@@ -24,9 +38,6 @@ function UpdateSpot({spot}) {
     const [showErrors, setShowErrors] = useState(false);
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    const spots = useSelector((state) => state.spots.allSpots);
 
     useEffect(() => {
         const errors = {};
