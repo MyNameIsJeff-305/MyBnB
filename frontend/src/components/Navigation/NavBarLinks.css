@@ -11,6 +11,7 @@
 
 .nav-bar-links {
     display: flex;
+    flex: 1;
     justify-content: space-between;
     align-content: center;
     flex-direction: row;
@@ -22,6 +23,23 @@
     align-items: center;
 }
 
+/* Reserve space for the label */
 .blank-letters {
-    color:#fff
+    color: #fff;  /* Invisible text color */
+    width: 120px;  /* Fixed width matching the label */
+    height: 0;  /* No height so it doesn't affect layout */
+    visibility: hidden;  /* Make it invisible but reserve space */
+}
+
+/* Ensure .create-spot has the same width as .blank-letters */
+.create-spot {
+    color: #07525D;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    width: 120px;  /* Fixed width matching the reserved space */
+    text-align: center;  /* Center the text within the width */
+}
+
+.create-spot:hover {
+    cursor: pointer;
 }
