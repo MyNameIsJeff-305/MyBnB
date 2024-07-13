@@ -31,7 +31,7 @@ function UpdateSpot() {
     useEffect(() => {
         if (!spot || spot.id !== parseInt(spotId)) {
             dispatch(loadSpotThunk(parseInt(spotId)))
-            .then(() => setLoading(false)); // Once loaded, setLoading to false
+                .then(() => setLoading(false)); // Once loaded, setLoading to false
         } else {
             setAddress(spot.address || '');
             setCity(spot.city || '');
@@ -40,7 +40,12 @@ function UpdateSpot() {
             setDescription(spot.description || '');
             setPrice(spot.price || 0);
             setName(spot.name || '');
-            setLoading(false)
+            setLoading(false);
+            setPreviewPicture(spot.SpotImages[0].url || '');
+            setPicture1(spot.SpotImages[1].url || '');
+            setPicture2(spot.SpotImages[2].url || '');
+            setPicture3(spot.SpotImages[3].url || '');
+            setPicture4(spot.SpotImages[4].url || '');
         }
     }, [dispatch, spot, spotId]);
 
@@ -61,7 +66,7 @@ function UpdateSpot() {
 
         // Validate form fields
         const newErrors = {};
-        
+
         if (country.length === 0) {
             newErrors.country = 'Country is required';
         }
@@ -94,24 +99,24 @@ function UpdateSpot() {
             newErrors.price = 'Price must be greater than 0';
         }
 
-        // if (previewPicture.length === 0) {
-        //     newErrors.previewPicture = 'Preview image URL is required';
-        // }
+        if (previewPicture.length === 0) {
+            newErrors.previewPicture = 'Preview image URL is required';
+        }
 
-        // if (previewPicture.length > 0 && ((!previewPicture.endsWith('.png')) && (!previewPicture.endsWith('.jpg')) && (!previewPicture.endsWith('.jpeg'))))
-        //     newErrors.previewPicture = 'Image URL must end in .png, .jpg, or .jpeg'
+        if (previewPicture.length > 0 && ((!previewPicture.endsWith('.png')) && (!previewPicture.endsWith('.jpg')) && (!previewPicture.endsWith('.jpeg')) && (!previewPicture.endsWith('.webp'))))
+            newErrors.previewPicture = 'Image URL must end in .png, .jpg, or .jpeg'
 
-        // if (picture1.length > 0 && ((!picture1.endsWith('.png')) && (!picture1.endsWith('.jpg')) && (!picture1.endsWith('.jpeg'))))
-        //     newErrors.picture1 = 'Image URL must end in .png, .jpg, or .jpeg'
+        if (picture1.length > 0 && ((!picture1.endsWith('.png')) && (!picture1.endsWith('.jpg')) && (!picture1.endsWith('.jpeg')) && (!picture1.endsWith('.webp'))))
+            newErrors.picture1 = 'Image URL must end in .png, .jpg, or .jpeg'
 
-        // if (picture2.length > 0 && ((!picture2.endsWith('.png')) && (!picture2.endsWith('.jpg')) && (!picture2.endsWith('.jpeg'))))
-        //     newErrors.picture2 = 'Image URL must end in .png, .jpg, or .jpeg'
+        if (picture2.length > 0 && ((!picture2.endsWith('.png')) && (!picture2.endsWith('.jpg')) && (!picture2.endsWith('.jpeg')) && (!picture2.endsWith('.webp'))))
+            newErrors.picture2 = 'Image URL must end in .png, .jpg, or .jpeg'
 
-        // if (picture3.length > 0 && ((!picture3.endsWith('.png')) && (!picture3.endsWith('.jpg')) && (!picture3.endsWith('.jpeg'))))
-        //     newErrors.picture3 = 'Image URL must end in .png, .jpg, or .jpeg'
+        if (picture3.length > 0 && ((!picture3.endsWith('.png')) && (!picture3.endsWith('.jpg')) && (!picture3.endsWith('.jpeg')) && (!picture3.endsWith('.webp'))))
+            newErrors.picture3 = 'Image URL must end in .png, .jpg, or .jpeg'
 
-        // if (picture4.length > 0 && ((!picture4.endsWith('.png')) && (!picture4.endsWith('.jpg')) && (!picture4.endsWith('.jpeg'))))
-        //     newErrors.picture4 = 'Image URL must end in .png, .jpg, or .jpeg'
+        if (picture4.length > 0 && ((!picture4.endsWith('.png')) && (!picture4.endsWith('.jpg')) && (!picture4.endsWith('.jpeg')) && (!picture4.endsWith('.webp'))))
+            newErrors.picture4 = 'Image URL must end in .png, .jpg, or .jpeg'
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
@@ -122,6 +127,19 @@ function UpdateSpot() {
         dispatch(updateSpotThunk(formData));
 
         // Handle image uploads if needed
+        const previewImagesData = [
+            { url: previewPicture, preview: true },
+            { url: picture1, preview: false },
+            { url: picture2, preview: false },
+            { url: picture3, preview: false },
+            { url: picture4, preview: false }
+        ]
+
+        for (const image of previewImagesData) {
+            if (image.url !== '') {
+                dispatch(postSpotImageThunk(image, spots.length + 1))
+            }
+        }
         // dispatch(postSpotImageThunk(...));
 
         setLoading(false);
