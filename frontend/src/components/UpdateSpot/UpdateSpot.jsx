@@ -2,134 +2,144 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { loadSpotThunk, updateSpotThunk } from "../../store/spots";
-
-import './UpdateSpot.css';
 import { postSpotImageThunk } from "../../store/spot-images";
+import './UpdateSpot.css';
 
 function UpdateSpot() {
-
-    const dispatch = useDispatch();
-
-    const { spotId } = useParams();
-
-
-    const spot = useSelector((state) => state.spot)
-
-    useEffect(() => {
-        dispatch(loadSpotThunk(parseInt(spotId)));
-    }, [dispatch]);
-
-
-    console.log(spot);
-
-    const [address, setAddress] = useState(spot.address);
-    const [city, setCity] = useState(spot.city);
-    const [state, setState] = useState(spot.state);
-    const [country, setCountry] = useState(spot.country);
-    const [description, setDescription] = useState(spot.description)
-    const [price, setPrice] = useState(spot.price);
-    const [name, setName] = useState(spot.name);
-    const [errors, setErrors] = useState([]);
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [country, setCountry] = useState('');
+    const [description, setDescription] = useState('')
+    const [price, setPrice] = useState(0);
+    const [name, setName] = useState('');
+    const [errors, setErrors] = useState({});
     const [previewPicture, setPreviewPicture] = useState('');
     const [picture1, setPicture1] = useState('');
     const [picture2, setPicture2] = useState('');
     const [picture3, setPicture3] = useState('');
     const [picture4, setPicture4] = useState('');
     const [showErrors, setShowErrors] = useState(false);
+    const [loading, setLoading] = useState(true); // Start with loading true
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const { spotId } = useParams();
+    const spot = useSelector(state => state.spots.spot);
+
     useEffect(() => {
-        const errors = {};
-
-        if (country.length === 0) {
-            errors.country = 'Country is required';
+        if (!spot || spot.id !== parseInt(spotId)) {
+            dispatch(loadSpotThunk(parseInt(spotId)))
+            .then(() => setLoading(false)); // Once loaded, setLoading to false
+        } else {
+            setAddress(spot.address || '');
+            setCity(spot.city || '');
+            setState(spot.state || '');
+            setCountry(spot.country || '');
+            setDescription(spot.description || '');
+            setPrice(spot.price || 0);
+            setName(spot.name || '');
+            setLoading(false)
         }
-        if (address.length === 0) {
-            errors.address = 'Street Address is required';
-        }
-        if (city.length === 0) {
-            errors.city = 'City is required';
-        }
-        if (state.length === 0) {
-            errors.state = 'State is required';
-        }
-        if (description.length < 30) {
-            errors.description = 'Description needs a minimum of 30 characters';
-        }
-        if (name.length === 0) {
-            errors.name = 'Name is required';
-        }
-        if (!price) {
-            errors.price = 'Price is required';
-        }
-        if (price <= 0) {
-            errors.price = 'Price must be greater than 0';
-        }
-        if (previewPicture.length === 0) {
-            errors.previewPicture = 'Preview image URL is required';
-        }
-
-        if (previewPicture.length > 0 && ((!previewPicture.endsWith('.png')) && (!previewPicture.endsWith('.jpg')) && (!previewPicture.endsWith('.jpeg'))))
-            errors.previewPicture = 'Image URL must end in .png, .jpg, or .jpeg'
-
-        if (picture1.length > 0 && ((!picture1.endsWith('.png')) && (!picture1.endsWith('.jpg')) && (!picture1.endsWith('.jpeg'))))
-            errors.picture1 = 'Image URL must end in .png, .jpg, or .jpeg'
-
-        if (picture2.length > 0 && ((!picture2.endsWith('.png')) && (!picture2.endsWith('.jpg')) && (!picture2.endsWith('.jpeg'))))
-            errors.picture2 = 'Image URL must end in .png, .jpg, or .jpeg'
-
-        if (picture3.length > 0 && ((!picture3.endsWith('.png')) && (!picture3.endsWith('.jpg')) && (!picture3.endsWith('.jpeg'))))
-            errors.picture3 = 'Image URL must end in .png, .jpg, or .jpeg'
-
-        if (picture4.length > 0 && ((!picture4.endsWith('.png')) && (!picture4.endsWith('.jpg')) && (!picture4.endsWith('.jpeg'))))
-            errors.picture4 = 'Image URL must end in .png, .jpg, or .jpeg'
-
-        setErrors(errors);
-    }, [country, address, city, state, description, name, price, previewPicture, picture1, picture2, picture3, picture4]);
+    }, [dispatch, spot, spotId]);
 
     const handleOnSubmit = async (e) => {
-
         e.preventDefault();
-        e.stopPropagation();
-
         const formData = {
-            address: address,
-            city: city,
-            state: state,
-            country: country,
+            spotId: parseInt(spotId),
+            address,
+            city,
+            state,
+            country,
             lat: 37.7645358,
             lng: 37.7645358,
-            name: name,
-            description: description,
-            price: price,
+            name,
+            description,
+            price,
         };
 
-        const previewImagesData = [
-            { url: previewPicture, preview: true },
-            { url: picture1, preview: false },
-            { url: picture2, preview: false },
-            { url: picture3, preview: false },
-            { url: picture4, preview: false }
-        ]
+        // Validate form fields
+        const newErrors = {};
+        
+        if (country.length === 0) {
+            newErrors.country = 'Country is required';
+        }
 
-        if (Object.keys(errors).length > 0) {
-            setErrors(errors);
-            setShowErrors(true); //Show errors after clicking Button
+        if (address.length === 0) {
+            newErrors.address = 'Street Address is required';
+        }
+
+        if (city.length === 0) {
+            newErrors.city = 'City is required';
+        }
+
+        if (state.length === 0) {
+            newErrors.state = 'State is required';
+        }
+
+        if (description.length < 30) {
+            newErrors.description = 'Description needs a minimum of 30 characters';
+        }
+
+        if (name.length === 0) {
+            newErrors.name = 'Name is required';
+        }
+
+        if (!price) {
+            newErrors.price = 'Price is required';
+        }
+
+        if (price <= 0) {
+            newErrors.price = 'Price must be greater than 0';
+        }
+
+        // if (previewPicture.length === 0) {
+        //     newErrors.previewPicture = 'Preview image URL is required';
+        // }
+
+        // if (previewPicture.length > 0 && ((!previewPicture.endsWith('.png')) && (!previewPicture.endsWith('.jpg')) && (!previewPicture.endsWith('.jpeg'))))
+        //     newErrors.previewPicture = 'Image URL must end in .png, .jpg, or .jpeg'
+
+        // if (picture1.length > 0 && ((!picture1.endsWith('.png')) && (!picture1.endsWith('.jpg')) && (!picture1.endsWith('.jpeg'))))
+        //     newErrors.picture1 = 'Image URL must end in .png, .jpg, or .jpeg'
+
+        // if (picture2.length > 0 && ((!picture2.endsWith('.png')) && (!picture2.endsWith('.jpg')) && (!picture2.endsWith('.jpeg'))))
+        //     newErrors.picture2 = 'Image URL must end in .png, .jpg, or .jpeg'
+
+        // if (picture3.length > 0 && ((!picture3.endsWith('.png')) && (!picture3.endsWith('.jpg')) && (!picture3.endsWith('.jpeg'))))
+        //     newErrors.picture3 = 'Image URL must end in .png, .jpg, or .jpeg'
+
+        // if (picture4.length > 0 && ((!picture4.endsWith('.png')) && (!picture4.endsWith('.jpg')) && (!picture4.endsWith('.jpeg'))))
+        //     newErrors.picture4 = 'Image URL must end in .png, .jpg, or .jpeg'
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            setShowErrors(true);
             return;
         }
 
         dispatch(updateSpotThunk(formData));
 
+        // Handle image uploads if needed
+        // dispatch(postSpotImageThunk(...));
 
-        for (const image of previewImagesData) {
-            if (image.url !== '') {
-                dispatch(postSpotImageThunk(image, spots.length + 1))
-            }
-        }
+        setLoading(false);
 
-        navigate(`/spots/${spots.length + 1}`);
+        navigate(`/spots/${spotId}`);
+    }
 
+    if (loading) {
+        console.log("THIS IS LOADING", loading);
+        return (
+            <div className="loading-spot">
+                <img
+                    src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
+                    alt="loading animation"
+                    style={{ height: '40px', width: '40px' }}
+                />
+            </div>
+        )
     }
 
     return (

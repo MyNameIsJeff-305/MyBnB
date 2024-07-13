@@ -18,7 +18,7 @@ function ManageSpots() {
         dispatch(getMySpotsThunk()).then(() => setLoading(false));
     }, [dispatch]);
 
-    console.log("THIS IS MY SPOTS", mySpots);
+    // console.log("THIS IS MY SPOTS", mySpots);
 
     const handleCreateNewSpot = () => {
         navigate('/spots/new');
