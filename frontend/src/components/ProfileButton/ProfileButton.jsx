@@ -50,7 +50,14 @@ function ProfileButton({ user }) {
   return (
     <div className='nav-bar-dropdown'>
       <FaBars onClick={toggleMenu} className='hamburger' />
-      <FaUserCircle />
+      {user ? (
+        <div className='username-profile'>
+          <span>{user.firstName[0]}</span>
+        </div>
+      ) :
+        <FaUserCircle />
+
+      }
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
