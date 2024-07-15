@@ -1,0 +1,26 @@
+.spotImage-layout {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.delete-spot-image {
+    /* padding: 10px; */
+    background: #ff5a5f;
+    border: none;
+    color: white;
+    width: auto;
+    text-align: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.delete-spot-image:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}

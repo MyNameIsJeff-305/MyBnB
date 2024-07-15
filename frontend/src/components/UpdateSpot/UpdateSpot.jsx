@@ -3,22 +3,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { loadSpotThunk, updateSpotThunk } from "../../store/spots";
 import { postSpotImageThunk } from "../../store/spot-images";
+import { FaTrashCan } from "react-icons/fa6";
 import './UpdateSpot.css';
 
 function UpdateSpot() {
-    const [address, setAddress] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [country, setCountry] = useState('');
-    const [description, setDescription] = useState('')
+    const [address, setAddress] = useState();
+    const [city, setCity] = useState();
+    const [state, setState] = useState();
+    const [country, setCountry] = useState();
+    const [description, setDescription] = useState()
     const [price, setPrice] = useState(0);
-    const [name, setName] = useState('');
+    const [name, setName] = useState();
     const [errors, setErrors] = useState({});
-    const [previewPicture, setPreviewPicture] = useState('');
-    const [picture1, setPicture1] = useState('');
-    const [picture2, setPicture2] = useState('');
-    const [picture3, setPicture3] = useState('');
-    const [picture4, setPicture4] = useState('');
+    const [previewPicture, setPreviewPicture] = useState();
+    const [picture1, setPicture1] = useState();
+    const [picture2, setPicture2] = useState();
+    const [picture3, setPicture3] = useState();
+    const [picture4, setPicture4] = useState();
     const [showErrors, setShowErrors] = useState(false);
     const [loading, setLoading] = useState(true); // Start with loading true
 
@@ -104,7 +105,7 @@ function UpdateSpot() {
         }
 
         if (previewPicture.length > 0 && ((!previewPicture.endsWith('.png')) && (!previewPicture.endsWith('.jpg')) && (!previewPicture.endsWith('.jpeg')) && (!previewPicture.endsWith('.webp'))))
-            newErrors.previewPicture = 'Image URL must end in .png, .jpg, or .jpeg'
+            newErrors.previewPicture = 'Image URL must end in .png, .jpg, or .jpeg';
 
         if (picture1.length > 0 && ((!picture1.endsWith('.png')) && (!picture1.endsWith('.jpg')) && (!picture1.endsWith('.jpeg')) && (!picture1.endsWith('.webp'))))
             newErrors.picture1 = 'Image URL must end in .png, .jpg, or .jpeg'
@@ -137,10 +138,9 @@ function UpdateSpot() {
 
         for (const image of previewImagesData) {
             if (image.url !== '') {
-                dispatch(postSpotImageThunk(image, spots.length + 1))
+                dispatch(postSpotImageThunk(image, spot.length + 1))
             }
         }
-        // dispatch(postSpotImageThunk(...));
 
         setLoading(false);
 
@@ -160,11 +160,29 @@ function UpdateSpot() {
         )
     }
 
+    const onDelete = (e, idx) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        switch (idx) {
+            case 1: setPreviewPicture('')
+                break;
+            case 2: setPicture1('');
+                break;
+            case 3: setPicture2('');
+                break;
+            case 4: setPicture3('');
+                break;
+            case 5: setPicture4('');
+                break;
+        }
+    }
+
     return (
         <div className='create-spot-container'>
             <form className='create-spot-form'>
                 <div className='top'>
-                    <h1>Create a New Spot</h1>
+                    <h1>Update your Spot</h1>
                     <h2>Where&apos;s your place located?</h2>
                     <span>Guests will only get your exact address once they booked a reservation.</span>
                 </div>
@@ -289,50 +307,96 @@ function UpdateSpot() {
                         <span>Submit a link to at least one photo to publish your spot.</span>
                     </div>
                     <div className='spot-images-area'>
-                        <input
-                            className='create-spot-input'
-                            type="text"
-                            name="previewPicture"
-                            value={previewPicture}
-                            placeholder='Preview Image URL'
-                            onChange={(e) => setPreviewPicture(e.target.value)}
-                        />
+                        <div className="spotImage-layout">
+                            <input
+                                className='create-spot-input'
+                                type="text"
+                                name="previewPicture"
+                                value={previewPicture}
+                                placeholder='Preview Image URL'
+                                onChange={(e) => setPreviewPicture(e.target.value)}
+                            />
+
+                            <button
+                                className="delete-spot-image"
+                                disabled={previewPicture.length === 0}
+                                onClick={(e) => onDelete(e, 1)}
+                            >
+                                <FaTrashCan />
+                            </button>
+                        </div>
                         {showErrors && errors.previewPicture && <p className='error'>{errors.previewPicture}</p>}
-                        <input
-                            className='create-spot-input'
-                            type="text"
-                            name="picture1"
-                            value={picture1}
-                            placeholder='Image URL'
-                            onChange={(e) => setPicture1(e.target.value)}
-                        />
+                        <div className="spotImage-layout">
+                            <input
+                                className='create-spot-input'
+                                type="text"
+                                name="picture1"
+                                value={picture1}
+                                placeholder='Image URL'
+                                onChange={(e) => setPicture1(e.target.value)}
+                            />
+                            <button
+                                className="delete-spot-image"
+                                disabled={picture1.length === 0}
+                                onClick={(e) => onDelete(e, 2)}
+                            >
+                                <FaTrashCan />
+                            </button>
+                        </div>
                         {showErrors && errors.picture1 && <p className='error'>{errors.picture1}</p>}
-                        <input
-                            className='create-spot-input'
-                            type="text"
-                            name="picture2"
-                            value={picture2}
-                            placeholder='Image URL'
-                            onChange={(e) => setPicture2(e.target.value)}
-                        />
+                        <div className="spotImage-layout">
+                            <input
+                                className='create-spot-input'
+                                type="text"
+                                name="picture2"
+                                value={picture2}
+                                placeholder='Image URL'
+                                onChange={(e) => setPicture2(e.target.value)}
+                            />
+                            <button
+                                className="delete-spot-image"
+                                disabled={picture2.length === 0}
+                                onClick={(e) => onDelete(e, 3)}
+                            >
+                                <FaTrashCan />
+                            </button>
+                        </div>
                         {showErrors && errors.picture2 && <p className='error'>{errors.picture2}</p>}
-                        <input
-                            className='create-spot-input'
-                            type="text"
-                            name="picture3"
-                            value={picture3}
-                            placeholder='Image URL'
-                            onChange={(e) => setPicture3(e.target.value)}
-                        />
+                        <div className="spotImage-layout">
+                            <input
+                                className='create-spot-input'
+                                type="text"
+                                name="picture3"
+                                value={picture3}
+                                placeholder='Image URL'
+                                onChange={(e) => setPicture3(e.target.value)}
+                            />
+                            <button
+                                className="delete-spot-image"
+                                disabled={picture3.length === 0}
+                                onClick={(e) => onDelete(e, 4)}
+                            >
+                                <FaTrashCan />
+                            </button>
+                        </div>
                         {showErrors && errors.picture3 && <p className='error'>{errors.picture3}</p>}
-                        <input
-                            className='create-spot-input'
-                            type="text"
-                            name="picture4"
-                            value={picture4}
-                            placeholder='Image URL'
-                            onChange={(e) => setPicture4(e.target.value)}
-                        />
+                        <div className="spotImage-layout">
+                            <input
+                                className='create-spot-input'
+                                type="text"
+                                name="picture4"
+                                value={picture4}
+                                placeholder='Image URL'
+                                onChange={(e) => setPicture4(e.target.value)}
+                            />
+                            <button
+                                className="delete-spot-image"
+                                disabled={picture4.length === 0}
+                                onClick={(e) => onDelete(e, 5)}
+                            >
+                                <FaTrashCan />
+                            </button>
+                        </div>
                         {showErrors && errors.picture4 && <p className='error'>{errors.picture4}</p>}
                     </div>
                 </div>
