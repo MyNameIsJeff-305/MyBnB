@@ -30,21 +30,6 @@ function SpotDetails() {
     const spot = useSelector((state) => state.spots.spot);
     const reviews = useSelector((state) => state.reviews.allReviews);
 
-    // console.log("THIS IS REVIEWS", reviews);
-
-    // const addReview = async (newReview) => {
-    //     await dispatch(postReviewThunk({
-    //         review: {
-    //             review: newReview.review,
-    //             stars: newReview.stars,
-    //             spotId: parseInt(spotId)
-    //         }
-    //     }));
-
-    //     // After posting review, immediately fetch all reviews again
-    //     dispatch(getAllReviewsThunk(parseInt(spotId)));
-    // };
-
     const onModalClose = () => {
         setReviewChecker(false);
         dispatch(getAllReviewsThunk(parseInt(spotId)));

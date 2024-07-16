@@ -124,3 +124,21 @@
     font-style: italic;
     cursor: default;
 }
+
+.delete-button-spot {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.delete-button-spot li {
+    list-style-type: none;
+    font-size: 14px;
+    color: #fff;
+}
+
+.delete-button-spot li:hover {
+    list-style-type: none;
+    font-size: 14px;
+    color: #fff;
+}

@@ -6,7 +6,7 @@ import { useModal } from '../../context/Modal';
 
 import './PostReviewModal.css'
 
-function PostReviewModal({ spotId, onModalClose, setReviewChecker }) {
+function PostReviewModal({ spotId, setReviewChecker }) {
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
     const [errors, setErrors] = useState({});
@@ -48,7 +48,7 @@ function PostReviewModal({ spotId, onModalClose, setReviewChecker }) {
             .catch(async (res) => {
                 const data = await res.json();
                 if (data?.errors) {
-                    setErrors(error)
+                    setErrors(errors)
                 }
             })
 

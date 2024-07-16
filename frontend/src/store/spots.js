@@ -101,15 +101,14 @@ export const updateSpotThunk = (spotForm) => async (dispatch) => {
     }
 }
 
-export const deleteSpotThunk = (spot) => async (dispatch) => {
+export const deleteSpotThunk = (spotId) => async (dispatch) => {
     try {
         const options = {
             method: 'DELETE',
             header: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(spot)
         }
 
-        const res = await csrfFetch(`/api/spots/${spot.id}`, options);
+        const res = await csrfFetch(`/api/spots/${spotId}`, options);
 
         if (res.ok) {
             const data = await res.json();
