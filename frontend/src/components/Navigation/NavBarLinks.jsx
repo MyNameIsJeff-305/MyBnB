@@ -22,7 +22,7 @@ function NavBarLinks() {
                         <span className="create-spot" onClick={(e) => handleOnClick(e)}>Create a New Spot</span>
                         // <button className="create-spot-button" onClick={(e) => handleOnClick(e)}>Create a New Spot</button>
                              :
-                            <></>
+                            <div className="blank-letters"></div>
                     }
                 <FaGlobe className="world" />
             </div>

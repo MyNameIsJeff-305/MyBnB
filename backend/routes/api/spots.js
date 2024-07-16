@@ -314,6 +314,7 @@ router.put('/:spotId', requireAuth, validateSpotValues, properUserValidation, as
         res.json(spot)
 
     } catch (error) {
+        console.log(error);
         next(error)
     }
 });
