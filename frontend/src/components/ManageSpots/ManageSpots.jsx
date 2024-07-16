@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SpotCard from "../SpotCard";
 import { useEffect, useState } from "react";
-import { deleteSpotThunk, getMySpotsThunk } from "../../store/spots";
+import { getMySpotsThunk } from "../../store/spots";
 import { FaPen } from "react-icons/fa6";
 import { FaTrashCan } from "react-icons/fa6";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
@@ -22,7 +22,7 @@ function ManageSpots() {
         if (!user)
             return navigate('/')
         dispatch(getMySpotsThunk()).then(() => setLoading(false)).then(() => setSpotChecker(false));
-    }, [dispatch, user, spotChecker]);
+    }, [dispatch, user, spotChecker, navigate]);
 
     const handleCreateNewSpot = () => {
         navigate('/spots/new');
@@ -34,7 +34,7 @@ function ManageSpots() {
         navigate(`/spots/${spotId}/edit`);
     };
 
-    const handleDeleteSpot = (e, spotId) => {
+    const handleDeleteSpot = (e) => {
         e.preventDefault();
         e.stopPropagation();
     };
