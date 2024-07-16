@@ -1,6 +1,7 @@
 .manage-spots-container {
     max-width: 1200px;
-    margin: 0 auto; /* Centra el contenedor en la página */
+    margin: 0 auto;
+    /* Centra el contenedor en la página */
     padding: 20px;
 }
 
@@ -83,7 +84,8 @@
 }
 
 .crud-buttons button svg {
-    margin-right: 5px; /* Ajusta este valor según necesites */
+    margin-right: 5px;
+    /* Ajusta este valor según necesites */
 }
 
 /* Media Queries */
@@ -114,4 +116,11 @@
     .manage-spots-spots-container {
         grid-template-columns: repeat(4, 1fr);
     }
+}
+
+.no-spots {
+    display: flex;
+    flex-direction: row;
+    font-style: italic;
+    cursor: default;
 }

@@ -10,13 +10,17 @@ import './ManageSpots.css';
 
 function ManageSpots() {
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.session.user);
     const mySpots = useSelector((state) => state.spots.mySpots);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!user)
+            return navigate('/')
         dispatch(getMySpotsThunk()).then(() => setLoading(false));
-    }, [dispatch]);
+
+    }, [dispatch, user]);
 
     // console.log("THIS IS MY SPOTS", mySpots);
 
@@ -37,6 +41,16 @@ function ManageSpots() {
         return <div>Loading...</div>;
     }
 
+    const goToSpot = (e, spot) => {
+        e.preventDefault();
+        e.stopPropagation();
+        return navigate(`/spots/${spot.id}`);
+    }
+
+    if (!user || mySpots[0].ownerId !== user.id) {
+        return navigate('/');
+    }
+
     return (
         <div className="manage-spots-container">
             <div className="manage-spots-top">
@@ -45,7 +59,7 @@ function ManageSpots() {
             </div>
             <div className="manage-spots-spots-container">
                 {mySpots.length > 0 ? mySpots.map(spot => (
-                    <div className="single-spot-card" key={spot.id}>
+                    <div className="single-spot-card" key={spot.id} onClick={(e) => goToSpot(e, spot)}>
                         <SpotCard spot={spot} />
                         <div className="crud-buttons">
                             <button onClick={() => handleUpdateSpot(spot.id)}>
@@ -59,9 +73,14 @@ function ManageSpots() {
                         </div>
                     </div>
                 )) : (
-                    <div>No spots available</div>
+                    <div></div>
                 )}
             </div>
+            {
+                mySpots.length === 0 ?
+                    <div className="no-spots">No spots available.</div> :
+                    <div></div>
+            }
         </div>
     );
 }
