@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
 import './PostReviewModal.css';
 
