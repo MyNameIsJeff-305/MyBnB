@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { loadSpotThunk, updateSpotThunk } from "../../store/spots";
-import { deleteSpotImageThunk, postSpotImageThunk } from "../../store/spot-images";
+import { postSpotImageThunk } from "../../store/spot-images";
 import { FaTrashCan } from "react-icons/fa6";
 import './UpdateSpot.css';
 
