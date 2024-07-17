@@ -12,7 +12,7 @@ function NavLogo() {
 
     return (
         <div className='nav-logo-container' onClick={(e) => handleNavigate(e)}>
-            <img src="../../../logo.png" className='logo' alt='logo'></img>
+            <img src="/assets/logo.png" className='logo' alt='logo'></img>
             <span>MyBnB</span>
         </div>
     )
