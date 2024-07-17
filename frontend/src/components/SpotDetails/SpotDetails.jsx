@@ -185,13 +185,13 @@ function SpotDetails() {
                     reviews.map((review) => {
                         // console.log("REVIEW", review);
                         return (
-                            <div className="review-and-button">
+                            <div className="review-and-button" key={review.id}>
                                 <ReviewCard key={review.id} review={review} />
                                 {
                                     user && (review.User.id === user.id) ?
-                                        <div className="crud-buttons-container">
-                                            <button className="edit-review-button"><FaPen /> Edit</button>
-                                            <button className="delete-review-button">
+                                        <div className="crud-buttons-container" key={review.id}>
+                                            <button className="edit-review-button" key={review.id}><FaPen /> Edit</button>
+                                            <button className="delete-review-button" key={review.id}>
                                                 <FaTrashCan />
                                                 <OpenModalMenuItem
                                                     itemText={"Delete"}
