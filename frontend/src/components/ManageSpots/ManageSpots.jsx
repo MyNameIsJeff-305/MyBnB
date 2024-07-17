@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import SpotCard from "../SpotCard";
 import { useEffect, useState } from "react";
 import { getMySpotsThunk } from "../../store/spots";
-import { FaPen } from "react-icons/fa6";
-import { FaTrashCan } from "react-icons/fa6";
+import { FaPen, FaTrashCan } from "react-icons/fa6";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import ConfirmDeleteModal from "../ConfirmDeleteModal/ConfirmDeleteModal";
 

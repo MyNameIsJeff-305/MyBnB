@@ -91,15 +91,15 @@ export const updatedReviewThunk = (reviewForm) => async (dispatch) => {
     }
 }
 
-export const deleteReviewThunk = (review) => async (dispatch) => {
+export const deleteReviewThunk = (reviewId) => async (dispatch) => {
     try {
         const options = {
             method: 'DELETE',
             header: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(review)
+            // body: JSON.stringify(review)
         }
 
-        const res = await csrfFetch(`/api/reviews/${review.id}`, options)
+        const res = await csrfFetch(`/api/reviews/${reviewId}`, options)
 
         if (res.ok) {
             const data = await res.json();
