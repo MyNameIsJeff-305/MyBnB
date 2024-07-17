@@ -79,9 +79,13 @@ export const updatedReviewThunk = (reviewForm) => async (dispatch) => {
         }
 
         const res = await csrfFetch(`/api/reviews/${reviewForm.id}`, options);
+        
+        const resForReturn = await csrfFetch(`/api/reviews/current`);
+        // console.log("THIS IS REVIEW", res.json());
 
         if (res.ok) {
-            const data = await res.json();
+            const data = await resForReturn.json();
+            console.log("THIS IS DATA", data);
             dispatch(updateReview(data));
         } else
             throw res;

@@ -12,6 +12,7 @@ import './SpotDetails.css';
 import ReviewCard from "./ReviewCard";
 import PostReviewModal from "../PostReviewModal/PostReviewModal";
 import ConfirmDeleteReviewModal from "../ConfirmDeleteReviewModal";
+import EditReviewModal from "../EditReviewModal";
 // import PageNotFound from "../PageNotFound";
 
 function SpotDetails() {
@@ -71,6 +72,10 @@ function SpotDetails() {
 
     const onDeleteModalClose = () => {
         setDeleteReviewChecker(prev => !prev);
+    }
+
+    const onEditModalClose = () => {
+        setReviewEditChecker(prev => !prev);
     }
 
     // console.log(spot);
@@ -190,7 +195,16 @@ function SpotDetails() {
                                 {
                                     user && (review.User.id === user.id) ?
                                         <div className="crud-buttons-container" key={review.id}>
-                                            <button className="edit-review-button" key={review.id}><FaPen /> Edit</button>
+                                            <button className="edit-review-button" key={review.id}>
+                                                <FaPen />
+                                                <OpenModalMenuItem
+                                                    itemText={"Edit"}
+                                                    modalComponent={<EditReviewModal review={review} setReviewEditChecker={setDeleteReviewChecker} />}
+                                                    onModalClose={async () => {
+                                                        await onEditModalClose
+                                                    }}
+                                                />
+                                            </button>
                                             <button className="delete-review-button" key={review.id}>
                                                 <FaTrashCan />
                                                 <OpenModalMenuItem
