@@ -13,7 +13,7 @@ function ConfirmDeleteModal({ spotId, setSpotChecker }) {
         e.preventDefault();
         e.stopPropagation();
 
-        console.log("THIS IS SPOTID", spotId);
+        // console.log("THIS IS SPOTID", spotId);
 
         dispatch(deleteSpotThunk(spotId))
             .then(() => { setSpotChecker(true) })

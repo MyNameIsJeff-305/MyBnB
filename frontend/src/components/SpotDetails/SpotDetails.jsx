@@ -6,10 +6,12 @@ import { getAllReviewsThunk } from "../../store/reviews";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import { FaStar } from 'react-icons/fa';
+import { FaPen, FaTrashCan } from "react-icons/fa6";
 
 import './SpotDetails.css';
 import ReviewCard from "./ReviewCard";
 import PostReviewModal from "../PostReviewModal/PostReviewModal";
+import ConfirmDeleteReviewModal from "../ConfirmDeleteReviewModal";
 // import PageNotFound from "../PageNotFound";
 
 function SpotDetails() {
@@ -19,16 +21,18 @@ function SpotDetails() {
     const sessionUser = useSelector(state => state.session.user);
     const [showReviews, setShowReviews] = useState(false);
     const [reviewChecker, setReviewChecker] = useState(false);
+    const [deleteReviewChecker, setDeleteReviewChecker] = useState(false);
 
     useEffect(() => {
         dispatch(loadSpotThunk(parseInt(spotId)));
-        dispatch(getAllReviewsThunk(parseInt(spotId))).then(() => {
-            setShowReviews(true)
-        })
-    }, [dispatch, spotId, reviewChecker]);
+        dispatch(getAllReviewsThunk(parseInt(spotId)))
+            .then(() => setShowReviews(true))
+            .then(() => setDeleteReviewChecker(false));
+    }, [dispatch, spotId, reviewChecker, deleteReviewChecker]);
 
     const spot = useSelector((state) => state.spots.spot);
     const reviews = useSelector((state) => state.reviews.allReviews);
+    const user = useSelector((state) => state.session.user)
 
     const onModalClose = () => {
         setReviewChecker(false);
@@ -64,6 +68,10 @@ function SpotDetails() {
         e.stopPropagation();
         window.alert("Feature Coming Soon...");
     };
+
+    const onDeleteModalClose = () => {
+        setDeleteReviewChecker(prev => !prev);
+    }
 
     // console.log(spot);
 
@@ -177,7 +185,27 @@ function SpotDetails() {
                     reviews.map((review) => {
                         // console.log("REVIEW", review);
                         return (
-                            <ReviewCard key={review.id} review={review} />
+                            <div className="review-and-button">
+                                <ReviewCard key={review.id} review={review} />
+                                {
+                                    user && (review.User.id === user.id) ?
+                                        <div className="crud-buttons-container">
+                                            <button className="edit-review-button"><FaPen /> Edit</button>
+                                            <button className="delete-review-button">
+                                                <FaTrashCan />
+                                                <OpenModalMenuItem
+                                                    itemText={"Delete"}
+                                                    modalComponent={<ConfirmDeleteReviewModal reviewId={review.id} setDeleteReviewChecker={setDeleteReviewChecker} />}
+                                                    onModalClose={async () => {
+                                                        await onDeleteModalClose
+                                                    }}
+                                                />
+                                            </button>
+                                        </div> :
+                                        ''
+                                }
+                                <div className='divider-horizontal'></div>
+                            </div>
                         )
                     })
                 )}
