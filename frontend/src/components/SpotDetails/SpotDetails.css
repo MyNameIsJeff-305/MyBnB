@@ -472,3 +472,15 @@
     font-size: 14px;
     color: #fff;
 }
+
+.edit-review-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.edit-review-button li {
+    list-style-type: none;
+    font-size: 14px;
+    color: #fff;
+}
