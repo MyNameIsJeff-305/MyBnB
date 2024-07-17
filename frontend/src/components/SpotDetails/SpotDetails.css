@@ -26,7 +26,8 @@
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
-    gap: 10px; /* Ensures space between left and right panels */
+    gap: 10px;
+    /* Ensures space between left and right panels */
 }
 
 .left-image-panel {
@@ -34,8 +35,10 @@
     min-height: 100%;
     flex: 1;
     margin-right: 10px;
-    display: flex; /* Make it a flex container */
-    align-items: stretch; /* Stretch to match height */
+    display: flex;
+    /* Make it a flex container */
+    align-items: stretch;
+    /* Stretch to match height */
 }
 
 .left-image-panel img {
@@ -51,13 +54,15 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    align-items: start; /* Align items vertically */
+    align-items: start;
+    /* Align items vertically */
 }
 
 .image-container {
     position: relative;
     width: 100%;
-    padding-top: 100%; /* This maintains the aspect ratio to be square */
+    padding-top: 100%;
+    /* This maintains the aspect ratio to be square */
 }
 
 .image-container img {
@@ -77,14 +82,17 @@
     min-height: 100%;
     flex: 1;
     margin-right: 10px;
-    display: flex; /* Make it a flex container */
-    align-items: stretch; /* Stretch to match height */
+    display: flex;
+    /* Make it a flex container */
+    align-items: stretch;
+    /* Stretch to match height */
 }
 
 .image-container-1 {
     position: relative;
     width: 100%;
-    padding-top: 100%; /* This maintains the aspect ratio to be square */
+    padding-top: 100%;
+    /* This maintains the aspect ratio to be square */
 }
 
 .image-container-1 img {
@@ -121,9 +129,11 @@
 }
 
 .description-panel-left {
-    flex: 2; /* Adjusted width */
+    flex: 2;
+    /* Adjusted width */
     margin-right: 20px;
-    display: flex; /* Ensure contents align correctly */
+    display: flex;
+    /* Ensure contents align correctly */
     flex-direction: column;
 }
 
@@ -138,8 +148,9 @@
 }
 
 .description-panel-right {
-    flex: 1; /* Adjusted width */
-    height:fit-content;
+    flex: 1;
+    /* Adjusted width */
+    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -178,7 +189,8 @@
 .avg-reviews {
     display: flex;
     align-items: center;
-    color: #f0ad4e; /* Airbnb's star color */
+    color: #f0ad4e;
+    /* Airbnb's star color */
 }
 
 .avg-reviews span {
@@ -199,7 +211,8 @@
 
 .reserve-button {
     padding: 15px 130px 15px 130px;
-    background-color: #ff5a5f; /* Airbnb's reserve button color */
+    background-color: #ff5a5f;
+    /* Airbnb's reserve button color */
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -231,7 +244,8 @@
     }
 
     .image-container {
-        padding-top: 100%; /* Maintain square aspect ratio */
+        padding-top: 100%;
+        /* Maintain square aspect ratio */
     }
 
     .image-container img {
@@ -242,7 +256,8 @@
 
 .left-image-panel img:hover,
 .image-container img:hover {
-    filter: brightness(0.8); /* Darken the image */
+    filter: brightness(0.8);
+    /* Darken the image */
     cursor: pointer;
 }
 
@@ -255,9 +270,12 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.3); /* Adjust the opacity as needed */
-    z-index: 1; /* Ensure the overlay is above the image */
-    border-radius: 8px; /* Match the image border radius */
+    background-color: rgba(0, 0, 0, 0.3);
+    /* Adjust the opacity as needed */
+    z-index: 1;
+    /* Ensure the overlay is above the image */
+    border-radius: 8px;
+    /* Match the image border radius */
 }
 
 .divider {
@@ -288,7 +306,8 @@
 .avg-reviews2 {
     display: flex;
     align-items: center;
-    color: #f0ad4e; /* Airbnb's star color */
+    color: #f0ad4e;
+    /* Airbnb's star color */
     font-size: 20px;
 }
 
@@ -321,6 +340,7 @@
 
 .review-card span {
     margin-top: -10px;
+    margin-bottom: -20px;
     color: #555;
     display: flex;
     flex-direction: column;
@@ -343,13 +363,14 @@
 
 .post-review-button {
     padding: 10px 30px 10px 30px;
-    background-color: #ff5a5f; /* Airbnb's reserve button color */
+    background-color: #ff5a5f;
+    /* Airbnb's reserve button color */
     color: #fff;
     border: none;
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
-    list-style:none;
+    list-style: none;
 }
 
 .post-review-button:hover {
@@ -393,4 +414,61 @@
     display: flex;
     align-content: center;
     justify-content: center;
+}
+
+.review-and-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.review-and-button button:nth-child(2) {
+    margin-right: 10px;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 0.7rem;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: #00A699;
+    list-style-type: none;
+}
+
+.review-and-button button:nth-child(2):hover {
+    background-color: #008F81;
+}
+
+.review-and-button button:nth-child(1) {
+    margin-right: 10px;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 19px;
+    font-size: 0.7rem;
+    color: #fff;
+    cursor: pointer;
+    background-color: #ff5a5f;
+    transition: background-color 0.3s;
+}
+
+.review-and-button button:nth-child(1):hover {
+    background-color: #e5454b;
+}
+
+.crud-buttons-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.delete-review-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.delete-review-button li {
+    list-style-type: none;
+    font-size: 14px;
+    color: #fff;
 }
