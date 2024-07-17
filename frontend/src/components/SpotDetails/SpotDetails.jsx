@@ -75,7 +75,7 @@ function SpotDetails() {
     }
 
     const onEditModalClose = () => {
-        setReviewEditChecker(prev => !prev);
+        // setReviewEditChecker(prev => !prev);
     }
 
     // console.log(spot);
