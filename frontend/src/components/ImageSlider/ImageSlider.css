@@ -70,8 +70,7 @@
     right: 15px;
 }
 
-.slider-button svg {
-    width: 24px;
-    height: 24px;
+.slider-button:hover {
+    color: #ff5a5f;
 }
 
