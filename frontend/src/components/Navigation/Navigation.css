@@ -211,3 +211,137 @@
 .create-spot:hover {
     cursor: pointer;
 }
+
+/* Media Queries */
+
+/* Tablets */
+@media (max-width: 768px) {
+    .navigation-list {
+        flex-direction: row;
+        height: auto;
+        justify-content: space-around;
+        padding-bottom: 10px;
+        min-width: 100%;
+        margin-inline: 0;
+    }
+
+    .navigation-list li {
+        margin-right: 10px;
+        margin-bottom: 5px;
+    }
+
+    .navigation-list a {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .nav-logo-container span {
+        font-size: 13px;
+    }
+
+    .filters-container {
+        display: none;
+        flex-direction: column;
+        padding: 5px;
+        width: 100%;
+    }
+
+    .item {
+        font-size: 12px;
+    }
+
+    .guest-item span {
+        font-size: 12px;
+    }
+
+    .search {
+        padding: 4px 6px;
+    }
+
+    .fa-search {
+        font-size: 10px;
+    }
+
+    .host {
+        padding-right: 10px;
+    }
+
+    .nav-bar-span {
+        font-size: 10px;
+    }
+
+    .world {
+        display: none;
+        padding-right: 10px;
+    }
+
+    .nav-bar-dropdown {
+        padding: 4px;
+        height: 1.5rem;
+        width: 3.5rem;
+    }
+}
+
+/* Mobile Devices */
+@media (max-width: 480px) {
+    .navigation-list {
+        flex-direction: row;
+        height: auto;
+        justify-content: center;
+        padding-bottom: 5px;
+        min-width: 100%;
+        margin-inline: 0;
+    }
+
+    .navigation-list li {
+        margin-right: 5px;
+        margin-bottom: 3px;
+    }
+
+    .navigation-list a {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .nav-logo-container span {
+        font-size: 12px;
+    }
+
+    .filters-container {
+        display: none;
+    }
+
+    .item {
+        font-size: 10px;
+    }
+
+    .guest-item span {
+        font-size: 10px;
+    }
+
+    .search {
+        padding: 3px 5px;
+    }
+
+    .fa-search {
+        font-size: 8px;
+    }
+
+    .host {
+        padding-right: 5px;
+    }
+
+    .nav-bar-span {
+        font-size: 9px;
+    }
+
+    .world {
+        padding-right: 5px;
+    }
+
+    .nav-bar-dropdown {
+        padding: 3px;
+        height: 1.3rem;
+        width: 3rem;
+    }
+}

@@ -6,6 +6,7 @@
     font-size: 14px;
     color: #f00;
 }
+
 .star {
     color: #ff385c;
     font-size: 16px;
@@ -118,4 +119,64 @@
     animation: fadeOut 0.5s forwards;
     cursor: pointer;
     visibility: hidden;
+}
+
+/* Media Queries */
+
+/* Tablets */
+@media (max-width: 768px) {
+    .spot-card {
+        width: 250px;
+    }
+
+    .spot-image {
+        height: 250px;
+        width: 250px;
+    }
+
+    .spot-card-right-panel {
+        font-size: 13px;
+    }
+
+    .star {
+        font-size: 15px;
+    }
+
+    .spot-data {
+        padding: 8px;
+    }
+
+    .tooltip {
+        font-size: small;
+        padding: 4px 8px;
+    }
+}
+
+/* Mobile Devices */
+@media (max-width: 480px) {
+    .spot-card {
+        width: 200px;
+    }
+
+    .spot-image {
+        height: 200px;
+        width: 200px;
+    }
+
+    .spot-card-right-panel {
+        font-size: 12px;
+    }
+
+    .star {
+        font-size: 14px;
+    }
+
+    .spot-data {
+        padding: 5px;
+    }
+
+    .tooltip {
+        font-size: x-small;
+        padding: 3px 6px;
+    }
 }

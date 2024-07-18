@@ -6,3 +6,7 @@
     /* Light grey color for divider */
     /* Spacing around divider */
 }
+
+.main-zone {
+    min-height: 80vh;
+}

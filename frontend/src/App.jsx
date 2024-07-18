@@ -11,6 +11,7 @@ import './index.css';
 import Splash from './components/Splash/Splash';
 import ManageSpots from './components/ManageSpots';
 import UpdateSpot from './components/UpdateSpot/UpdateSpot';
+import Footer from './components/Footer';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -26,7 +27,11 @@ function Layout() {
     <>
       <Navigation isLoaded={isLoaded} />
       <div className='nav-bar'></div>
-      {isLoaded && <Outlet />}
+      <div className='main-zone'>
+        {isLoaded && <Outlet />}
+      </div>
+      <div className='nav-bar'></div>
+      <Footer />
     </>
   );
 }
