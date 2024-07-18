@@ -1,7 +1,6 @@
 .manage-spots-container {
     max-width: 1200px;
     margin: 0 auto;
-    /* Centra el contenedor en la página */
     padding: 20px;
 }
 
@@ -53,7 +52,6 @@
     justify-content: flex-start;
     padding: 10px;
     background-color: #fff;
-    /* border-top: 1px solid #e4e4e4; */
 }
 
 .crud-buttons button {
@@ -85,37 +83,6 @@
 
 .crud-buttons button svg {
     margin-right: 5px;
-    /* Ajusta este valor según necesites */
-}
-
-/* Media Queries */
-
-@media (min-width: 600px) {
-    .manage-spots-spots-container {
-        grid-template-columns: repeat(1, 1fr);
-        cursor: pointer;
-    }
-}
-
-@media (min-width: 768px) {
-    .manage-spots-container {
-        padding: 40px;
-    }
-
-    .manage-spots-top {
-        margin-left: 0;
-    }
-
-    .manage-spots-spots-container {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 40px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .manage-spots-spots-container {
-        grid-template-columns: repeat(4, 1fr);
-    }
 }
 
 .no-spots {
@@ -141,4 +108,57 @@
     list-style-type: none;
     font-size: 14px;
     color: #fff;
+}
+
+/* Media Queries */
+
+/* Mobile view */
+@media (max-width: 599px) {
+    .manage-spots-container {
+        padding: 10px;
+    }
+
+    .single-spot-card{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .manage-spots-top h1 {
+        font-size: 20px;
+    }
+
+    .manage-spots-spots-container {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Tablet view */
+@media (min-width: 600px) and (max-width: 1199px) {
+    .manage-spots-container {
+        padding: 20px;
+    }
+
+    .manage-spots-top {
+        margin-left: 0;
+    }
+
+    .manage-spots-spots-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+/* Desktop view */
+@media (min-width: 1200px) {
+    .manage-spots-container {
+        padding: 40px;
+    }
+
+    .manage-spots-spots-container {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+    }
 }
