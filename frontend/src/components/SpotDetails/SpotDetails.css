@@ -30,6 +30,10 @@
     gap: 10px;
 }
 
+.mobile-panel {
+    display: none;
+}
+
 .left-image-panel {
     width: 100%;
     min-height: 100%;
@@ -187,12 +191,30 @@
         gap: 10px;
     }
 
+    .mobile-panel{
+        display: flex;
+    }
+
+    .description-panel-right {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .price-reviews {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+
     .left-image-panel {
+        display: none;
         margin-right: 0;
         margin-bottom: 10px;
     }
 
     .right-image-panel {
+        display: none;
         grid-template-columns: 1fr;
     }
 
@@ -221,6 +243,10 @@
 
     .header span {
         font-size: 12px;
+    }
+
+    .mobile-panel{
+        display: flex;
     }
 
     .left-image-panel img {
