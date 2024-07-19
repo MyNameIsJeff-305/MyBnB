@@ -30,7 +30,7 @@ function SpotDetails() {
         dispatch(getAllReviewsThunk(parseInt(spotId)))
             .then(() => setShowReviews(true))
             .then(() => setDeleteReviewChecker(false));
-    }, [dispatch, spotId, reviewChecker, deleteReviewChecker]);
+    }, [dispatch, spot, spotId, reviewChecker, deleteReviewChecker]);
 
     const spot = useSelector((state) => state.spots.spot);
     const reviews = useSelector((state) => state.reviews.allReviews);
@@ -42,6 +42,7 @@ function SpotDetails() {
     };
 
     if (!spot) {
+        
         return (
             <div className="loading-spot">
                 <img
