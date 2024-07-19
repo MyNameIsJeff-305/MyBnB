@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import * as sessionActions from '../../store/session';
@@ -13,33 +13,80 @@ function SignupFormPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [validationErrors, setValidationErrors] = useState({});
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const { closeModal } = useModal();
+
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    const validatePassword = (password) => {
+        return password.length >= 6;
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (password === confirmPassword) {
-            setValidationErrors({});
-            return dispatch(
-                sessionActions.signup({
-                    email,
-                    username,
-                    firstName,
-                    lastName,
-                    password
-                })
-            )
-                .then(closeModal)
-                .catch(async (res) => {
-                    const data = await res.json();
-                    if (data?.errors) {
-                        setValidationErrors(data.errors);
-                    }
-                });
+
+        let errors = {};
+        if (!validateEmail(email)) {
+            errors.email = "Please enter a valid email address.";
         }
-        return setValidationErrors({
-            confirmPassword: "Confirm Password field must be the same as the Password field"
-        });
+        if (username.length < 4) {
+            errors.username = "Username must be at least 4 characters long.";
+        }
+        if (!validatePassword(password)) {
+            errors.password = "Password must be at least 6 characters long.";
+        }
+        if (password !== confirmPassword) {
+            errors.confirmPassword = "Confirm Password field must be the same as the Password field";
+        }
+
+        if (Object.keys(errors).length > 0) {
+            setValidationErrors(errors);
+            return;
+        }
+
+        setValidationErrors({});
+        return dispatch(
+            sessionActions.signup({
+                email,
+                username,
+                firstName,
+                lastName,
+                password
+            })
+        )
+            .then(closeModal)
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data?.errors) {
+                    setValidationErrors(data.errors);
+                }
+            });
     };
+
+    useEffect(() => {
+        if (
+            !email || !username || !firstName || !lastName || !password || !confirmPassword ||
+            username.length < 4 || password.length < 6
+        ) {
+            setIsButtonDisabled(true);
+        } else {
+            setIsButtonDisabled(false);
+        }
+    }, [email, username, firstName, lastName, password, confirmPassword]);
+
+    useEffect(() => {
+        setEmail("");
+        setUsername("");
+        setFirstName("");
+        setLastName("");
+        setPassword("");
+        setConfirmPassword("");
+        setValidationErrors({});
+        setIsButtonDisabled(true);
+    }, [closeModal]);
 
     return (
         <div className='main-container'>
@@ -56,7 +103,7 @@ function SignupFormPage() {
                             required
                         />
                     </label>
-                    {validationErrors.email && <p>{validationErrors.email}</p>}
+                    {validationErrors.email && <p className='error'>{validationErrors.email}</p>}
                     <label id='labels'>
                         Username
                         <input
@@ -67,7 +114,7 @@ function SignupFormPage() {
                             required
                         />
                     </label>
-                    {validationErrors.username && <p>{validationErrors.username}</p>}
+                    {validationErrors.username && <p className='error'>{validationErrors.username}</p>}
                     <label id='labels'>
                         First Name
                         <input
@@ -78,7 +125,7 @@ function SignupFormPage() {
                             required
                         />
                     </label>
-                    {validationErrors.firstName && <p>{validationErrors.firstName}</p>}
+                    {validationErrors.firstName && <p className='error'>{validationErrors.firstName}</p>}
                     <label id='labels'>
                         Last Name
                         <input
@@ -89,7 +136,7 @@ function SignupFormPage() {
                             required
                         />
                     </label>
-                    {validationErrors.lastName && <p>{validationErrors.lastName}</p>}
+                    {validationErrors.lastName && <p className='error'>{validationErrors.lastName}</p>}
                     <label id='labels'>
                         Password
                         <input
@@ -100,7 +147,7 @@ function SignupFormPage() {
                             required
                         />
                     </label>
-                    {validationErrors.password && <p>{validationErrors.password}</p>}
+                    {validationErrors.password && <p className='error'>{validationErrors.password}</p>}
                     <label id='labels'>
                         Confirm Password
                         <input
@@ -112,8 +159,8 @@ function SignupFormPage() {
                         />
                     </label>
                 </div>
-                {validationErrors.confirmPassword && <p>{validationErrors.confirmPassword}</p>}
-                <button id='signup-btn' className="sign-up-btn" type="submit">Sign Up</button>
+                {validationErrors.confirmPassword && <p className='error'>{validationErrors.confirmPassword}</p>}
+                <button id='signup-btn' className="sign-up-btn" type="submit" disabled={isButtonDisabled}>Sign Up</button>
             </form>
         </div>
     );

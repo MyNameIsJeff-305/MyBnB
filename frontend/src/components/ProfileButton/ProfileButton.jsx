@@ -41,9 +41,13 @@ function ProfileButton({ user }) {
     e.preventDefault();
     dispatch(sessionActions.logout());
     closeMenu();
+    navigate('/');
   };
 
-  const goToManageSpots = () => navigate('/spots/current');
+  const goToManageSpots = () => {
+    navigate('/spots/current');
+    closeMenu();
+  };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 

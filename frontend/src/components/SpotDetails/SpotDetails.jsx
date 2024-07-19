@@ -61,7 +61,7 @@ function SpotDetails() {
     const otherImages = spot.SpotImages?.filter((i) => i.preview === false) || [];
 
     let avgRating = "New!";
-    if (spot.avgStarRating) avgRating = spot.avgStarRating.toString().slice(0, 3);
+    if (spot.avgStarRating) avgRating = spot.avgStarRating.toFixed(1).toString();
 
     const displayedImages = otherImages.slice(0, 4);
 
@@ -135,7 +135,8 @@ function SpotDetails() {
                                 <span>{avgRating}</span>
                             </div>
                             <div className="num-reviews">
-                                {spot.numReviews !== 0 ? <span>{spot.numReviews} reviews</span> : <div></div>}
+                                {spot.numReviews !== 0 ? spot.numReviews === 1 ? <span>{spot.numReviews} review</span> : <span>{spot.numReviews} reviews</span> : <span></span>}
+                                {/* {spot.numReviews !== 0 ? <span>{spot.numReviews} reviews</span> : <div></div>} */}
                             </div>
                         </div>
                     </div>
@@ -153,7 +154,7 @@ function SpotDetails() {
                     </div>
                     <span>{spot.numReviews !== 0 ? '·' : ''}</span>
                     <div className="num-reviews2">
-                        {spot.numReviews !== 0 ? <span>{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span> : ''}
+                        {spot.numReviews !== 0 ? spot.numReviews === 1 ? <span>{spot.numReviews} review</span> : <span>{spot.numReviews} reviews</span> : <span></span>}
                     </div>
                 </div>
                 <div className="post-review">
