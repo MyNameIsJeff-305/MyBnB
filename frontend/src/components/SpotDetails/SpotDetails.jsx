@@ -13,7 +13,7 @@ import ReviewCard from "./ReviewCard";
 import PostReviewModal from "../PostReviewModal/PostReviewModal";
 import ConfirmDeleteReviewModal from "../ConfirmDeleteReviewModal";
 import EditReviewModal from "../EditReviewModal";
-import ImageSlider from "../ImageSlider";
+// import ImageSlider from "../ImageSlider";
 // import PageNotFound from "../PageNotFound";
 
 function SpotDetails() {
@@ -79,7 +79,7 @@ function SpotDetails() {
         // setReviewEditChecker(prev => !prev);
     }
 
-    // console.log(spot);
+    console.log("THIS IS SPOTDETAILS", spot.SpotImages);
 
     return showReviews ? (
 
@@ -89,9 +89,9 @@ function SpotDetails() {
                 <span>{spot.city}, {spot.state}</span>
             </div>
             <div className="images">
-                <div className="mobile-panel">
+                {/* <div className="mobile-panel">
                     <ImageSlider images={spot.SpotImages} />
-                </div>
+                </div> */}
                 <div className="left-image-panel">
                     {mainImage.length > 0 && <img key={mainImage[0].id} src={mainImage[0].url} alt="Main preview" />}
                 </div>
