@@ -30,7 +30,7 @@ function SpotDetails() {
         dispatch(getAllReviewsThunk(parseInt(spotId)))
             .then(() => setShowReviews(true))
             .then(() => setDeleteReviewChecker(false));
-    }, [dispatch, spot, spotId, reviewChecker, deleteReviewChecker]);
+    }, [dispatch, spotId, reviewChecker, deleteReviewChecker]);
 
     const spot = useSelector((state) => state.spots.spot);
     const reviews = useSelector((state) => state.reviews.allReviews);
