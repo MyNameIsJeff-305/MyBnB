@@ -46,11 +46,11 @@ export const postReviewThunk = (review) => async (dispatch) => {
             body: JSON.stringify(review.review)
         }
 
-        // console.log('THIS IS REVIEW', review);
+        // console.log('THIS IS REVIEW', review.review.spotId);
 
         const res = await csrfFetch(`/api/spots/${review.review.spotId}/reviews`, options);
 
-        // console.log("THIS IS RES", res);
+        // console.log("THIS IS RES", res.json());
 
         const result = await csrfFetch(`/api/spots/${review.review.spotId}/reviews`)
 
@@ -66,6 +66,7 @@ export const postReviewThunk = (review) => async (dispatch) => {
             throw res;
 
     } catch (error) {
+        // console.log("THIS IS ERROR", error);
         return error;
     }
 }

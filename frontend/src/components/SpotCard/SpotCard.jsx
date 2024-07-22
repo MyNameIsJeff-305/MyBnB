@@ -39,7 +39,7 @@ function SpotCard({ spot }) {
     let avgRating = "New!";
 
     if (spot.avgRating)
-        avgRating = spot.avgRating.toString();
+        avgRating = spot.avgRating.toFixed(1).toString();
 
     return (
         <div className="spot-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >

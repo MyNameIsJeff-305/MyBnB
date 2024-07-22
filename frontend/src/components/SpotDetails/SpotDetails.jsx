@@ -13,7 +13,7 @@ import ReviewCard from "./ReviewCard";
 import PostReviewModal from "../PostReviewModal/PostReviewModal";
 import ConfirmDeleteReviewModal from "../ConfirmDeleteReviewModal";
 import EditReviewModal from "../EditReviewModal";
-import ImageSlider from "../ImageSlider";
+// import ImageSlider from "../ImageSlider";
 // import PageNotFound from "../PageNotFound";
 
 function SpotDetails() {
@@ -42,6 +42,7 @@ function SpotDetails() {
     };
 
     if (!spot) {
+        
         return (
             <div className="loading-spot">
                 <img
@@ -61,7 +62,7 @@ function SpotDetails() {
     const otherImages = spot.SpotImages?.filter((i) => i.preview === false) || [];
 
     let avgRating = "New!";
-    if (spot.avgStarRating) avgRating = spot.avgStarRating.toString().slice(0, 3);
+    if (spot.avgStarRating) avgRating = spot.avgStarRating.toFixed(1).toString();
 
     const displayedImages = otherImages.slice(0, 4);
 
@@ -79,7 +80,7 @@ function SpotDetails() {
         // setReviewEditChecker(prev => !prev);
     }
 
-    // console.log(spot);
+    // console.log("THIS IS SPOTDETAILS", spot.SpotImages);
 
     return showReviews ? (
 
@@ -89,9 +90,9 @@ function SpotDetails() {
                 <span>{spot.city}, {spot.state}</span>
             </div>
             <div className="images">
-                <div className="mobile-panel">
+                {/* <div className="mobile-panel">
                     <ImageSlider images={spot.SpotImages} />
-                </div>
+                </div> */}
                 <div className="left-image-panel">
                     {mainImage.length > 0 && <img key={mainImage[0].id} src={mainImage[0].url} alt="Main preview" />}
                 </div>
@@ -135,7 +136,8 @@ function SpotDetails() {
                                 <span>{avgRating}</span>
                             </div>
                             <div className="num-reviews">
-                                {spot.numReviews !== 0 ? <span>{spot.numReviews} reviews</span> : <div></div>}
+                                {spot.numReviews !== 0 ? spot.numReviews === 1 ? <span>{spot.numReviews} review</span> : <span>{spot.numReviews} reviews</span> : <span></span>}
+                                {/* {spot.numReviews !== 0 ? <span>{spot.numReviews} reviews</span> : <div></div>} */}
                             </div>
                         </div>
                     </div>
@@ -153,7 +155,7 @@ function SpotDetails() {
                     </div>
                     <span>{spot.numReviews !== 0 ? '·' : ''}</span>
                     <div className="num-reviews2">
-                        {spot.numReviews !== 0 ? <span>{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span> : ''}
+                        {spot.numReviews !== 0 ? spot.numReviews === 1 ? <span>{spot.numReviews} review</span> : <span>{spot.numReviews} reviews</span> : <span></span>}
                     </div>
                 </div>
                 <div className="post-review">

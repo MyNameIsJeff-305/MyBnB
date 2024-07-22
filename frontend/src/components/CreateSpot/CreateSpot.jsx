@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { postSpotThunk } from "../../store/spots";
 
@@ -26,7 +26,7 @@ function CreateSpot() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const spots = useSelector((state) => state.spots.allSpots);
+    // const spots = useSelector((state) => state.spots.allSpots);
 
     useEffect(() => {
         const errors = {};
@@ -82,6 +82,8 @@ function CreateSpot() {
         e.preventDefault();
         e.stopPropagation();
 
+        // const prevIndex = spots.length;
+
         const formData = {
             address: address,
             city: city,
@@ -108,16 +110,20 @@ function CreateSpot() {
             return;
         }
 
-        dispatch(postSpotThunk(formData));
+        try {
+            const res = await dispatch(postSpotThunk(formData));
+            console.log("THIS IS RES", res);
+            const newSpot = await res;
 
-
-        for (const image of previewImagesData) {
-            if (image.url !== '') {
-                dispatch(postSpotImageThunk(image, spots.length + 1))
+            for (const image of previewImagesData) {
+                if (image.url !== '') {
+                    await dispatch(postSpotImageThunk(image, newSpot.id));
+                }
             }
+            navigate(`/spots/${newSpot.id}`);
+        } catch (error) {
+            console.error(error);
         }
-
-        navigate(`/spots/${spots.length + 1}`);
 
     }
 
