@@ -19,17 +19,18 @@ ul {
     display: flex;
     justify-items: center;
     max-width: 400px;
-    margin: 50px auto;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: auto;
     padding: 50px;
-    border: 1px solid #eaeaea;
+    /* border: 1px solid #eaeaea; */
     border-radius: 10px;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 }
 
 h1 {
     font-size: 24px;
-    color: #484848;
+    color: #ff385c;
     margin-bottom: 20px;
 }
 
