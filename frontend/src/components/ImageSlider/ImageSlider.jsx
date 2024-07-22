@@ -17,9 +17,11 @@ function ImageSlider({ images }) {
         );
     };
 
+    // console.log("THIS IS IMAGES", images);
+
     return (
         <div className="image-slider">
-            <button onClick={prevImage} className="slider-button">
+            <button onClick={prevImage} className="slider-button" disabled={images.length === 1}>
                 <FaAngleLeft />
             </button>
             <img
@@ -28,7 +30,7 @@ function ImageSlider({ images }) {
                 className="slider-image"
                 loading="lazy"
             />
-            <button onClick={nextImage} className="slider-button">
+            <button onClick={nextImage} className="slider-button" disabled={images.length === 1}>
                 <FaAngleRight />
             </button>
         </div>

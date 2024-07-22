@@ -42,11 +42,11 @@ function UpdateSpot() {
             setPrice(spot.price || 0);
             setName(spot.name || '');
             setLoading(false);
-            setPreviewPicture(spot.SpotImages[0].url || '');
-            setPicture1(spot.SpotImages[1].url || '');
-            setPicture2(spot.SpotImages[2].url || '');
-            setPicture3(spot.SpotImages[3].url || '');
-            setPicture4(spot.SpotImages[4].url || '');
+            setPreviewPicture(spot.SpotImages[0]?.url || '');
+            setPicture1(spot.SpotImages[1]?.url || '');
+            setPicture2(spot.SpotImages[2]?.url || '');
+            setPicture3(spot.SpotImages[3]?.url || '');
+            setPicture4(spot.SpotImages[4]?.url || '');
         }
     }, [dispatch, spot, spotId]);
 
@@ -136,9 +136,11 @@ function UpdateSpot() {
             { url: picture4, preview: false }
         ]
 
+
         for (const image of previewImagesData) {
             if (image.url !== '') {
-                dispatch(postSpotImageThunk(image, spot.length + 1))
+                // console.log("THIS IS PREVIEW", previewImagesData, previewImagesData.indexOf(image) + 1);
+                dispatch(postSpotImageThunk(image, previewImagesData.indexOf(image) + 1))
             } else {
                 // console.log("THIS IS THE ID", previewImagesData[previewImagesData.indexOf(image)]);
                 // dispatch(deleteSpotImageThunk(previewImagesData[previewImagesData.indexOf(image)].id))
@@ -151,7 +153,7 @@ function UpdateSpot() {
     }
 
     if (loading) {
-        console.log("THIS IS LOADING", loading);
+        // console.log("THIS IS LOADING", loading);
         return (
             <div className="loading-spot">
                 <img

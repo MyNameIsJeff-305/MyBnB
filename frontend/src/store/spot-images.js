@@ -24,6 +24,7 @@ export const postSpotImageThunk = (spotImage, spotId) => async (dispatch) => {
             header: { 'Content-Type': 'application/json' },
             body: JSON.stringify(spotImage)
         }
+        // console.log("THIS IS SPOT IMAGE", spotImage);
         const res = await csrfFetch(`/api/spots/${spotId}/images`, options);
 
         if (res.ok) {
@@ -33,6 +34,7 @@ export const postSpotImageThunk = (spotImage, spotId) => async (dispatch) => {
             throw res;
 
     } catch (error) {
+        // console.log(error.json());
         return error;
     }
 }

@@ -16,6 +16,7 @@ ul {
 } */
 
 .signup-form {
+    font-family: Arial, Helvetica, sans-serif;
     display: flex;
     justify-items: center;
     max-width: 400px;
