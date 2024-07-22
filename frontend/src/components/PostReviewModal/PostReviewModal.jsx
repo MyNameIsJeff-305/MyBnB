@@ -31,7 +31,7 @@ function PostReviewModal({ spotId, setReviewChecker }) {
         e.preventDefault();
         e.stopPropagation();
 
-        setErrors([]);
+        setErrors({});
         setShowErrors(false);
 
         return dispatch(postReviewThunk({
@@ -41,47 +41,24 @@ function PostReviewModal({ spotId, setReviewChecker }) {
                 spotId: parseInt(spotId)
             }
         }))
-            .then(() => {
-                setReviewChecker(true);
-            })
-            .then(closeModal)
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data?.errors) {
-                    setErrors(errors)
+            .then(async (res) => {
+                // console.log("RES", res);
+                if (res?.status === 500) {
+                    setErrors({ message: "User can only review a spot once" });
+                } else {
+                    const data = await res?.json();
+                    if (data?.errors) {
+                        setErrors(data.errors);
+                    }
+                    setReviewChecker(true);
+                    closeModal();
+                }
+                setShowErrors(true);
+                if (errors.values.length === 0) {
+                    setReviewChecker(true);
+                    closeModal();
                 }
             })
-
-        // const res = await dispatch(postReviewThunk({
-        //     review: {
-        //         review: review,
-        //         stars: rating,
-        //         spotId: parseInt(spotId)
-        //     }
-        // }));
-
-        // setReviewChecker(true);
-
-        // if (!res.ok) {
-        //     const error = await res.json();
-        //     console.log(res.status);
-        //     if (res.status === 500) {
-        //         setErrors(error)
-        //     }
-        //     else {
-        //         const newError = error.errors;
-        //         newError['message'] = newError.review;
-        //         // console.log("THIS IS ERROR.ERRORS", newError);
-        //         setErrors(newError);
-        //     }
-        //     setShowErrors(true);
-        //     // console.log("THIS IS ERROR", error.errors.review);
-
-        // } else {
-        //     onModalClose();
-        //     closeModal();
-        // }
-
     };
 
     return (
