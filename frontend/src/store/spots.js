@@ -70,8 +70,10 @@ export const postSpotThunk = (spotForm) => async (dispatch) => {
         const res = await csrfFetch('/api/spots', options);
 
         if (res.ok) {
+            // console.log("THIS IS NEWSPOT", res.json());
             const data = await res.json();
             dispatch(postSpot(data));
+            return data;
         } else
             throw res;
 
